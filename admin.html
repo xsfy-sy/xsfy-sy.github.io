@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>产品管理后台 | HEILIGS PIER</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { background: #f5f5f0; }
+    .admin-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    .admin-header h1 {
+      font-family: 'Jost', sans-serif;
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: #1a1a1a;
+    }
+    .admin-header .actions {
+      display: flex;
+      gap: 12px;
+    }
+    .admin-btn {
+      padding: 8px 20px;
+      border: 1px solid #1a1a1a;
+      border-radius: 6px;
+      background: #fff;
+      color: #1a1a1a;
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .admin-btn:hover { background: #1a1a1a; color: #fff; }
+    .admin-btn.primary { background: #1a1a1a; color: #fff; }
+    .admin-btn.primary:hover { background: #333; }
+    .admin-btn.danger { border-color: #c0392b; color: #c0392b; }
+    .admin-btn.danger:hover { background: #c0392b; color: #fff; }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 32px;
+    }
+    @media (max-width: 900px) {
+      .admin-grid { grid-template-columns: 1fr; }
+    }
+
+    /* 表单区 */
+    .admin-form {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      height: calc(100vh - 140px);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+    @media (max-width: 900px) {
+      .admin-form { height: auto; overflow: visible; }
+    }
+    .admin-form h2 {
+      font-family: 'Jost', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: #666;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .form-group input[type="text"],
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-family: 'Jost', 'Noto Sans SC', sans-serif;
+      font-size: 14px;
+      color: #1a1a1a;
+      background: #fafafa;
+      transition: border-color 0.3s;
+      box-sizing: border-box;
+    }
+    .form-group input[type="text"]:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #1a1a1a;
+      background: #fff;
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    /* 图片上传区 */
+    .upload-area {
+      border: 2px dashed #ddd;
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .upload-area:hover { border-color: #1a1a1a; background: #fafafa; }
+    .upload-area p {
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      color: #999;
+      margin: 0;
+    }
+    .upload-area .icon {
+      font-size: 32px;
+      color: #ccc;
+      margin-bottom: 8px;
+    }
+    .upload-preview {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .upload-preview .preview-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      cursor: grab;
+      transition: opacity 0.2s, border-color 0.2s;
+    }
+    .upload-preview .preview-item:hover {
+      border-color: #999;
+    }
+    .upload-preview .preview-item.dragging {
+      opacity: 0.4;
+      cursor: grabbing;
+    }
+    .upload-preview .preview-item.drag-over {
+      border-color: #1a1a1a;
+      border-width: 2px;
+    }
+    .upload-preview .preview-item .drag-handle {
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      pointer-events: none;
+    }
+    .upload-preview .preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .upload-preview .preview-item .remove-img {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: none;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    /* 产品列表区 */
+    .product-admin-list {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 140px);
+      box-sizing: border-box;
+    }
+    @media (max-width: 900px) {
+      .product-admin-list { height: auto; max-height: none; }
+    }
+    .product-admin-list .list-header {
+      flex-shrink: 0;
+      margin-bottom: 16px;
+    }
+    .product-admin-list .list-filters {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .product-admin-list .filter-item {
+      flex: 0 0 auto;
+    }
+    .product-admin-list .filter-item select {
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Jost', 'Noto Sans SC', sans-serif;
+      font-size: 13px;
+      color: #333;
+      background: #fafafa;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+      cursor: pointer;
+    }
+    .product-admin-list .filter-item select:focus {
+      outline: none;
+      border-color: #1a1a1a;
+      background: #fff;
+    }
+    .product-admin-list .filter-search {
+      position: relative;
+      flex: 1 1 180px;
+      min-width: 160px;
+    }
+    .product-admin-list .filter-search input {
+      width: 100%;
+      padding: 10px 14px 10px 38px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Jost', 'Noto Sans SC', sans-serif;
+      font-size: 13px;
+      color: #333;
+      background: #fafafa;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+    .product-admin-list .filter-search input:focus {
+      outline: none;
+      border-color: #1a1a1a;
+      background: #fff;
+    }
+    .product-admin-list .filter-search .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: #999;
+      pointer-events: none;
+    }
+    .product-admin-list .scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      min-height: 200px;
+    }
+    .product-admin-list .scroll-area::-webkit-scrollbar {
+      width: 6px;
+    }
+    .product-admin-list .scroll-area::-webkit-scrollbar-track {
+      background: #f5f5f5;
+      border-radius: 3px;
+    }
+    .product-admin-list .scroll-area::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 3px;
+    }
+    .product-admin-list .scroll-area::-webkit-scrollbar-thumb:hover {
+      background: #999;
+    }
+    .product-admin-list h2 {
+      font-family: 'Jost', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+    .admin-product-item {
+      display: flex;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid #f0f0f0;
+      align-items: center;
+    }
+    .admin-product-item:last-child { border-bottom: none; }
+    .admin-product-item .thumb {
+      width: 70px;
+      height: 70px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #eee;
+      flex-shrink: 0;
+      background: #f9f9f9;
+    }
+    .admin-product-item .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .admin-product-item .info {
+      flex: 1;
+      min-width: 0;
+    }
+    .admin-product-item .info h3 {
+      font-family: 'Jost', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      margin: 0 0 4px;
+    }
+    .admin-product-item .info p {
+      font-size: 12px;
+      color: #999;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .admin-product-item .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #f0f0f0;
+      font-size: 11px;
+      color: #666;
+      margin-right: 8px;
+    }
+    .admin-product-item .item-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .admin-product-item .item-actions button {
+      padding: 6px 14px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: #fff;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: 'Jost', sans-serif;
+      transition: all 0.3s;
+    }
+    .admin-product-item .item-actions .edit-btn:hover {
+      border-color: #1a1a1a;
+      color: #1a1a1a;
+    }
+    .admin-product-item .item-actions .del-btn:hover {
+      border-color: #c0392b;
+      color: #c0392b;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #ccc;
+    }
+    .empty-state p {
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+    }
+
+    .admin-back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      color: #666;
+      text-decoration: none;
+    }
+    .admin-back-link:hover { color: #1a1a1a; }
+
+    /* 确认对话框 */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 32px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    }
+    .modal-box h3 {
+      font-family: 'Jost', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      margin: 0 0 8px;
+    }
+    .modal-box p {
+      font-size: 14px;
+      color: #666;
+      margin: 0 0 24px;
+    }
+    .modal-box .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+    .modal-box .modal-actions button {
+      padding: 10px 28px;
+      border: 1px solid #1a1a1a;
+      border-radius: 6px;
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .modal-box .modal-actions .confirm-btn {
+      background: #1a1a1a;
+      color: #fff;
+    }
+    .modal-box .modal-actions .confirm-btn:hover { background: #333; }
+    .modal-box .modal-actions .cancel-btn {
+      background: #fff;
+      color: #1a1a1a;
+    }
+    .modal-box .modal-actions .cancel-btn:hover { background: #f5f5f5; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-wrap">
+    <a href="index.html" class="admin-back-link">← 返回首页</a>
+
+    <div class="admin-header">
+      <h1>产品管理后台</h1>
+      <div class="actions">
+        <button class="admin-btn" id="importHtmlBtn">从HTML导入现有产品</button>
+        <button class="admin-btn" id="exportBtn">导出数据</button>
+        <button class="admin-btn" id="importBtn">导入数据</button>
+        <input type="file" id="importFile" accept=".json" style="display:none" />
+        <a href="bedding.html" class="admin-btn primary">查看前台</a>
+      </div>
+    </div>
+
+    <div class="admin-grid">
+      <!-- 左侧表单 -->
+      <div class="admin-form">
+        <h2 id="formTitle">添加新产品</h2>
+        <input type="hidden" id="editId" value="" />
+
+        <div class="form-group">
+          <label>产品分类</label>
+          <select id="productCategory">
+            <option value="bedding">BEDDING</option>
+            <option value="rugs">MATS</option>
+            <option value="pet">PET</option>
+            <option value="wares">SUNDRIES</option>
+            <option value="curtains">CURTAINS</option>
+            <option value="outdoor">OUTDOOR</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="subCategoryGroup">
+          <label>产品细分类</label>
+          <select id="productName">
+            <option value="BEDDING-Blanket">BEDDING-Blanket</option>
+            <option value="BEDDING-Cushion">BEDDING-Cushion</option>
+            <option value="BEDDING-Mattress protector">BEDDING-Mattress protector</option>
+            <option value="BEDDING-Duvet Cover & Pillowcase Set">BEDDING-Duvet Cover & Pillowcase Set</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>产品描述</label>
+          <textarea id="productDesc" placeholder="产品简要描述"></textarea>
+        </div>
+
+        <!-- 产品参数字段：与详情页参数表一致 -->
+        <div class="form-group">
+          <label>材质 / Material（如 100% 涤纶超细纤维）</label>
+          <input type="text" id="productMaterial" placeholder="例：100% 涤纶超细纤维（Microfiber Polyester）" />
+        </div>
+        <div class="form-group">
+          <label>克重 / Weight（如 280gsm）</label>
+          <input type="text" id="productWeight" placeholder="例：280gsm" />
+        </div>
+        <div class="form-group">
+          <label>缝制工艺 / Sewing</label>
+          <input type="text" id="productSewing" placeholder="例：包边缝 / 锁边 + 贴标" />
+        </div>
+        <div class="form-group">
+          <label>尺寸 / Size（如 127x152cm）</label>
+          <input type="text" id="productSize" placeholder="例：127x152cm" />
+        </div>
+        <div class="form-group">
+          <label>颜色 / Color</label>
+          <input type="text" id="productColor" placeholder="例：Beige / Grey / Custom" />
+        </div>
+        <div class="form-group">
+          <label>包装 / Package</label>
+          <input type="text" id="productPackaging" placeholder="例：PVC 袋 + 入箱" />
+        </div>
+        <div class="form-group">
+          <label>起订量 / MOQ（如 500 套）</label>
+          <input type="text" id="productMoq" placeholder="例：500 套" />
+        </div>
+
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" id="bestsellerCheck" style="width:16px;height:16px;cursor:pointer;" />
+            <span>加入畅销系列（Bestselling Collections）</span>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label>产品图片（可多选）</label>
+          <div class="upload-area" id="uploadArea">
+            <div class="icon">+</div>
+            <p>点击或拖拽图片到此处上传</p>
+            <input type="file" id="fileInput" accept="image/*" multiple style="display:none" />
+          </div>
+          <div class="upload-preview" id="uploadPreview"></div>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:24px;">
+          <button class="admin-btn primary" id="saveBtn" style="flex:1;">上传产品</button>
+          <button class="admin-btn" id="resetBtn">重置</button>
+        </div>
+      </div>
+
+      <!-- 右侧产品列表 -->
+      <div class="product-admin-list">
+        <div class="list-header">
+          <h2>产品列表 (<span id="totalCount">0</span>)</h2>
+          <div class="list-filters">
+            <div class="filter-item">
+              <select id="filterCategory">
+                <option value="">全部分类</option>
+                <option value="bedding">BEDDING</option>
+                <option value="rugs">MATS</option>
+                <option value="pet">PET</option>
+                <option value="wares">SUNDRIES</option>
+                <option value="curtains">CURTAINS</option>
+                <option value="outdoor">OUTDOOR</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <select id="filterSubcategory">
+                <option value="">全部细分类</option>
+              </select>
+            </div>
+            <div class="filter-item filter-search">
+              <span class="search-icon">⌕</span>
+              <input type="text" id="searchInput" placeholder="搜索产品名称、分类..." />
+            </div>
+          </div>
+        </div>
+        <div class="scroll-area" id="scrollArea">
+          <div id="productList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 确认上传对话框 -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-box">
+      <h3>确认上传产品</h3>
+      <p id="confirmText">确定要上传此产品吗？</p>
+      <div class="modal-actions">
+        <button class="cancel-btn" id="modalCancel">取消</button>
+        <button class="confirm-btn" id="modalConfirm">确认上传</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/products-db.js?v=20261018"></script>
+  <script>
+    var currentImages = [];
+    var editingId = null;
+
+    // DOM
+    var uploadArea = document.getElementById('uploadArea');
+    var productCategory = document.getElementById('productCategory');
+    var productName = document.getElementById('productName');
+
+    // 各主分类对应的细分类（仅 bedding 有细分类，其余分类无细分类）
+    var subcategoryMap = {
+      bedding: [
+        { value: 'BEDDING-Blanket', label: 'BEDDING-Blanket' },
+        { value: 'BEDDING-Cushion', label: 'BEDDING-Cushion' },
+        { value: 'BEDDING-Mattress protector', label: 'BEDDING-Mattress protector' },
+        { value: 'BEDDING-Duvet Cover & Pillowcase Set', label: 'BEDDING-Duvet Cover & Pillowcase Set' }
+      ],
+      curtains: [
+        { value: 'Grommet Curtains', label: 'Grommet Curtains' },
+        { value: 'Track Curtains', label: 'Track Curtains' }
+      ]
+    };
+
+    var subCategoryGroup = document.getElementById('subCategoryGroup');
+
+    // 根据主分类刷新细分类下拉：无细分类则隐藏该字段
+    function updateSubcategory() {
+      var cat = productCategory.value;
+      var subs = subcategoryMap[cat] || [];
+      productName.innerHTML = '';
+      if (subs.length === 0) {
+        subCategoryGroup.style.display = 'none';
+        return;
+      }
+      subCategoryGroup.style.display = '';
+      subs.forEach(function(s) {
+        var opt = document.createElement('option');
+        opt.value = s.value;
+        opt.textContent = s.label;
+        productName.appendChild(opt);
+      });
+    }
+
+    // 主分类切换时联动刷新细分类
+    productCategory.addEventListener('change', updateSubcategory);
+
+    // 获取最终分类值（根据细分类）
+    function getFinalCategory() {
+      var cat = productCategory.value;
+      var name = productName.value;
+      if (cat === 'bedding' && name) {
+        if (name === 'BEDDING-Blanket') return 'bedding-blanket';
+        if (name === 'BEDDING-Cushion') return 'bedding-cushion';
+        if (name === 'BEDDING-Mattress protector') return 'bedding-mattress-protector';
+        if (name === 'BEDDING-Duvet Cover & Pillowcase Set') return 'bedding-duvet-cover-pillowcase-set';
+      }
+      if (cat === 'curtains' && name) {
+        if (name === 'Grommet Curtains') return 'curtains-grommet';
+        if (name === 'Track Curtains') return 'curtains-track';
+      }
+      return cat;
+    }
+
+    // 初始化细分类状态
+    updateSubcategory();
+    var fileInput = document.getElementById('fileInput');
+    var uploadPreview = document.getElementById('uploadPreview');
+    var saveBtn = document.getElementById('saveBtn');
+    var resetBtn = document.getElementById('resetBtn');
+    var productList = document.getElementById('productList');
+    var totalCount = document.getElementById('totalCount');
+    var formTitle = document.getElementById('formTitle');
+    var editIdEl = document.getElementById('editId');
+    var exportBtn = document.getElementById('exportBtn');
+    var importBtn = document.getElementById('importBtn');
+    var importFile = document.getElementById('importFile');
+
+    // 图片上传
+    uploadArea.addEventListener('click', function() { fileInput.click(); });
+    uploadArea.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      uploadArea.style.borderColor = '#1a1a1a';
+    });
+    uploadArea.addEventListener('dragleave', function() {
+      uploadArea.style.borderColor = '#ddd';
+    });
+    uploadArea.addEventListener('drop', function(e) {
+      e.preventDefault();
+      uploadArea.style.borderColor = '#ddd';
+      handleFiles(e.dataTransfer.files);
+    });
+    fileInput.addEventListener('change', function() {
+      handleFiles(fileInput.files);
+      fileInput.value = '';
+    });
+
+    function handleFiles(files) {
+      var promises = [];
+      for (var i = 0; i < files.length; i++) {
+        promises.push(ProductsDB.fileToBase64(files[i]));
+      }
+      Promise.all(promises).then(function(results) {
+        currentImages = currentImages.concat(results);
+        renderPreview();
+      });
+    }
+
+    var dragSrcIdx = null;
+
+    function renderPreview() {
+      uploadPreview.innerHTML = '';
+      currentImages.forEach(function(src, idx) {
+        var item = document.createElement('div');
+        item.className = 'preview-item';
+        item.draggable = true;
+        item.dataset.idx = idx;
+
+        var img = document.createElement('img');
+        img.src = src;
+        img.draggable = false; /* 禁止图片原生拖拽，避免抢占排序拖拽 */
+        var handle = document.createElement('div');
+        handle.className = 'drag-handle';
+        handle.textContent = '≡';
+        var btn = document.createElement('button');
+        btn.className = 'remove-img';
+        btn.textContent = '×';
+        btn.onclick = function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          currentImages.splice(idx, 1);
+          renderPreview();
+        };
+
+        item.appendChild(img);
+        item.appendChild(handle);
+        item.appendChild(btn);
+
+        // 拖拽排序
+        item.addEventListener('dragstart', function(e) {
+          dragSrcIdx = parseInt(item.dataset.idx, 10);
+          item.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+          /* Firefox 必须 setData 才会启动拖拽会话 */
+          e.dataTransfer.setData('text/plain', item.dataset.idx);
+        });
+        item.addEventListener('dragend', function() {
+          item.classList.remove('dragging');
+          document.querySelectorAll('.preview-item').forEach(function(el) {
+            el.classList.remove('drag-over');
+          });
+        });
+        item.addEventListener('dragover', function(e) {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          item.classList.add('drag-over');
+        });
+        item.addEventListener('dragleave', function() {
+          item.classList.remove('drag-over');
+        });
+        item.addEventListener('drop', function(e) {
+          e.preventDefault();
+          item.classList.remove('drag-over');
+          var targetIdx = parseInt(item.dataset.idx, 10);
+          if (dragSrcIdx === null || dragSrcIdx === targetIdx) return;
+          // 交换位置
+          var moved = currentImages.splice(dragSrcIdx, 1)[0];
+          currentImages.splice(targetIdx, 0, moved);
+          dragSrcIdx = null;
+          renderPreview();
+        });
+
+        uploadPreview.appendChild(item);
+      });
+    }
+
+    // 上传产品（弹出确认对话框）
+    var confirmModal = document.getElementById('confirmModal');
+    var modalCancel = document.getElementById('modalCancel');
+    var modalConfirm = document.getElementById('modalConfirm');
+    var confirmText = document.getElementById('confirmText');
+
+    saveBtn.addEventListener('click', function() {
+      var hasSub = subCategoryGroup.style.display !== 'none';
+      var name = hasSub ? productName.value : '';
+      var mainCatText = productCategory.options[productCategory.selectedIndex].text;
+      var categoryText = hasSub ? (mainCatText + ' / ' + name) : mainCatText;
+      var display = hasSub ? name : mainCatText;
+
+      if (currentImages.length === 0) { alert('请至少上传一张图片'); return; }
+
+      // 显示确认对话框
+      confirmText.textContent = '确认上传「' + display + '」到「' + categoryText + '」吗？共 ' + currentImages.length + ' 张图片。';
+      confirmModal.classList.add('show');
+    });
+
+    modalCancel.addEventListener('click', function() {
+      confirmModal.classList.remove('show');
+    });
+
+    modalConfirm.addEventListener('click', function() {
+      confirmModal.classList.remove('show');
+
+      var category = getFinalCategory();
+      var hasSub = subCategoryGroup.style.display !== 'none';
+      var name = hasSub ? productName.value : productCategory.options[productCategory.selectedIndex].text;
+      var desc = document.getElementById('productDesc').value.trim();
+
+      var isBestseller = document.getElementById('bestsellerCheck').checked;
+      var product = {
+        id: editingId || (category + '-' + Date.now()),
+        category: category,
+        name: name,
+        description: desc,
+        material: document.getElementById('productMaterial').value.trim(),
+        weight: document.getElementById('productWeight').value.trim(),
+        sewing: document.getElementById('productSewing').value.trim(),
+        size: document.getElementById('productSize').value.trim(),
+        color: document.getElementById('productColor').value.trim(),
+        packaging: document.getElementById('productPackaging').value.trim(),
+        moq: document.getElementById('productMoq').value.trim(),
+        images: currentImages,
+        bestseller: isBestseller,
+        createdAt: Date.now()
+      };
+
+      var promise = editingId ? ProductsDB.update(product) : ProductsDB.add(product);
+      promise.then(function() {
+        alert(editingId ? '产品已更新' : '产品上传成功');
+        softResetForm();
+        searchInput.value = '';
+        filterCategory.value = '';
+        updateFilterSubcategory();
+        loadProducts();
+      }).catch(function(err) {
+        alert('上传失败：' + err.message);
+      });
+    });
+
+    // 点击遮罩关闭
+    confirmModal.addEventListener('click', function(e) {
+      if (e.target === confirmModal) confirmModal.classList.remove('show');
+    });
+
+    // 重置表单
+    resetBtn.addEventListener('click', resetForm);
+
+    function resetForm() {
+      productCategory.value = 'bedding';
+      updateSubcategory();
+      productName.value = 'BEDDING-Blanket';
+      document.getElementById('productDesc').value = '';
+      document.getElementById('productMaterial').value = '';
+      document.getElementById('productWeight').value = '';
+      document.getElementById('productSewing').value = '';
+      document.getElementById('productSize').value = '';
+      document.getElementById('productColor').value = '';
+      document.getElementById('productPackaging').value = '';
+      document.getElementById('productMoq').value = '';
+      document.getElementById('bestsellerCheck').checked = false;
+      currentImages = [];
+      editingId = null;
+      editIdEl.value = '';
+      formTitle.textContent = '添加新产品';
+      saveBtn.textContent = '上传产品';
+      renderPreview();
+    }
+
+    // 上传成功后软重置：保留当前选定的分类，仅清空图片与描述，便于连续上传同分类产品
+    function softResetForm() {
+      // 保留 productCategory 与 productName（细分类）的当前选择
+      document.getElementById('productDesc').value = '';
+      document.getElementById('productMaterial').value = '';
+      document.getElementById('productWeight').value = '';
+      document.getElementById('productSewing').value = '';
+      document.getElementById('productSize').value = '';
+      document.getElementById('productColor').value = '';
+      document.getElementById('productPackaging').value = '';
+      document.getElementById('productMoq').value = '';
+      document.getElementById('bestsellerCheck').checked = false;
+      currentImages = [];
+      editingId = null;
+      editIdEl.value = '';
+      formTitle.textContent = '添加新产品';
+      saveBtn.textContent = '上传产品';
+      renderPreview();
+    }
+
+    // 加载产品列表
+    var allProducts = [];
+    var searchInput = document.getElementById('searchInput');
+    var filterCategory = document.getElementById('filterCategory');
+    var filterSubcategory = document.getElementById('filterSubcategory');
+
+    // 筛选用：主分类 → 细分类（value 为存储的 category 值）
+    var filterSubMap = {
+      bedding: [
+        { value: 'bedding-blanket', label: 'BEDDING-Blanket' },
+        { value: 'bedding-cushion', label: 'BEDDING-Cushion' },
+        { value: 'bedding-mattress-protector', label: 'BEDDING-Mattress protector' },
+        { value: 'bedding-duvet-cover-pillowcase-set', label: 'BEDDING-Duvet Cover & Pillowcase Set' }
+      ],
+      curtains: [
+        { value: 'curtains-grommet', label: 'Grommet Curtains' },
+        { value: 'curtains-track', label: 'Track Curtains' }
+      ]
+    };
+
+    // 根据主分类刷新细分类下拉
+    function updateFilterSubcategory() {
+      var cat = filterCategory.value;
+      var subs = filterSubMap[cat] || [];
+      filterSubcategory.innerHTML = '<option value="">全部细分类</option>';
+      if (subs.length === 0) {
+        filterSubcategory.style.display = 'none';
+        return;
+      }
+      filterSubcategory.style.display = '';
+      subs.forEach(function(s) {
+        var opt = document.createElement('option');
+        opt.value = s.value;
+        opt.textContent = s.label;
+        filterSubcategory.appendChild(opt);
+      });
+    }
+
+    function loadProducts() {
+      ProductsDB.getAll().then(function(products) {
+        products.sort(function(a, b) {
+          return (b.createdAt || 0) - (a.createdAt || 0);
+        });
+        allProducts = products;
+        totalCount.textContent = products.length;
+        applySearch();
+      }).catch(function(err) {
+        console.error('加载产品失败:', err);
+      });
+    }
+
+    // 页面可见时自动刷新
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) loadProducts();
+    });
+
+    function applySearch() {
+      var keyword = searchInput.value.trim().toLowerCase();
+      var catFilter = filterCategory.value;
+      var subFilter = filterSubcategory.value;
+      var filtered = allProducts;
+
+      // 主分类过滤：匹配主分类值或主分类前缀
+      if (catFilter) {
+        filtered = filtered.filter(function(p) {
+          var pc = (p.category || '').toLowerCase();
+          return pc === catFilter || pc.indexOf(catFilter + '-') === 0;
+        });
+      }
+      // 细分类过滤：精确匹配 category 值
+      if (subFilter) {
+        filtered = filtered.filter(function(p) {
+          return (p.category || '').toLowerCase() === subFilter;
+        });
+      }
+      // 关键词过滤
+      if (keyword) {
+        filtered = filtered.filter(function(p) {
+          var name = (p.name || '').toLowerCase();
+          var cat = (p.category || '').toLowerCase();
+          var desc = (p.description || '').toLowerCase();
+          var categoryNames = {
+            bedding: 'bedding', rugs: 'mats', pet: 'pet',
+            wares: 'sundries', curtains: 'curtains', outdoor: 'outdoor'
+          };
+          var catFull = (categoryNames[p.category] || '').toLowerCase();
+          return name.indexOf(keyword) !== -1 ||
+                 cat.indexOf(keyword) !== -1 ||
+                 catFull.indexOf(keyword) !== -1 ||
+                 desc.indexOf(keyword) !== -1;
+        });
+      }
+      var hasFilter = keyword || catFilter || subFilter;
+      totalCount.textContent = filtered.length + (hasFilter ? ' / ' + allProducts.length : '');
+      renderList(filtered);
+    }
+
+    searchInput.addEventListener('input', applySearch);
+    filterCategory.addEventListener('change', function() {
+      updateFilterSubcategory();
+      applySearch();
+    });
+    filterSubcategory.addEventListener('change', applySearch);
+
+    function renderList(products) {
+      if (products.length === 0) {
+        productList.innerHTML = '<div class="empty-state"><p>暂无产品，请使用左侧表单添加</p></div>';
+        return;
+      }
+      var categoryNames = {
+        bedding: 'BEDDING', 'bedding-blanket': 'BEDDING / blanket', 'bedding-cushion': 'BEDDING / cushion',
+        'bedding-mattress-protector': 'BEDDING / Mattress protector', 'bedding-duvet-cover-pillowcase-set': 'BEDDING / Duvet Cover & Pillowcase Set',
+        rugs: 'MATS', pet: 'PET', wares: 'SUNDRIES', curtains: 'CURTAINS',
+        'curtains-grommet': 'CURTAINS / Grommet Curtains', 'curtains-track': 'CURTAINS / Track Curtains', outdoor: 'OUTDOOR'
+      };
+      var html = '';
+      products.forEach(function(p) {
+        var thumb = p.images && p.images[0] ? p.images[0] : '';
+        var imgCount = p.images ? p.images.length : 0;
+        html += '<div class="admin-product-item" data-id="' + p.id + '">';
+        html += '<div class="thumb">' + (thumb ? '<img src="' + thumb + '" alt="">' : '') + '</div>';
+        html += '<div class="info">';
+        html += '<span class="badge">' + (categoryNames[p.category] || p.category) + '</span>';
+        html += '<span class="badge">' + imgCount + ' 张图</span>';
+        html += '<h3>' + (p.name || '未命名') + '</h3>';
+        html += '<p>' + (p.description || '无描述') + '</p>';
+        html += '</div>';
+        html += '<div class="item-actions">';
+        html += '<button class="edit-btn" data-id="' + p.id + '">编辑</button>';
+        html += '<button class="del-btn" data-id="' + p.id + '">删除</button>';
+        html += '</div>';
+        html += '</div>';
+      });
+      productList.innerHTML = html;
+
+      // 绑定按钮
+      productList.querySelectorAll('.edit-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          editProduct(btn.getAttribute('data-id'));
+        });
+      });
+      productList.querySelectorAll('.del-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          deleteProduct(btn.getAttribute('data-id'));
+        });
+      });
+    }
+
+    // 编辑产品
+    function editProduct(id) {
+      ProductsDB.getAll().then(function(products) {
+        var p = products.find(function(x) { return x.id === id; });
+        if (!p) return;
+        editingId = p.id;
+        editIdEl.value = p.id;
+        formTitle.textContent = '编辑产品';
+        saveBtn.textContent = '更新产品';
+        // 恢复分类
+        var cat = p.category || 'bedding';
+        if (cat.indexOf('bedding-') === 0) {
+          productCategory.value = 'bedding';
+        } else {
+          productCategory.value = cat;
+        }
+        updateSubcategory();
+        // 仅 bedding 有细分类，回填细分类名称
+        if (productCategory.value === 'bedding' && p.name) {
+          productName.value = p.name;
+        }
+        document.getElementById('productDesc').value = p.description || '';
+        document.getElementById('productMaterial').value = p.material || '';
+        document.getElementById('productWeight').value = p.weight || '';
+        document.getElementById('productSewing').value = p.sewing || '';
+        document.getElementById('productSize').value = p.size || '';
+        document.getElementById('productColor').value = p.color || '';
+        document.getElementById('productPackaging').value = p.packaging || '';
+        document.getElementById('productMoq').value = p.moq || '';
+        document.getElementById('bestsellerCheck').checked = !!p.bestseller;
+        currentImages = p.images ? p.images.slice() : [];
+        renderPreview();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    // 删除产品
+    function deleteProduct(id) {
+      if (!confirm('确认删除此产品？')) return;
+      ProductsDB.remove(id).then(function() {
+        searchInput.value = '';
+        filterCategory.value = '';
+        updateFilterSubcategory();
+        loadProducts();
+      });
+    }
+
+    // 导出
+    exportBtn.addEventListener('click', function() {
+      ProductsDB.exportData();
+    });
+
+    // 从HTML导入现有产品
+    var importHtmlBtn = document.getElementById('importHtmlBtn');
+    importHtmlBtn.addEventListener('click', function() {
+      var existingProducts = [
+        { id: 'bedding-001', category: 'bedding-blanket', name: 'BEDDING-Blanket', description: '臻选高品质面料，匠心织造，温柔呵护每一个夜晚', images: ['assets/images/bedding-001.avif', 'assets/images/bedding-005.avif'] },
+        { id: 'bedding-002', category: 'bedding-blanket', name: 'BEDDING-Blanket', description: '臻选高品质面料，匠心织造，温柔呵护每一个夜晚', images: ['assets/images/bedding-002.avif', 'assets/images/bedding-005.avif'] },
+        { id: 'bedding-003', category: 'bedding-blanket', name: 'BEDDING-Blanket', description: '臻选高品质面料，匠心织造，温柔呵护每一个夜晚', images: ['assets/images/bedding-003.avif', 'assets/images/bedding-005.avif'] },
+        { id: 'bedding-004', category: 'bedding-blanket', name: 'BEDDING-Blanket', description: '臻选高品质面料，匠心织造，温柔呵护每一个夜晚', images: ['assets/images/bedding-004.avif', 'assets/images/bedding-005.avif'] },
+        { id: 'bedding-008', category: 'bedding-blanket', name: 'BEDDING-Blanket', description: '臻选高品质面料，匠心织造，温柔呵护每一个夜晚', images: ['assets/images/bedding-008.avif', 'assets/images/bedding-009.avif', 'assets/images/bedding-010.avif'] },
+        { id: 'bedding-011', category: 'bedding-blanket', name: 'BEDDING-Blanket', description: '臻选高品质面料，匠心织造，温柔呵护每一个夜晚', images: ['assets/images/bedding-011.avif', 'assets/images/bedding-012.avif'] },
+        { id: 'bedding-013', category: 'bedding-blanket', name: 'BEDDING-Blanket', description: '臻选高品质面料，匠心织造，温柔呵护每一个夜晚', images: ['assets/images/bedding-013.avif', 'assets/images/bedding-014.avif'] },
+        { id: 'bedding-015', category: 'bedding-blanket', name: 'BEDDING-Blanket', description: '臻选高品质面料，匠心织造，温柔呵护每一个夜晚', images: ['assets/images/bedding-015.avif', 'assets/images/bedding-016.avif'] },
+        { id: 'bedding-017', category: 'bedding-blanket', name: 'BEDDING-Blanket', description: '臻选高品质面料，匠心织造，温柔呵护每一个夜晚', images: ['assets/images/bedding-017.avif', 'assets/images/bedding-021.avif'] },
+        { id: 'bedding-018', category: 'bedding-blanket', name: 'BEDDING-Blanket', description: '臻选高品质面料，匠心织造，温柔呵护每一个夜晚', images: ['assets/images/bedding-018.avif', 'assets/images/bedding-021.avif'] },
+        { id: 'bedding-019', category: 'bedding-blanket', name: 'BEDDING-Blanket', description: '臻选高品质面料，匠心织造，温柔呵护每一个夜晚', images: ['assets/images/bedding-019.avif', 'assets/images/bedding-021.avif'] },
+        { id: 'bedding-020', category: 'bedding-blanket', name: 'BEDDING-Blanket', description: '臻选高品质面料，匠心织造，温柔呵护每一个夜晚', images: ['assets/images/bedding-020.avif', 'assets/images/bedding-021.avif'] }
+      ];
+
+      ProductsDB.getAll().then(function(existing) {
+        var existingIds = existing.map(function(p) { return p.id; });
+        var newProducts = existingProducts.filter(function(p) {
+          return existingIds.indexOf(p.id) === -1;
+        });
+
+        if (newProducts.length === 0) {
+          alert('现有产品已全部导入，无需重复操作');
+          return;
+        }
+
+        var promises = newProducts.map(function(p) {
+          p.createdAt = Date.now() + Math.random();
+          return ProductsDB.add(p);
+        });
+
+        Promise.all(promises).then(function() {
+          alert('成功导入 ' + newProducts.length + ' 款产品');
+          loadProducts();
+        }).catch(function(err) {
+          alert('导入部分失败：' + err.message);
+          loadProducts();
+        });
+      });
+    });
+
+    // 导入
+    importBtn.addEventListener('click', function() {
+      importFile.click();
+    });
+    importFile.addEventListener('change', function() {
+      var file = importFile.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function() {
+        ProductsDB.importData(reader.result).then(function() {
+          alert('导入成功');
+          loadProducts();
+        }).catch(function(err) {
+          alert('导入失败：' + err.message);
+        });
+      };
+      reader.readAsText(file);
+      importFile.value = '';
+    });
+
+    // 初始加载
+    updateFilterSubcategory();
+    loadProducts();
+  </script>
+</body>
+</html>

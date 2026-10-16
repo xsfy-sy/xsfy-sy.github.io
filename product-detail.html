@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="HEILIGS PIER 产品详情——材质、克重、尺寸等完整产品参数。" />
+  <title>HEILIGS PIER</title>
+  <script>document.documentElement.classList.add("js");</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至主要内容</a>
+
+  <!-- ============ 顶部导航条 ============ -->
+  <nav class="top-nav" id="topNav" aria-label="快捷导航">
+    <div class="container top-nav-inner">
+      <a href="index.html" class="top-nav-brand-left">
+        <img src="images/heiligs-pier-logo.png" alt="HEILIGS PIER" class="top-nav-logo-left top-nav-logo-a" />
+        <img src="images/heiligs-pier-logo.png" alt="HEILIGS PIER" class="top-nav-logo-left top-nav-logo-b" />
+      </a>
+      <div class="top-nav-right-group">
+        <a href="contact.html" class="top-rotator" style="text-decoration:none;color:inherit">
+          <span class="top-rotator-item">NINGBO HEILIGS I&E CO.,LTD.</span>
+          <span class="top-rotator-item">NINGBO SWEETY HOME CO.,LTD.</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ 顶部导航 ============ -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <div class="header-left">
+        <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
+          <span class="nav-toggle-icon"><span></span><span></span><span></span></span>
+          <span class="nav-toggle-label">Menu</span>
+        </button>
+      </div>
+
+      <nav class="main-nav" aria-label="主导航">
+        <ul>
+          <li><a href="index.html" class="nav-link">HOME</a></li>
+          <li class="has-sub">
+            <a href="bedding.html" class="nav-link">BEDDING</a>
+            <ul class="nav-sub">
+              <li><a href="bedding-blanket.html" class="nav-sub-link">blanket</a></li>
+              <li><a href="bedding-cushion.html" class="nav-sub-link">Cushion</a></li>
+              <li><a href="bedding-mattress-protector.html" class="nav-sub-link">Mattress protector</a></li>
+              <li><a href="bedding-duvet-cover-pillowcase-set.html" class="nav-sub-link">Duvet Cover & Pillowcase Set</a></li>
+            </ul>
+          </li>
+          <li><a href="rugs.html" class="nav-link">MATS</a></li>
+          <li><a href="pet.html" class="nav-link">PET</a></li>
+          <li><a href="wares.html" class="nav-link">SUNDRIES</a></li>
+          <li class="has-sub">
+            <a href="curtains.html" class="nav-link">CURTAINS</a>
+            <ul class="nav-sub">
+              <li><a href="curtains-grommet.html" class="nav-sub-link">Grommet Curtains</a></li>
+              <li><a href="curtains-track.html" class="nav-sub-link">Track Curtains</a></li>
+            </ul>
+          </li>
+          <li><a href="outdoor.html" class="nav-link">OUTDOOR</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-tools">
+        <form class="search-box header-search" role="search" id="productSearch" onsubmit="return false">
+          <button type="submit" class="search-icon-btn" aria-label="搜索">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+              <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+          <input type="search" class="search-input" placeholder="What do you seek?" aria-label="搜索产品" id="searchInput" autocomplete="off" />
+        </form>
+        <button type="button" class="nav-toggle wishlist-toggle" id="wishlistBtn" aria-label="心愿清单" title="我的心愿清单">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="none" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+          <span class="nav-toggle-label">WISH</span>
+          <span class="icon-badge" id="wishlistCount">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 心愿清单面板 -->
+    <div class="menu-backdrop" id="wishlistBackdrop"></div>
+    <aside class="drawer-menu wishlist-panel" id="wishlistPanel" hidden aria-label="心愿清单">
+      <div class="drawer-head">
+        <span class="drawer-title">心愿清单</span>
+        <button class="drawer-close" id="wishlistClose" aria-label="关闭" type="button">✕</button>
+      </div>
+      <div class="wishlist-body" id="wishlistBody">
+        <p class="wishlist-empty" id="wishlistEmpty">还没有收藏任何商品<br />点击产品上的 ♡ 加入心愿清单</p>
+        <div class="wishlist-items" id="wishlistItems"></div>
+        <div class="wishlist-inquire" id="wishlistInquire" style="display:none;">
+          <div class="wishlist-inquire-divider"></div>
+          <h3 class="wishlist-inquire-title">发送询价</h3>
+          <p class="wishlist-inquire-desc">填写以下信息，我们将尽快为您提供报价</p>
+          <form class="wishlist-inquire-form" id="inquireForm" onsubmit="return false">
+            <div class="inquire-row">
+              <input type="text" class="inquire-input" id="inquireName" placeholder="姓名 / Name" required />
+              <input type="text" class="inquire-input" id="inquireCompany" placeholder="公司 / Company" />
+            </div>
+            <div class="inquire-row">
+              <input type="email" class="inquire-input" id="inquireEmail" placeholder="邮箱 / Email" required />
+              <input type="tel" class="inquire-input" id="inquirePhone" placeholder="电话 / Phone" />
+            </div>
+            <textarea class="inquire-textarea" id="inquireMessage" placeholder="留言 / Message（选填）" rows="3"></textarea>
+            <div class="inquire-summary" id="inquireSummary"></div>
+            <button type="button" class="btn btn-solid inquire-submit" id="inquireSubmit">发送询价 / Send Inquiry</button>
+          </form>
+          <div class="inquire-success" id="inquireSuccess" style="display:none;">
+            <p>询价已发送成功，我们将尽快回复您的询价。</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 侧滑抽屉菜单 -->
+    <div class="menu-backdrop" id="menuBackdrop"></div>
+    <aside class="drawer-menu" id="mobileMenu" hidden aria-label="导航菜单">
+      <div class="drawer-head">
+        <span class="drawer-title">MENU</span>
+        <button class="drawer-close" id="drawerClose" aria-label="关闭菜单" type="button">✕</button>
+      </div>
+      <form class="search-box search-box-mobile" role="search" id="productSearchMobile" onsubmit="return false">
+        <button type="submit" class="search-icon-btn" aria-label="搜索">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+        <input type="search" class="search-input" placeholder="what do you seek?" aria-label="搜索产品" id="searchInputMobile" autocomplete="off" />
+      </form>
+      <nav class="drawer-nav" aria-label="主导航">
+          <ul>
+          <li class="has-sub">
+            <a href="bedding.html">BEDDING</a>
+            <ul class="drawer-sub">
+              <li><a href="bedding-blanket.html">blanket 毯子</a></li>
+              <li><a href="bedding-cushion.html">Cushion 靠垫</a></li>
+              <li><a href="bedding-mattress-protector.html">Mattress protector 床垫保护垫</a></li>
+              <li><a href="bedding-duvet-cover-pillowcase-set.html">Duvet Cover & Pillowcase Set 被套枕套</a></li>
+            </ul>
+          </li>
+          <li><a href="rugs.html">MATS</a></li>
+          <li><a href="pet.html">PET</a></li>
+          <li><a href="wares.html">SUNDRIES</a></li>
+          <li class="has-sub">
+            <a href="curtains.html">CURTAINS</a>
+            <ul class="drawer-sub">
+              <li><a href="curtains-grommet.html">Grommet Curtains 穿孔帘</a></li>
+              <li><a href="curtains-track.html">Track Curtains 轨道帘</a></li>
+            </ul>
+          </li>
+          <li><a href="outdoor.html">OUTDOOR</a></li>
+        </ul>
+      </nav>
+      <a href="contact.html" class="btn btn-solid btn-sm drawer-cta">CONTACT US</a>
+    </aside>
+  </header>
+
+  <main id="main">
+    <!-- ============ 产品详情 ============ -->
+    <section class="product-detail section">
+      <div class="container">
+        <!-- 面包屑 -->
+        <nav class="breadcrumb reveal" aria-label="面包屑">
+          <a href="index.html">HOME</a>
+          <span class="breadcrumb-sep">/</span>
+          <a href="bedding.html">BEDDING</a>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-current">产品详情</span>
+        </nav>
+
+        <div class="product-detail-grid">
+          <!-- 左侧：产品图片 -->
+          <div class="product-detail-media reveal">
+            <div class="detail-main-wrap">
+              <button class="detail-arrow detail-prev" type="button" aria-label="上一张" onclick="detailPrev()">&#8249;</button>
+              <img id="detailImg" src="assets/images/bedding-001.avif" alt="BEDDING" onclick="openLightbox()" />
+              <button class="detail-arrow detail-next" type="button" aria-label="下一张" onclick="detailNext()">&#8250;</button>
+              <span class="detail-counter" id="detailCounter" aria-live="polite">1 / 1</span>
+            </div>
+            <div class="detail-thumbs">
+              <img class="detail-thumb active" src="assets/images/bedding-001.avif" alt="展示图1" onclick="detailGoTo(0)" />
+              <img class="detail-thumb" src="assets/images/bedding-005.avif" alt="展示图2" onclick="detailGoTo(1)" />
+              <img class="detail-thumb" src="assets/images/bedding-006.avif" alt="展示图3" onclick="detailGoTo(2)" />
+              <img class="detail-thumb" src="assets/images/bedding-007.avif" alt="展示图4" onclick="detailGoTo(3)" />
+            </div>
+          </div>
+
+          <!-- 右侧：产品信息 -->
+          <div class="product-detail-info">
+            <p class="product-detail-eyebrow reveal">BEDDING COLLECTION</p>
+            <h1 class="product-detail-title reveal">BEDDING</h1>
+            <p class="product-detail-desc reveal">臻选高品质面料，匠心织造，温柔呵护每一个夜晚。以天然材质与精湛工艺，为每一个家织就温柔时光。</p>
+
+            <!-- 规格参数表 -->
+            <div class="spec-table reveal">
+              <h2 class="spec-table-title">产品参数 / SPECIFICATIONS</h2>
+              <dl class="spec-list">
+                <div class="spec-row">
+                  <dt>材质 / Material</dt>
+                  <dd>100% 涤纶超细纤维（Microfiber Polyester）</dd>
+                </div>
+                <div class="spec-row">
+                  <dt>克重 / Weight</dt>
+                  <dd>280 gsm</dd>
+                </div>
+                <div class="spec-row">
+                  <dt>缝制工艺 / Sewing</dt>
+                  <dd>活性印染 · 预缩水处理</dd>
+                </div>
+                <div class="spec-row">
+                  <dt>尺寸 / Size</dt>
+                  <dd>200cm × 230cm（可定制）</dd>
+                </div>
+                <div class="spec-row">
+                  <dt>颜色 / Color</dt>
+                  <dd>多色可选</dd>
+                </div>
+                <div class="spec-row">
+                  <dt>包装 / Package</dt>
+                  <dd>PVC 袋 + 入箱</dd>
+                </div>
+                <div class="spec-row">
+                  <dt>起订量 / MOQ</dt>
+                  <dd>500 套</dd>
+                </div>
+              </dl>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="product-detail-actions reveal">
+              <a href="contact.html" class="btn btn-solid">发送询价 / Send Inquiry</a>
+              <a href="bedding.html" class="btn btn-ghost">返回列表</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ 页脚 ============ -->
+  <footer class="site-footer" id="contact">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <h4>COMPANY</h4>
+        <div class="footer-contact">
+          <p><strong>NINGBO HEILIGS I&E CO.,LTD.</strong></p>
+          <p>宁波赫力格斯进出口有限公司</p>
+          <p>General Manager: Pier Lin 林杰</p>
+          <p>NO:.318/313 CIGU E-COMMERCIAL PARK,<br />CICHENG, NINGBO 315031, CHINA</p>
+          <p>宁波市江北区慈城慈谷电商园318/313号</p>
+          <p>PHONE: <a href="tel:+8613777942972">+86-13777942972</a></p>
+          <p>邮箱：<a href="mailto:pierlin@vip.163.com">pierlin@vip.163.com</a></p>
+        </div>
+      </div>
+      <div class="footer-brand">
+        <h4>COMPANY</h4>
+        <div class="footer-contact">
+          <p><strong>NINGBO SWEETY HOME CO.,LTD.</strong></p>
+          <p>宁波思唯家居有限公司</p>
+          <p>General Manager: Pier Lin 林杰</p>
+          <p>NO:.318/313 CIGU E-COMMERCIAL PARK,<br />CICHENG, NINGBO 315031, CHINA</p>
+          <p>宁波市江北区慈城慈谷电商园318/313号</p>
+          <p>PHONE: <a href="tel:+8613777942972">+86-13777942972</a></p>
+          <p>邮箱：<a href="mailto:pierlin@vip.163.com">pierlin@vip.163.com</a></p>
+        </div>
+      </div>
+      <nav class="footer-col" aria-label="产品系列">
+        <h4>产品系列</h4>
+        <ul>
+          <li><a href="bedding.html">BEDDING</a></li>
+          <li><a href="rugs.html">MATS</a></li>
+          <li><a href="pet.html">PET</a></li>
+          <li><a href="wares.html">SUNDRIES</a></li>
+          <li><a href="curtains.html">CURTAINS</a></li>
+          <li><a href="outdoor.html">OUTDOOR</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="关于赫力格斯">
+        <h4>关于赫力格斯</h4>
+        <ul>
+          <li><a href="index.html">首页</a></li>
+          <li><a href="contact.html">联系我们</a></li>
+          <li><a href="exhibitions.html">最近参展</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-alert">
+      <div class="container">
+        <p>⚠ IF ANYONE INFORM YOU TO CHANGE OUR PAYMENT ACCOUNT, PLEASE CALL <a href="tel:+8613777942972">+86-13777942972</a> WITHOUT DELAY.</p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p class="footer-legal">© 2026 NINGBO HEILIGS I&E CO.,LTD. · 宁波赫力格斯进出口有限公司 · 浙ICP备2026000000号</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js?v=20261017"></script>
+  <!-- 灯箱 -->
+  <div class="detail-lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <button class="lb-close" type="button" aria-label="关闭" onclick="closeLightbox(event)">&#10005;</button>
+    <button class="lb-arrow lb-prev" type="button" aria-label="上一张" onclick="lbPrev(event)">&#8249;</button>
+    <img id="lbImg" src="" alt="放大查看" onclick="event.stopPropagation()" onwheel="lbWheel(event)" />
+    <button class="lb-arrow lb-next" type="button" aria-label="下一张" onclick="lbNext(event)">&#8250;</button>
+    <div class="lb-zoom" onclick="event.stopPropagation()">
+      <button type="button" aria-label="放大" onclick="lbZoomIn(event)">+</button>
+      <button type="button" aria-label="缩小" onclick="lbZoomOut(event)">−</button>
+      <button type="button" aria-label="重置" onclick="lbZoomReset(event)">↺</button>
+      <span class="lb-zoom-info" id="lbZoomInfo">100%</span>
+    </div>
+  </div>
+  <script src="js/main.js?v=20261017"></script>
+  <script src="js/products-db.js?v=20261018"></script>
+  <script>
+    var detailImages = [];
+    var detailIndex = 0;
+
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var productId = params.get("id");
+
+      function initWithImages() {
+        // 动态生成缩略图
+        var thumbsContainer = document.querySelector(".detail-thumbs");
+        if (thumbsContainer) {
+          thumbsContainer.innerHTML = "";
+          detailImages.forEach(function(src, i) {
+            var thumb = document.createElement("img");
+            thumb.className = "detail-thumb" + (i === 0 ? " active" : "");
+            thumb.src = src;
+            thumb.alt = "展示图" + (i + 1);
+            thumb.setAttribute("onclick", "detailGoTo(" + i + ")");
+            thumbsContainer.appendChild(thumb);
+          });
+        }
+        updateDetailImg();
+      }
+
+      // 主分类映射：产品 category 前缀 → 显示标签 + 分类页链接
+      var CATEGORY_MAP = {
+        'bedding':  { label: 'BEDDING',   href: 'bedding.html' },
+        'rugs':     { label: 'MATS',      href: 'rugs.html' },
+        'pet':      { label: 'PET',       href: 'pet.html' },
+        'wares':    { label: 'SUNDRIES',  href: 'wares.html' },
+        'curtains': { label: 'CURTAINS',  href: 'curtains.html' },
+        'outdoor':  { label: 'OUTDOOR',   href: 'outdoor.html' }
+      };
+      function getCategoryInfo(category) {
+        var main = String(category || '').toLowerCase().split('-')[0];
+        return CATEGORY_MAP[main] || CATEGORY_MAP['bedding'];
+      }
+
+      if (productId && window.ProductsDB) {
+        // 从数据库加载产品
+        ProductsDB.getAll().then(function(products) {
+          var p = products.find(function(x) { return x.id === decodeURIComponent(productId); });
+          if (p && p.images && p.images.length > 0) {
+            detailImages = p.images;
+            var info = getCategoryInfo(p.category);
+
+            // 更新标题、描述（选择器须与实际类名一致）
+            var titleEl = document.querySelector('.product-detail-info .product-detail-title');
+            var descEl = document.querySelector('.product-detail-info .product-detail-desc');
+            if (titleEl && p.name) titleEl.textContent = p.name;
+            if (descEl && p.description) descEl.textContent = p.description;
+
+            // 更新品类标签（如 CURTAINS COLLECTION）
+            var eyebrowEl = document.querySelector('.product-detail-eyebrow');
+            if (eyebrowEl) eyebrowEl.textContent = info.label + ' COLLECTION';
+
+            // 更新面包屑：分类链接文字/地址 + 产品名
+            var breadcrumb = document.querySelector('.breadcrumb');
+            if (breadcrumb) {
+              var catLink = breadcrumb.querySelectorAll('a')[1];
+              if (catLink) { catLink.textContent = info.label; catLink.href = info.href; }
+              var current = breadcrumb.querySelector('.breadcrumb-current');
+              if (current && p.name) current.textContent = p.name;
+            }
+
+            // 更新主图 alt
+            var mainImg = document.getElementById('detailImg');
+            if (mainImg && p.name) mainImg.alt = p.name;
+          }
+          initWithImages();
+        }).catch(function() { initWithImages(); });
+        return;
+      }
+
+      var imgsParam = params.get("imgs");
+      if (imgsParam) {
+        detailImages = imgsParam.split(",").map(function(n) { return "assets/images/" + n; });
+      } else {
+        var imgName = params.get("img") || "bedding-001.avif";
+        detailImages = [
+          "assets/images/" + imgName,
+          "assets/images/bedding-005.avif",
+          "assets/images/bedding-006.avif",
+          "assets/images/bedding-007.avif"
+        ];
+      }
+      initWithImages();
+    })();
+
+    function updateDetailImg() {
+      var img = document.getElementById("detailImg");
+      if (img) img.src = detailImages[detailIndex];
+      document.querySelectorAll(".detail-thumb").forEach(function(t, i) {
+        t.classList.toggle("active", i === detailIndex);
+        t.src = detailImages[i];
+      });
+      // 显示当前位置 / 总张数
+      var counter = document.getElementById("detailCounter");
+      if (counter) counter.textContent = (detailIndex + 1) + " / " + detailImages.length;
+      scrollActiveThumbIntoView();
+    }
+
+    /* 缩略图过多时，把当前选中的缩略图滚到可视区域中间 */
+    function scrollActiveThumbIntoView() {
+      var box = document.querySelector(".detail-thumbs");
+      var active = box ? box.querySelector(".detail-thumb.active") : null;
+      if (!box || !active) return;
+      var boxRect = box.getBoundingClientRect();
+      var thumbRect = active.getBoundingClientRect();
+      var delta = thumbRect.left - boxRect.left - (boxRect.width - thumbRect.width) / 2;
+      if (Math.abs(delta) < 4) return;
+      box.scrollBy({ left: delta, behavior: "smooth" });
+    }
+
+    function detailPrev() {
+      detailIndex = (detailIndex - 1 + detailImages.length) % detailImages.length;
+      updateDetailImg();
+    }
+
+    function detailNext() {
+      detailIndex = (detailIndex + 1) % detailImages.length;
+      updateDetailImg();
+    }
+
+    function detailGoTo(i) {
+      detailIndex = i;
+      updateDetailImg();
+    }
+
+    function openLightbox() {
+      var lb = document.getElementById("lightbox");
+      var lbImg = document.getElementById("lbImg");
+      lbImg.src = detailImages[detailIndex];
+      lb.classList.add("open");
+      lbResetView();
+    }
+
+    function closeLightbox(e) {
+      if (e.target.classList.contains("detail-lightbox") || e.target.classList.contains("lb-close")) {
+        document.getElementById("lightbox").classList.remove("open");
+      }
+    }
+
+    function lbPrev(e) {
+      e.stopPropagation();
+      detailIndex = (detailIndex - 1 + detailImages.length) % detailImages.length;
+      document.getElementById("lbImg").src = detailImages[detailIndex];
+      lbResetView();
+      updateDetailImg();
+    }
+
+    function lbNext(e) {
+      e.stopPropagation();
+      detailIndex = (detailIndex + 1) % detailImages.length;
+      document.getElementById("lbImg").src = detailImages[detailIndex];
+      lbResetView();
+      updateDetailImg();
+    }
+
+    /* 缩放与拖拽 */
+    var lbScale = 1;
+    var lbX = 0, lbY = 0;
+    var lbDragging = false;
+    var lbStartX = 0, lbStartY = 0;
+
+    function lbUpdateTransform() {
+      var img = document.getElementById("lbImg");
+      img.style.transform = "translate(" + lbX + "px," + lbY + "px) scale(" + lbScale + ")";
+      var info = document.getElementById("lbZoomInfo");
+      if (info) info.textContent = Math.round(lbScale * 100) + "%";
+    }
+
+    function lbResetView() {
+      lbScale = 1; lbX = 0; lbY = 0;
+      lbUpdateTransform();
+    }
+
+    function lbZoomIn(e) {
+      if (e) e.stopPropagation();
+      lbScale = Math.min(lbScale + 0.5, 5);
+      lbUpdateTransform();
+    }
+
+    function lbZoomOut(e) {
+      if (e) e.stopPropagation();
+      lbScale = Math.max(lbScale - 0.5, 0.5);
+      if (lbScale <= 1) { lbX = 0; lbY = 0; }
+      lbUpdateTransform();
+    }
+
+    function lbZoomReset(e) {
+      if (e) e.stopPropagation();
+      lbResetView();
+    }
+
+    function lbWheel(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.deltaY < 0) {
+        lbScale = Math.min(lbScale + 0.3, 5);
+      } else {
+        lbScale = Math.max(lbScale - 0.3, 0.5);
+        if (lbScale <= 1) { lbX = 0; lbY = 0; }
+      }
+      lbUpdateTransform();
+    }
+
+    (function() {
+      var img = document.getElementById("lbImg");
+      img.addEventListener("mousedown", function(e) {
+        if (lbScale > 1) {
+          lbDragging = true;
+          lbStartX = e.clientX - lbX;
+          lbStartY = e.clientY - lbY;
+          img.classList.add("dragging");
+        }
+      });
+      document.addEventListener("mousemove", function(e) {
+        if (lbDragging) {
+          lbX = e.clientX - lbStartX;
+          lbY = e.clientY - lbStartY;
+          lbUpdateTransform();
+        }
+      });
+      document.addEventListener("mouseup", function() {
+        lbDragging = false;
+        img.classList.remove("dragging");
+      });
+    })();
+  </script>
+</body>
+</html>

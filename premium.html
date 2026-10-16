@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="HEILIGS PIER 特惠臻选系列——超值沙发毯、盖毯套装，限时特惠，品质不减。" />
+  <title>HEILIGS PIER</title>
+  <script>document.documentElement.classList.add("js");</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=20261018" />
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至主要内容</a>
+
+  <!-- ============ 顶部导航条 ============ -->
+  <nav class="top-nav" id="topNav" aria-label="快捷导航">
+    <div class="container top-nav-inner">
+      <a href="index.html" class="top-nav-brand-left">
+        <img src="images/heiligs-pier-logo.png" alt="HEILIGS PIER" class="top-nav-logo-left top-nav-logo-a" />
+        <img src="images/heiligs-pier-logo.png" alt="HEILIGS PIER" class="top-nav-logo-left top-nav-logo-b" />
+      </a>
+      <div class="top-nav-right-group">
+        <a href="contact.html" class="top-rotator" style="text-decoration:none;color:inherit">
+          <span class="top-rotator-item">NINGBO HEILIGS I&E CO.,LTD.</span>
+          <span class="top-rotator-item">NINGBO SWEETY HOME CO.,LTD.</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ 顶部导航 ============ -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <div class="header-left">
+        <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
+          <span class="nav-toggle-icon"><span></span><span></span><span></span></span>
+          <span class="nav-toggle-label">Menu</span>
+        </button>
+      </div>
+
+      <nav class="main-nav" aria-label="主导航">
+        <ul>
+          <li><a href="index.html" class="nav-link">HOME</a></li>
+          <li class="has-sub">
+            <a href="bedding.html" class="nav-link">BEDDING</a>
+            <ul class="nav-sub">
+              <li><a href="bedding-blanket.html" class="nav-sub-link">blanket</a></li>
+              <li><a href="bedding-cushion.html" class="nav-sub-link">Cushion</a></li>
+              <li><a href="bedding-mattress-protector.html" class="nav-sub-link">Mattress protector</a></li>
+              <li><a href="bedding-duvet-cover-pillowcase-set.html" class="nav-sub-link">Duvet Cover & Pillowcase Set</a></li>
+            </ul>
+          </li>
+          <li><a href="rugs.html" class="nav-link">MATS</a></li>
+          <li><a href="pet.html" class="nav-link">PET</a></li>
+          <li><a href="wares.html" class="nav-link">SUNDRIES</a></li>
+          <li class="has-sub">
+            <a href="curtains.html" class="nav-link">CURTAINS</a>
+            <ul class="nav-sub">
+              <li><a href="curtains-grommet.html" class="nav-sub-link">Grommet Curtains</a></li>
+              <li><a href="curtains-track.html" class="nav-sub-link">Track Curtains</a></li>
+            </ul>
+          </li>
+          <li><a href="outdoor.html" class="nav-link">OUTDOOR</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-tools">
+        <form class="search-box header-search" role="search" id="productSearch" onsubmit="return false">
+          <button type="submit" class="search-icon-btn" aria-label="搜索">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+              <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+          <input type="search" class="search-input" placeholder="What do you seek?" aria-label="搜索产品" id="searchInput" autocomplete="off" />
+        </form>
+        <button type="button" class="nav-toggle wishlist-toggle" id="wishlistBtn" aria-label="心愿清单" title="我的心愿清单">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="none" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+          <span class="nav-toggle-label">WISH</span>
+          <span class="icon-badge" id="wishlistCount">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 心愿清单面板 -->
+    <div class="menu-backdrop" id="wishlistBackdrop"></div>
+    <aside class="drawer-menu wishlist-panel" id="wishlistPanel" hidden aria-label="心愿清单">
+      <div class="drawer-head">
+        <span class="drawer-title">心愿清单</span>
+        <button class="drawer-close" id="wishlistClose" aria-label="关闭" type="button">✕</button>
+      </div>
+      <div class="wishlist-body" id="wishlistBody">
+        <p class="wishlist-empty" id="wishlistEmpty">还没有收藏任何商品<br />点击商品上的 ♡ 加入心愿清单</p>
+        <div class="wishlist-items" id="wishlistItems"></div>
+        <div class="wishlist-inquire" id="wishlistInquire" style="display:none;">
+          <div class="wishlist-inquire-divider"></div>
+          <h3 class="wishlist-inquire-title">发送询价</h3>
+          <p class="wishlist-inquire-desc">填写以下信息，我们将尽快为您提供报价</p>
+          <form class="wishlist-inquire-form" id="inquireForm" onsubmit="return false">
+            <div class="inquire-row">
+              <input type="text" class="inquire-input" id="inquireName" placeholder="姓名 / Name" required />
+              <input type="text" class="inquire-input" id="inquireCompany" placeholder="公司 / Company" />
+            </div>
+            <div class="inquire-row">
+              <input type="email" class="inquire-input" id="inquireEmail" placeholder="邮箱 / Email" required />
+              <input type="tel" class="inquire-input" id="inquirePhone" placeholder="电话 / Phone" />
+            </div>
+            <textarea class="inquire-textarea" id="inquireMessage" placeholder="留言 / Message（选填）" rows="3"></textarea>
+            <div class="inquire-summary" id="inquireSummary"></div>
+            <button type="button" class="btn btn-solid inquire-submit" id="inquireSubmit">发送询价 / Send Inquiry</button>
+          </form>
+          <div class="inquire-success" id="inquireSuccess" style="display:none;">
+            <p>询价已发送成功，我们将尽快回复您的询价。</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 侧滑抽屉菜单 -->
+    <div class="menu-backdrop" id="menuBackdrop"></div>
+    <aside class="drawer-menu" id="mobileMenu" hidden aria-label="导航菜单">
+      <div class="drawer-head">
+        <span class="drawer-title">MENU</span>
+        <button class="drawer-close" id="drawerClose" aria-label="关闭菜单" type="button">✕</button>
+      </div>
+      <form class="search-box search-box-mobile" role="search" id="productSearchMobile" onsubmit="return false">
+        <button type="submit" class="search-icon-btn" aria-label="搜索">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+        <input type="search" class="search-input" placeholder="what do you seek?" aria-label="搜索产品" id="searchInputMobile" autocomplete="off" />
+      </form>
+      <nav class="drawer-nav" aria-label="主导航">
+          <ul>
+          <li class="has-sub">
+            <a href="bedding.html">BEDDING</a>
+            <ul class="drawer-sub">
+              <li><a href="bedding-blanket.html">blanket 毯子</a></li>
+              <li><a href="bedding-cushion.html">Cushion 靠垫</a></li>
+              <li><a href="bedding-mattress-protector.html">Mattress protector 床垫保护垫</a></li>
+              <li><a href="bedding-duvet-cover-pillowcase-set.html">Duvet Cover & Pillowcase Set 被套枕套</a></li>
+            </ul>
+          </li>
+          <li><a href="rugs.html">MATS</a></li>
+          <li><a href="pet.html">PET</a></li>
+          <li><a href="wares.html">SUNDRIES</a></li>
+          <li class="has-sub">
+            <a href="curtains.html">CURTAINS</a>
+            <ul class="drawer-sub">
+              <li><a href="curtains-grommet.html">Grommet Curtains 穿孔帘</a></li>
+              <li><a href="curtains-track.html">Track Curtains 轨道帘</a></li>
+            </ul>
+          </li>
+          <li><a href="outdoor.html">OUTDOOR</a></li>
+        </ul>
+      </nav>
+      <a href="contact.html" class="btn btn-solid btn-sm drawer-cta">CONTACT US</a>
+    </aside>
+  </header>
+
+  <main id="main">
+    <!-- ============ 页面 Banner ============ -->
+    <section class="page-hero page-hero--premium">
+      <div class="page-hero-scrim"></div>
+      <div class="container page-hero-content">
+        <p class="hero-eyebrow reveal">SPECIAL OFFERS</p>
+        <h1 class="hero-title reveal">特惠臻选</h1>
+        <p class="hero-subtitle reveal">限时特惠 · 品质不减<br />以心动价格，把温暖带回家</p>
+      </div>
+    </section>
+
+    <!-- ============ 产品列表 ============ -->
+    <section class="products section" id="series">
+      <div class="container">
+        <div class="products-head">
+          <div class="block-head block-head--tabs reveal">
+            <h2 class="block-title">特惠臻选系列</h2>
+            <span class="product-count" id="productCount"></span>
+          </div>
+          <div class="product-tabs reveal" role="tablist" aria-label="产品分类">
+            <a href="index.html#series" class="tab-btn">全部</a>
+            <a href="premium.html" class="tab-btn active" aria-selected="true">特惠臻选</a>
+            <a href="luxury.html" class="tab-btn">尊奢系列</a>
+            <a href="trendy.html" class="tab-btn">焕新系列</a>
+            <a href="index.html#series" class="tab-btn" data-filter-hot>热销</a>
+          </div>
+        </div>
+
+        <div class="product-grid">
+          <!-- 珊瑚橘 沙发套装 -->
+          <article class="product-card reveal" data-category="premium" data-tag="hot">
+            <figure class="product-media">
+              <img src="assets/images/7b7a6a98f42e5a8009453d08a27f0f70.jpg" alt="珊瑚橘灯芯绒沙发毯三件套" loading="lazy" />
+              <span class="product-badge">热销</span>
+            </figure>
+            <div class="product-info">
+              <h3>珊瑚橘 · 灯芯绒沙发毯三件套</h3>
+              <p>珊瑚橘灯芯绒 × 纯白长毛绒，复古温暖的秋冬质感</p>
+              <div class="price-row">
+                <span class="price-now">¥399</span>
+                <span class="price-was">¥599</span>
+                <span class="price-save">省¥200</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- 雾蓝条纹 套装 -->
+          <article class="product-card reveal" data-category="premium">
+            <figure class="product-media">
+              <img src="assets/images/c0ead5cd95a6c9336d5dd6591aa3c214.png" alt="雾霾蓝条纹沙发毯套装" loading="lazy" />
+            </figure>
+            <div class="product-info">
+              <h3>雾蓝 · 条纹沙发毯套装</h3>
+              <p>灰蓝细条纹 × 长毛绒，沉静安宁的高级灰调</p>
+              <div class="price-row">
+                <span class="price-now">¥429</span>
+                <span class="price-was">¥649</span>
+                <span class="price-save">省¥220</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- 米白条纹 套装 -->
+          <article class="product-card reveal" data-category="premium">
+            <figure class="product-media">
+              <img src="assets/images/f78757878e589556a1be30fbf84181d2.jpg" alt="奶油白条纹沙发毯套装" loading="lazy" />
+            </figure>
+            <div class="product-info">
+              <h3>奶油白 · 格调沙发毯套装</h3>
+              <p>奶油灯芯绒 × 纯白绒毯，暖白调唤醒冬日松弛</p>
+              <div class="price-row">
+                <span class="price-now">¥399</span>
+                <span class="price-was">¥599</span>
+                <span class="price-save">省¥200</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- 更多特惠产品可在此添加 -->
+        </div>
+        <p class="no-results" id="noResults" hidden>未找到匹配的产品，试试其他关键词？</p>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </section>
+
+    <!-- ============ 特惠说明 ============ -->
+    <section class="section section-tint">
+      <div class="container">
+        <div class="block-head reveal">
+          <h2 class="block-title">为什么选择特惠臻选</h2>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <h3>品质保证</h3>
+            <p>所有特惠商品均与正价商品享受同等品质标准，臻选材质，匠心织造。</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <h3>限时特惠</h3>
+            <p>每款特惠商品数量有限，售完即止，抓住机会为家添置一抹温暖。</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </div>
+            <h3>售后无忧</h3>
+            <p>特惠商品同样享受完善的售后服务，7天无理由退换，让您安心选购。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ 页脚 ============ -->
+  <footer class="site-footer" id="contact">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <h4>COMPANY</h4>
+        <div class="footer-contact">
+          <p><strong>NINGBO HEILIGS I&E CO.,LTD.</strong></p>
+          <p>宁波赫力格斯进出口有限公司</p>
+          <p>General Manager: Pier Lin 林杰</p>
+          <p>NO:.318/313 CIGU E-COMMERCIAL PARK,<br />CICHENG, NINGBO 315031, CHINA</p>
+          <p>宁波市江北区慈城慈谷电商园318/313号</p>
+          <p>PHONE: <a href="tel:+8613777942972">+86-13777942972</a></p>
+          <p>邮箱：<a href="mailto:pierlin@vip.163.com">pierlin@vip.163.com</a></p>
+        </div>
+      </div>
+      <div class="footer-brand">
+        <h4>COMPANY</h4>
+        <div class="footer-contact">
+          <p><strong>NINGBO SWEETY HOME CO.,LTD.</strong></p>
+          <p>宁波思唯家居有限公司</p>
+          <p>General Manager: Pier Lin 林杰</p>
+          <p>NO:.318/313 CIGU E-COMMERCIAL PARK,<br />CICHENG, NINGBO 315031, CHINA</p>
+          <p>宁波市江北区慈城慈谷电商园318/313号</p>
+          <p>PHONE: <a href="tel:+8613777942972">+86-13777942972</a></p>
+          <p>邮箱：<a href="mailto:pierlin@vip.163.com">pierlin@vip.163.com</a></p>
+        </div>
+      </div>
+      <nav class="footer-col" aria-label="产品系列">
+        <h4>产品系列</h4>
+        <ul>
+          <li><a href="bedding.html">BEDDING</a></li>
+          <li><a href="rugs.html">MATS</a></li>
+          <li><a href="pet.html">PET</a></li>
+          <li><a href="wares.html">SUNDRIES</a></li>
+          <li><a href="curtains.html">CURTAINS</a></li>
+          <li><a href="outdoor.html">OUTDOOR</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="关于赫力格斯">
+        <h4>关于赫力格斯</h4>
+        <ul>
+          <li><a href="index.html#lifestyle">灵感与趋势</a></li>
+          <li><a href="index.html#series">在线选购</a></li>
+          <li><a href="contact.html">联系我们</a></li>
+          <li><a href="exhibitions.html">最近参展</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-alert">
+      <div class="container">
+        <p>⚠ IF ANYONE INFORM YOU TO CHANGE OUR PAYMENT ACCOUNT, PLEASE CALL <a href="tel:+8613777942972">+86-13777942972</a> WITHOUT DELAY.</p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p class="footer-legal">© 2026 NINGBO HEILIGS I&E CO.,LTD. · 宁波赫力格斯进出口有限公司 · 浙ICP备2026000000号</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js?v=20261017"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html><html><head><script>
+window.addEventListener('load', function(){
+  setTimeout(function(){
+    var wish = document.querySelector('#wishlistBtn').getBoundingClientRect();
+    var grp = document.querySelector('.top-nav-right-group').getBoundingClientRect();
+    var rot = document.querySelectorAll('.top-nav-right-group .top-rotator');
+    var last = rot[rot.length-1].getBoundingClientRect();
+    var lastItems = rot[rot.length-1].querySelectorAll('.top-rotator-item');
+    var itemRects = Array.from(lastItems).map(function(i){return i.getBoundingClientRect();});
+    var tn = document.querySelector('.top-nav-inner').getBoundingClientRect();
+    var hi = document.querySelector('.header-inner').getBoundingClientRect();
+    var ht = document.querySelector('.header-tools').getBoundingClientRect();
+    var out = {
+      wish_right: wish.right,
+      grp_right: grp.right,
+      last_rot_right: last.right,
+      last_rot_width: last.width,
+      itemRects: itemRects.map(function(r){return {right:r.right, width:r.width, text:r.width>0?'hasContent':'empty'};}),
+      top_nav_inner_right: tn.right,
+      header_inner_right: hi.right,
+      header_tools_right: ht.right,
+      wish_minus_grp: wish.right - grp.right,
+      wish_minus_last_rot: wish.right - last.right,
+      header_inner_minus_top_nav: hi.right - tn.right,
+      viewportWidth: window.innerWidth
+    };
+    document.title = 'EVAL_DONE:' + JSON.stringify(out);
+  }, 500);
+});
+</script></head><body>
+<iframe src="file:///C:/Users/12585/Desktop/独立站/sy/index.html" style="width:1440px;height:800px;border:0;"></iframe>
+</body></html>

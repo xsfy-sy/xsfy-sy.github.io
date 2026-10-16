@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="联系HEILIGS PIER——电话、邮箱、地址，欢迎咨询合作，预约门店体验。" />
+  <title>HEILIGS PIER</title>
+  <script>document.documentElement.classList.add("js");</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至主要内容</a>
+
+  <!-- ============ 顶部导航条 ============ -->
+  <nav class="top-nav" id="topNav" aria-label="快捷导航">
+    <div class="container top-nav-inner">
+      <a href="index.html" class="top-nav-brand-left">
+        <img src="images/heiligs-pier-logo.png" alt="HEILIGS PIER" class="top-nav-logo-left top-nav-logo-a" />
+        <img src="images/heiligs-pier-logo.png" alt="HEILIGS PIER" class="top-nav-logo-left top-nav-logo-b" />
+      </a>
+      <div class="top-nav-right-group">
+        <a href="contact.html" class="top-rotator" style="text-decoration:none;color:inherit">
+          <span class="top-rotator-item">NINGBO HEILIGS I&E CO.,LTD.</span>
+          <span class="top-rotator-item">NINGBO SWEETY HOME CO.,LTD.</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ 顶部导航 ============ -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <div class="header-left">
+        <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
+          <span class="nav-toggle-icon"><span></span><span></span><span></span></span>
+          <span class="nav-toggle-label">Menu</span>
+        </button>
+      </div>
+
+      <nav class="main-nav" aria-label="主导航">
+        <ul>
+          <li><a href="index.html" class="nav-link">HOME</a></li>
+          <li class="has-sub">
+            <a href="bedding.html" class="nav-link">BEDDING</a>
+            <ul class="nav-sub">
+              <li><a href="bedding-blanket.html" class="nav-sub-link">blanket</a></li>
+              <li><a href="bedding-cushion.html" class="nav-sub-link">Cushion</a></li>
+              <li><a href="bedding-mattress-protector.html" class="nav-sub-link">Mattress protector</a></li>
+              <li><a href="bedding-duvet-cover-pillowcase-set.html" class="nav-sub-link">Duvet Cover & Pillowcase Set</a></li>
+            </ul>
+          </li>
+          <li><a href="rugs.html" class="nav-link">MATS</a></li>
+          <li><a href="pet.html" class="nav-link">PET</a></li>
+          <li><a href="wares.html" class="nav-link">SUNDRIES</a></li>
+          <li class="has-sub">
+            <a href="curtains.html" class="nav-link">CURTAINS</a>
+            <ul class="nav-sub">
+              <li><a href="curtains-grommet.html" class="nav-sub-link">Grommet Curtains</a></li>
+              <li><a href="curtains-track.html" class="nav-sub-link">Track Curtains</a></li>
+            </ul>
+          </li>
+          <li><a href="outdoor.html" class="nav-link">OUTDOOR</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-tools">
+        <form class="search-box header-search" role="search" id="productSearch" onsubmit="return false">
+          <button type="submit" class="search-icon-btn" aria-label="搜索">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+              <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+          <input type="search" class="search-input" placeholder="What do you seek?" aria-label="搜索产品" id="searchInput" autocomplete="off" />
+        </form>
+        <button type="button" class="nav-toggle wishlist-toggle" id="wishlistBtn" aria-label="心愿清单" title="我的心愿清单">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="none" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+          <span class="nav-toggle-label">WISH</span>
+          <span class="icon-badge" id="wishlistCount">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 心愿清单面板 -->
+    <div class="menu-backdrop" id="wishlistBackdrop"></div>
+    <aside class="drawer-menu wishlist-panel" id="wishlistPanel" hidden aria-label="心愿清单">
+      <div class="drawer-head">
+        <span class="drawer-title">心愿清单</span>
+        <button class="drawer-close" id="wishlistClose" aria-label="关闭" type="button">✕</button>
+      </div>
+      <div class="wishlist-body" id="wishlistBody">
+        <p class="wishlist-empty" id="wishlistEmpty">还没有收藏任何商品<br />点击商品上的 ♡ 加入心愿清单</p>
+        <div class="wishlist-items" id="wishlistItems"></div>
+        <div class="wishlist-inquire" id="wishlistInquire" style="display:none;">
+          <div class="wishlist-inquire-divider"></div>
+          <h3 class="wishlist-inquire-title">发送询价</h3>
+          <p class="wishlist-inquire-desc">填写以下信息，我们将尽快为您提供报价</p>
+          <form class="wishlist-inquire-form" id="inquireForm" onsubmit="return false">
+            <div class="inquire-row">
+              <input type="text" class="inquire-input" id="inquireName" placeholder="姓名 / Name" required />
+              <input type="text" class="inquire-input" id="inquireCompany" placeholder="公司 / Company" />
+            </div>
+            <div class="inquire-row">
+              <input type="email" class="inquire-input" id="inquireEmail" placeholder="邮箱 / Email" required />
+              <input type="tel" class="inquire-input" id="inquirePhone" placeholder="电话 / Phone" />
+            </div>
+            <textarea class="inquire-textarea" id="inquireMessage" placeholder="留言 / Message（选填）" rows="3"></textarea>
+            <div class="inquire-summary" id="inquireSummary"></div>
+            <button type="button" class="btn btn-solid inquire-submit" id="inquireSubmit">发送询价 / Send Inquiry</button>
+          </form>
+          <div class="inquire-success" id="inquireSuccess" style="display:none;">
+            <p>询价已发送成功，我们将尽快回复您的询价。</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 侧滑抽屉菜单 -->
+    <div class="menu-backdrop" id="menuBackdrop"></div>
+    <aside class="drawer-menu" id="mobileMenu" hidden aria-label="导航菜单">
+      <div class="drawer-head">
+        <span class="drawer-title">MENU</span>
+        <button class="drawer-close" id="drawerClose" aria-label="关闭菜单" type="button">✕</button>
+      </div>
+      <form class="search-box search-box-mobile" role="search" id="productSearchMobile" onsubmit="return false">
+        <button type="submit" class="search-icon-btn" aria-label="搜索">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+        <input type="search" class="search-input" placeholder="what do you seek?" aria-label="搜索产品" id="searchInputMobile" autocomplete="off" />
+      </form>
+      <nav class="drawer-nav" aria-label="主导航">
+          <ul>
+          <li class="has-sub">
+            <a href="bedding.html">BEDDING</a>
+            <ul class="drawer-sub">
+              <li><a href="bedding-blanket.html">blanket 毯子</a></li>
+              <li><a href="bedding-cushion.html">Cushion 靠垫</a></li>
+              <li><a href="bedding-mattress-protector.html">Mattress protector 床垫保护垫</a></li>
+              <li><a href="bedding-duvet-cover-pillowcase-set.html">Duvet Cover & Pillowcase Set 被套枕套</a></li>
+            </ul>
+          </li>
+          <li><a href="rugs.html">MATS</a></li>
+          <li><a href="pet.html">PET</a></li>
+          <li><a href="wares.html">SUNDRIES</a></li>
+          <li class="has-sub">
+            <a href="curtains.html">CURTAINS</a>
+            <ul class="drawer-sub">
+              <li><a href="curtains-grommet.html">Grommet Curtains 穿孔帘</a></li>
+              <li><a href="curtains-track.html">Track Curtains 轨道帘</a></li>
+            </ul>
+          </li>
+          <li><a href="outdoor.html">OUTDOOR</a></li>
+        </ul>
+      </nav>
+      <a href="contact.html" class="btn btn-solid btn-sm drawer-cta">CONTACT US</a>
+    </aside>
+  </header>
+
+  <main id="main">
+    <!-- ============ 页面 Banner ============ -->
+    <section class="page-hero page-hero--contact">
+      <div class="page-hero-scrim"></div>
+      <div class="container page-hero-content">
+        <p class="hero-eyebrow reveal">CONTACT US</p>
+        <h1 class="hero-title reveal">联系我们</h1>
+        <p class="hero-subtitle reveal">期待与您的每一次交流<br />无论是产品咨询还是合作洽谈</p>
+        <div class="hero-cta">
+          <a href="contact.html" class="btn btn-solid">CONTACT US</a>
+          <a href="exhibitions.html" class="btn btn-ghost">EXHIBITIONS</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 联系信息 ============ -->
+    <section class="contact-section section" id="contact-info">
+      <div class="container">
+        <div class="contact-grid contact-grid--wide">
+          <div class="contact-card reveal">
+            <div class="contact-card-head">
+              <svg class="contact-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M3 21V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v16l-4-2-4 2-4-2-4 2z" />
+                <path d="M8 8h8M8 12h8M8 16h5" />
+              </svg>
+              <h3>公司信息</h3>
+            </div>
+            <div class="contact-detail">
+              <p><strong>NINGBO HEILIGS I&E CO.,LTD.</strong></p>
+              <p>宁波赫力格斯进出口有限公司</p>
+              <p>General Manager: Pier Lin 林杰</p>
+              <p>NO:.313 CIGU E-COMMERCIAL PARK,<br />CICHENG, NINGBO 315031, CHINA</p>
+              <p>宁波市江北区慈城慈谷电商园318/313号</p>
+            </div>
+          </div>
+
+          <div class="contact-card reveal">
+            <div class="contact-card-head">
+              <svg class="contact-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+              <h3>联系方式</h3>
+            </div>
+            <button class="contact-nav contact-nav-prev" type="button" aria-label="上一位联系人">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+            </button>
+            <button class="contact-nav contact-nav-next" type="button" aria-label="下一位联系人">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+            </button>
+            <div class="contact-carousel">
+              <div class="contact-slides">
+                <article class="contact-slide is-active">
+                  <p class="contact-name">Pier Lin 林杰</p>
+                  <p class="contact-position">General Manager</p>
+                  <div class="contact-detail">
+                    <p><span class="contact-label">电话</span><br /><a href="tel:+8613777942972" class="contact-phone">+86-13777942972</a></p>
+                    <p><span class="contact-label">邮箱</span><br /><a href="mailto:pierlin@vip.163.com">pierlin@vip.163.com</a></p>
+                  </div>
+                  <div class="contact-actions">
+                    <a href="tel:+8613777942972" class="btn btn-solid btn-sm">立即拨打</a>
+                    <a href="mailto:pierlin@vip.163.com" class="btn btn-outline btn-sm">发送邮件</a>
+                  </div>
+                </article>
+                <article class="contact-slide">
+                  <p class="contact-name">Cherry 陈艳</p>
+                  <p class="contact-position">Development Manager</p>
+                  <div class="contact-detail">
+                    <p><span class="contact-label">电话</span><br /><a href="tel:+8618757410206" class="contact-phone">+86-18757410206</a></p>
+                    <p><span class="contact-label">邮箱</span><br /><a href="mailto:cherry@nbheiligs.com">cherry@nbheiligs.com</a></p>
+                  </div>
+                  <div class="contact-actions">
+                    <a href="tel:+8618757410206" class="btn btn-solid btn-sm">立即拨打</a>
+                    <a href="mailto:cherry@nbheiligs.com" class="btn btn-outline btn-sm">发送邮件</a>
+                  </div>
+                </article>
+                <article class="contact-slide">
+                  <p class="contact-name">Jessica 胡必超</p>
+                  <p class="contact-position">Development Manager</p>
+                  <div class="contact-detail">
+                    <p><span class="contact-label">电话</span><br /><a href="tel:+8615058016856" class="contact-phone">+86-15058016856</a></p>
+                    <p><span class="contact-label">邮箱</span><br /><a href="mailto:jessica@nbheiligs.com">jessica@nbheiligs.com</a></p>
+                  </div>
+                  <div class="contact-actions">
+                    <a href="tel:+8615058016856" class="btn btn-solid btn-sm">立即拨打</a>
+                    <a href="mailto:jessica@nbheiligs.com" class="btn btn-outline btn-sm">发送邮件</a>
+                  </div>
+                </article>
+                <article class="contact-slide">
+                  <p class="contact-name">Helena 应腾莲</p>
+                  <p class="contact-position">Development Manager</p>
+                  <div class="contact-detail">
+                    <p><span class="contact-label">电话</span><br /><a href="tel:+8617815934595" class="contact-phone">+86-17815934595</a></p>
+                    <p><span class="contact-label">邮箱</span><br /><a href="mailto:helena@nbheiligs.com">helena@nbheiligs.com</a></p>
+                  </div>
+                  <div class="contact-actions">
+                    <a href="tel:+8617815934595" class="btn btn-solid btn-sm">立即拨打</a>
+                    <a href="mailto:helena@nbheiligs.com" class="btn btn-outline btn-sm">发送邮件</a>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-card reveal">
+            <div class="contact-card-head">
+              <svg class="contact-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="12" cy="10" r="3" />
+                <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z" />
+              </svg>
+              <h3>工作时间</h3>
+            </div>
+            <div class="contact-detail">
+              <p><span class="contact-label">周一至周五</span><br />09:00 - 18:00</p>
+              <p><span class="contact-label">周六</span><br />10:00 - 16:00</p>
+              <p><span class="contact-label">周日及法定节假日</span><br />休息</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-warning reveal">
+          <p>⚠ IF ANYONE INFORM YOU TO CHANGE OUR PAYMENT ACCOUNT, PLEASE CALL <a href="tel:+8613777942972">+86-13777942972</a> WITHOUT DELAY.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 在线留言 ============ -->
+    <section class="section section-tint">
+      <div class="container">
+        <div class="block-head reveal">
+          <h2 class="block-title">在线留言</h2>
+          <p class="block-desc">填写以下表单，我们将尽快与您联系</p>
+        </div>
+        <form class="contact-form reveal" onsubmit="event.preventDefault(); alert('感谢您的留言，我们将尽快与您联系！');">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">姓名 *</label>
+              <input type="text" id="name" name="name" required placeholder="请输入您的姓名" />
+            </div>
+            <div class="form-group">
+              <label for="phone">电话 *</label>
+              <input type="tel" id="phone" name="phone" required placeholder="请输入您的联系电话" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">邮箱</label>
+              <input type="email" id="email" name="email" placeholder="请输入您的邮箱地址" />
+            </div>
+            <div class="form-group">
+              <label for="subject">咨询类型</label>
+              <select id="subject" name="subject">
+                <option value="">请选择咨询类型</option>
+                <option value="product">产品咨询</option>
+                <option value="order">订单查询</option>
+                <option value="wholesale">批发合作</option>
+                <option value="other">其他</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="message">留言内容 *</label>
+            <textarea id="message" name="message" rows="5" required placeholder="请描述您的需求或问题..."></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-solid">提交留言</button>
+            <button type="reset" class="btn btn-outline">重置</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============ 常见问题 ============ -->
+    <section class="section">
+      <div class="container">
+        <div class="block-head reveal">
+          <h2 class="block-title">常见问题</h2>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item reveal">
+            <summary>如何下单购买？</summary>
+            <div class="faq-content">
+              <p>您可以通过我们的官网在线选购，也可以拨打客服热线 +86-13777942972 进行电话订购。批发合作请直接联系总经理 Pier Lin。</p>
+            </div>
+          </details>
+          <details class="faq-item reveal">
+            <summary>配送范围和时间是怎样的？</summary>
+            <div class="faq-content">
+              <p>我们支持全国配送，一般订单在3-5个工作日内发货，偏远地区可能需要5-7个工作日。具体配送时间以实际物流为准。</p>
+            </div>
+          </details>
+          <details class="faq-item reveal">
+            <summary>支持退换货吗？</summary>
+            <div class="faq-content">
+              <p>支持7天无理由退换货（不影响二次销售）。如有质量问题，我们承担往返运费；非质量问题退换货，运费由买家承担。</p>
+            </div>
+          </details>
+          <details class="faq-item reveal">
+            <summary>如何保养家纺产品？</summary>
+            <div class="faq-content">
+              <p>建议温水手洗或轻柔机洗，避免长时间暴晒，平铺阴干为佳。不同材质的产品保养方式略有不同，具体请参考产品吊牌说明。</p>
+            </div>
+          </details>
+          <details class="faq-item reveal">
+            <summary>可以定制产品吗？</summary>
+            <div class="faq-content">
+              <p>支持批量定制服务，包括定制尺寸、颜色、印花图案等。具体定制需求请联系我们的客户经理详谈。</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ 页脚 ============ -->
+  <footer class="site-footer" id="contact">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <h4>COMPANY</h4>
+        <div class="footer-contact">
+          <p><strong>NINGBO HEILIGS I&E CO.,LTD.</strong></p>
+          <p>宁波赫力格斯进出口有限公司</p>
+          <p>General Manager: Pier Lin 林杰</p>
+          <p>NO:.318/313 CIGU E-COMMERCIAL PARK,<br />CICHENG, NINGBO 315031, CHINA</p>
+          <p>宁波市江北区慈城慈谷电商园318/313号</p>
+          <p>PHONE: <a href="tel:+8613777942972">+86-13777942972</a></p>
+          <p>邮箱：<a href="mailto:pierlin@vip.163.com">pierlin@vip.163.com</a></p>
+        </div>
+      </div>
+      <div class="footer-brand">
+        <h4>COMPANY</h4>
+        <div class="footer-contact">
+          <p><strong>NINGBO SWEETY HOME CO.,LTD.</strong></p>
+          <p>宁波思唯家居有限公司</p>
+          <p>General Manager: Pier Lin 林杰</p>
+          <p>NO:.318/313 CIGU E-COMMERCIAL PARK,<br />CICHENG, NINGBO 315031, CHINA</p>
+          <p>宁波市江北区慈城慈谷电商园318/313号</p>
+          <p>PHONE: <a href="tel:+8613777942972">+86-13777942972</a></p>
+          <p>邮箱：<a href="mailto:pierlin@vip.163.com">pierlin@vip.163.com</a></p>
+        </div>
+      </div>
+      <nav class="footer-col" aria-label="产品系列">
+        <h4>产品系列</h4>
+        <ul>
+          <li><a href="bedding.html">BEDDING</a></li>
+          <li><a href="rugs.html">MATS</a></li>
+          <li><a href="pet.html">PET</a></li>
+          <li><a href="wares.html">SUNDRIES</a></li>
+          <li><a href="curtains.html">CURTAINS</a></li>
+          <li><a href="outdoor.html">OUTDOOR</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="关于赫力格斯">
+        <h4>关于赫力格斯</h4>
+        <ul>
+          <li><a href="index.html#lifestyle">灵感与趋势</a></li>
+          <li><a href="index.html#series">在线选购</a></li>
+          <li><a href="contact.html">联系我们</a></li>
+          <li><a href="exhibitions.html">最近参展</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-alert">
+      <div class="container">
+        <p>⚠ IF ANYONE INFORM YOU TO CHANGE OUR PAYMENT ACCOUNT, PLEASE CALL <a href="tel:+8613777942972">+86-13777942972</a> WITHOUT DELAY.</p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p class="footer-legal">© 2026 NINGBO HEILIGS I&E CO.,LTD. · 宁波赫力格斯进出口有限公司 · 浙ICP备2026000000号</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js?v=20261017"></script>
+  <script>
+    (function () {
+      var carousel = document.querySelector('.contact-carousel');
+      var prevBtn = document.querySelector('.contact-nav-prev');
+      var nextBtn = document.querySelector('.contact-nav-next');
+      var slides = document.querySelectorAll('.contact-slide');
+      if (!carousel || !slides.length) return;
+
+      var current = 0;
+      var total = slides.length;
+      var track = carousel.querySelector('.contact-slides');
+
+      function update() {
+        track.style.transform = 'translateX(' + (-current * 100) + '%)';
+      }
+
+      function goNext() {
+        if (current === total - 1) {
+          track.style.transition = 'none';
+          current = 0;
+          update();
+          void track.offsetHeight;
+          track.style.transition = '';
+        } else {
+          current++;
+          update();
+        }
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', goNext);
+      if (nextBtn) nextBtn.addEventListener('click', goNext);
+
+      update();
+
+      var timer = setInterval(goNext, 3000);
+      var card = carousel.closest('.contact-card');
+      if (card) {
+        card.addEventListener('mouseenter', function () { clearInterval(timer); });
+        card.addEventListener('mouseleave', function () { timer = setInterval(goNext, 3000); });
+      }
+    })();
+  </script>
+</body>
+</html>

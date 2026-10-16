@@ -1,0 +1,259 @@
+/**
+ * 产品数据库管理（IndexedDB）
+ * 支持产品的增删改查，图片以 base64 存储
+ */
+(function (global) {
+  var DB_NAME = "heiligs_products";
+  var DB_VERSION = 1;
+  var STORE_NAME = "products";
+  var db = null;
+  var migrated = false;
+
+  // 旧数据分类修正表：早期版本只保存主分类（如 bedding），
+  // 导致细分类页面（如 bedding-blanket）查不到这些产品。
+  // 按产品名称归入对应的细分类（合并式分类值）。
+  var LEGACY_CATEGORY_MAP = {
+    "BEDDING-Blanket": "bedding-blanket",
+    "BEDDING-Cushion": "bedding-cushion",
+    "BEDDING-Mattress protector": "bedding-mattress-protector",
+    "BEDDING-Duvet Cover & Pillowcase Set": "bedding-duvet-cover-pillowcase-set",
+    "Grommet Curtains": "curtains-grommet",
+    "Track Curtains": "curtains-track"
+  };
+
+  // 按标题归类（大小写、首尾空格不敏感），由上面的映射表派生。
+  // 查询时兜底使用：只要产品标题是 BEDDING-Blanket，就一定会出现在
+  // BEDDING-Blanket 分类页面，不受数据库里存的主分类影响。
+  var NAME_TO_CATEGORY = (function () {
+    var map = {};
+    Object.keys(LEGACY_CATEGORY_MAP).forEach(function (label) {
+      map[label.trim().toLowerCase()] = LEGACY_CATEGORY_MAP[label];
+    });
+    return map;
+  })();
+
+  // 产品的实际归类：优先按标题识别，其次用存储的 category
+  function effectiveCategory(p) {
+    var byName = NAME_TO_CATEGORY[String(p.name || "").trim().toLowerCase()];
+    return byName || p.category || "";
+  }
+
+  // 把存量产品从主分类（bedding / curtains）归位到细分类
+  function migrateLegacyCategories() {
+    return new Promise(function (resolve) {
+      var tx = db.transaction(STORE_NAME, "readwrite");
+      var store = tx.objectStore(STORE_NAME);
+      var req = store.getAll();
+      req.onsuccess = function () {
+        (req.result || []).forEach(function (p) {
+          var fixed = NAME_TO_CATEGORY[String(p.name || "").trim().toLowerCase()];
+          // 仅当当前分类是修正值的上级（如 bedding → bedding-blanket）时才改写
+          if (fixed && fixed.indexOf((p.category || "") + "-") === 0) {
+            p.category = fixed;
+            store.put(p);
+          }
+        });
+      };
+      tx.oncomplete = function () { resolve(); };
+      tx.onerror = function () { resolve(); };
+      tx.onabort = function () { resolve(); };
+    });
+  }
+
+  function openDB() {
+    return new Promise(function (resolve, reject) {
+      var req = indexedDB.open(DB_NAME, DB_VERSION);
+      req.onupgradeneeded = function (e) {
+        var database = e.target.result;
+        if (!database.objectStoreNames.contains(STORE_NAME)) {
+          var store = database.createObjectStore(STORE_NAME, { keyPath: "id" });
+          store.createIndex("category", "category", { unique: false });
+        }
+      };
+      req.onsuccess = function (e) {
+        db = e.target.result;
+        if (migrated) { resolve(db); return; }
+        migrated = true;
+        migrateLegacyCategories().then(function () { resolve(db); });
+      };
+      req.onerror = function (e) {
+        reject(e.target.error);
+      };
+    });
+  }
+
+  function getAll() {
+    return openDB().then(function () {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(STORE_NAME, "readonly");
+        var store = tx.objectStore(STORE_NAME);
+        var req = store.getAll();
+        req.onsuccess = function () {
+          var list = req.result || [];
+          // 最新上传的排在最前，保证新品在分类页第一个就能看到
+          list.sort(function (a, b) {
+            return (b.createdAt || 0) - (a.createdAt || 0);
+          });
+          resolve(list);
+        };
+        req.onerror = function () {
+          reject(req.error);
+        };
+      });
+    });
+  }
+
+  /* 按产品 id 精确查询单条记录（用于心愿清单报价表补全规格） */
+  function getById(id) {
+    return openDB().then(function () {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(STORE_NAME, "readonly");
+        var store = tx.objectStore(STORE_NAME);
+        var req = store.get(id);
+        req.onsuccess = function () {
+          resolve(req.result || null);
+        };
+        req.onerror = function () {
+          reject(req.error);
+        };
+      });
+    });
+  }
+
+  function getByCategory(category) {
+    return getAll().then(function (products) {
+      return products.filter(function (p) {
+        return effectiveCategory(p) === category;
+      });
+    });
+  }
+
+  /**
+   * 按分类前缀查询（用于"全部"页面展示所有子分类）
+   * 例如 getByCategoryPrefix('bedding') 会返回 category 为
+   * 'bedding'、'bedding-blanket'、'bedding-cushion' 等所有产品
+   */
+  function getByCategoryPrefix(prefix) {
+    return getAll().then(function (products) {
+      return products.filter(function (p) {
+        var cat = effectiveCategory(p);
+        return cat === prefix || cat.indexOf(prefix + '-') === 0;
+      });
+    });
+  }
+
+  function add(product) {
+    return openDB().then(function () {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(STORE_NAME, "readwrite");
+        var store = tx.objectStore(STORE_NAME);
+        var req = store.add(product);
+        req.onsuccess = function () {
+          resolve(product);
+        };
+        req.onerror = function () {
+          reject(req.error);
+        };
+      });
+    });
+  }
+
+  function update(product) {
+    return openDB().then(function () {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(STORE_NAME, "readwrite");
+        var store = tx.objectStore(STORE_NAME);
+        var req = store.put(product);
+        req.onsuccess = function () {
+          resolve(product);
+        };
+        req.onerror = function () {
+          reject(req.error);
+        };
+      });
+    });
+  }
+
+  function remove(id) {
+    return openDB().then(function () {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(STORE_NAME, "readwrite");
+        var store = tx.objectStore(STORE_NAME);
+        var req = store.delete(id);
+        req.onsuccess = function () {
+          resolve();
+        };
+        req.onerror = function () {
+          reject(req.error);
+        };
+      });
+    });
+  }
+
+  function clearAll() {
+    return openDB().then(function () {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(STORE_NAME, "readwrite");
+        var store = tx.objectStore(STORE_NAME);
+        var req = store.clear();
+        req.onsuccess = function () {
+          resolve();
+        };
+        req.onerror = function () {
+          reject(req.error);
+        };
+      });
+    });
+  }
+
+  function fileToBase64(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        resolve(reader.result);
+      };
+      reader.onerror = function () {
+        reject(reader.error);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function exportData() {
+    return getAll().then(function (products) {
+      var dataStr = JSON.stringify(products, null, 2);
+      var blob = new Blob([dataStr], { type: "application/json" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "heiligs-products-backup.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  function importData(jsonStr) {
+    var products = JSON.parse(jsonStr);
+    return clearAll().then(function () {
+      var promises = products.map(function (p) {
+        return add(p);
+      });
+      return Promise.all(promises);
+    });
+  }
+
+  global.ProductsDB = {
+    openDB: openDB,
+    getAll: getAll,
+    getById: getById,
+    getByCategory: getByCategory,
+    getByCategoryPrefix: getByCategoryPrefix,
+    add: add,
+    update: update,
+    remove: remove,
+    clearAll: clearAll,
+    fileToBase64: fileToBase64,
+    exportData: exportData,
+    importData: importData,
+  };
+})(window);

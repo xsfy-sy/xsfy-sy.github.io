@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HEILIGS PIER</title>
+  <meta name="description" content="搜索 HEILIGS PIER 产品" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=20261018" />
+  <script>document.documentElement.classList.add("js");</script>
+  <style>
+    .search-results-head {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+    .search-results-head h1 {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 500;
+      color: var(--ink);
+      margin: 0 0 10px;
+      letter-spacing: 0.08em;
+    }
+    .search-results-head p {
+      font-size: 14px;
+      color: var(--taupe);
+      letter-spacing: 0.06em;
+    }
+    .search-results-head .search-keyword {
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .search-back {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--ink-soft);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      transition: color var(--dur) var(--ease);
+    }
+    .search-back:hover { color: var(--gold); }
+    .search-empty {
+      text-align: center;
+      padding: 80px 20px;
+    }
+    .search-empty p {
+      font-size: 16px;
+      color: var(--taupe);
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 顶部导航条 -->
+  <nav class="top-nav" id="topNav" aria-label="快捷导航">
+    <div class="container top-nav-inner">
+      <a href="index.html" class="top-nav-brand-left">
+        <img src="images/heiligs-pier-logo.png" alt="HEILIGS PIER" class="top-nav-logo-left top-nav-logo-a" />
+        <img src="images/heiligs-pier-logo.png" alt="HEILIGS PIER" class="top-nav-logo-left top-nav-logo-b" />
+      </a>
+      <div class="top-nav-right-group">
+        <a href="contact.html" class="top-rotator" style="text-decoration:none;color:inherit">
+          <span class="top-rotator-item">NINGBO HEILIGS I&E CO.,LTD.</span>
+          <span class="top-rotator-item">NINGBO SWEETY HOME CO.,LTD.</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 主导航 -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <div class="header-left">
+        <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
+          <span class="nav-toggle-icon"><span></span><span></span><span></span></span>
+          <span class="nav-toggle-label">Menu</span>
+        </button>
+      </div>
+      <nav class="main-nav" aria-label="主导航">
+        <ul>
+          <li><a href="index.html" class="nav-link">HOME</a></li>
+          <li class="has-sub">
+            <a href="bedding.html" class="nav-link">BEDDING</a>
+            <ul class="nav-sub">
+              <li><a href="bedding-blanket.html" class="nav-sub-link">blanket</a></li>
+              <li><a href="bedding-cushion.html" class="nav-sub-link">Cushion</a></li>
+              <li><a href="bedding-mattress-protector.html" class="nav-sub-link">Mattress protector</a></li>
+              <li><a href="bedding-duvet-cover-pillowcase-set.html" class="nav-sub-link">Duvet Cover & Pillowcase Set</a></li>
+            </ul>
+          </li>
+          <li><a href="rugs.html" class="nav-link">MATS</a></li>
+          <li><a href="pet.html" class="nav-link">PET</a></li>
+          <li><a href="wares.html" class="nav-link">SUNDRIES</a></li>
+          <li class="has-sub">
+            <a href="curtains.html" class="nav-link">CURTAINS</a>
+            <ul class="nav-sub">
+              <li><a href="curtains-grommet.html" class="nav-sub-link">Grommet Curtains</a></li>
+              <li><a href="curtains-track.html" class="nav-sub-link">Track Curtains</a></li>
+            </ul>
+          </li>
+          <li><a href="outdoor.html" class="nav-link">OUTDOOR</a></li>
+        </ul>
+      </nav>
+      <div class="header-tools">
+        <form class="search-box header-search" role="search" id="productSearch" onsubmit="return false">
+          <button type="submit" class="search-icon-btn" aria-label="搜索">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+              <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+          <input type="search" class="search-input" placeholder="What do you seek?" aria-label="搜索产品" id="searchInput" autocomplete="off" />
+        </form>
+        <button type="button" class="nav-toggle wishlist-toggle" id="wishlistBtn" aria-label="心愿清单" title="我的心愿清单">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="none" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+          <span class="nav-toggle-label">WISH</span>
+          <span class="icon-badge" id="wishlistCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 心愿清单面板 -->
+  <div class="menu-backdrop" id="wishlistBackdrop"></div>
+  <aside class="drawer-menu wishlist-panel" id="wishlistPanel" hidden aria-label="心愿清单">
+    <div class="drawer-head">
+      <span class="drawer-title">心愿清单</span>
+      <button class="drawer-close" id="wishlistClose" aria-label="关闭" type="button">✕</button>
+    </div>
+    <div class="wishlist-body" id="wishlistBody">
+      <p class="wishlist-empty" id="wishlistEmpty">还没有收藏任何商品<br />点击产品上的 ♡ 加入心愿清单</p>
+      <div class="wishlist-items" id="wishlistItems"></div>
+      <div class="wishlist-inquire" id="wishlistInquire" style="display:none;">
+        <div class="wishlist-inquire-divider"></div>
+        <h3 class="wishlist-inquire-title">发送询价</h3>
+        <p class="wishlist-inquire-desc">填写以下信息，我们将尽快为您提供报价</p>
+        <form class="wishlist-inquire-form" id="inquireForm" onsubmit="return false">
+          <div class="inquire-row">
+            <input type="text" class="inquire-input" id="inquireName" placeholder="姓名 / Name" required />
+            <input type="text" class="inquire-input" id="inquireCompany" placeholder="公司 / Company" />
+          </div>
+          <div class="inquire-row">
+            <input type="email" class="inquire-input" id="inquireEmail" placeholder="邮箱 / Email" required />
+            <input type="tel" class="inquire-input" id="inquirePhone" placeholder="电话 / Phone" />
+          </div>
+          <textarea class="inquire-textarea" id="inquireMessage" placeholder="留言 / Message（选填）" rows="3"></textarea>
+          <div class="inquire-summary" id="inquireSummary"></div>
+          <button type="button" class="btn btn-solid inquire-submit" id="inquireSubmit">发送询价 / Send Inquiry</button>
+        </form>
+        <div class="inquire-success" id="inquireSuccess" style="display:none;">
+          <p>询价已发送成功，我们将尽快回复您的询价。</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 侧滑抽屉菜单 -->
+  <div class="menu-backdrop" id="menuBackdrop"></div>
+  <aside class="drawer-menu" id="mobileMenu" hidden aria-label="导航菜单">
+    <div class="drawer-head">
+      <span class="drawer-title">MENU</span>
+      <button class="drawer-close" id="drawerClose" aria-label="关闭菜单" type="button">✕</button>
+    </div>
+    <form class="search-box search-box-mobile" role="search" id="productSearchMobile" onsubmit="return false">
+      <button type="submit" class="search-icon-btn" aria-label="搜索">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+          <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <input type="search" class="search-input" placeholder="What do you seek?" aria-label="搜索产品" id="searchInputMobile" autocomplete="off" />
+    </form>
+    <nav class="drawer-nav" aria-label="移动端导航">
+      <a href="index.html">HOME</a>
+      <a href="bedding.html">BEDDING</a>
+      <a href="bedding-blanket.html" class="drawer-sub-flat">blanket</a>
+      <a href="bedding-cushion.html" class="drawer-sub-flat">Cushion</a>
+      <a href="rugs.html">MATS</a>
+      <a href="pet.html">PET</a>
+      <a href="wares.html">SUNDRIES</a>
+      <a href="curtains.html">CURTAINS</a>
+      <a href="curtains-grommet.html" class="drawer-sub-flat">Grommet Curtains</a>
+      <a href="curtains-track.html" class="drawer-sub-flat">Track Curtains</a>
+      <a href="outdoor.html">OUTDOOR</a>
+    </nav>
+  </aside>
+
+  <main id="main">
+    <div class="search-results-head">
+      <h1>搜索结果</h1>
+      <p id="searchSummary">请输入关键词搜索</p>
+      <a href="index.html" class="search-back">← 返回首页</a>
+    </div>
+
+    <section class="products section" id="series">
+      <div class="container">
+        <div class="product-grid" id="productGrid"></div>
+        <div class="search-empty" id="searchEmpty" style="display:none;">
+          <p>未找到匹配的产品，试试其他关键词？</p>
+          <a href="index.html" class="btn btn-solid">返回首页</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3>公司信息</h3>
+          <p>宁波赫力格斯进出口有限公司<br />NINGBO HEILIGS I&E CO.,LTD.</p>
+          <p>宁波思唯家居有限公司<br />NINGBO SWEETY HOME CO.,LTD.</p>
+        </div>
+        <div class="footer-col">
+          <h3>服务与帮助</h3>
+          <ul>
+            <li><a href="contact.html">联系我们</a></li>
+            <li><a href="contact.html#faq">常见问题</a></li>
+            <li><a href="contact.html#message">在线留言</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>产品系列</h3>
+          <ul>
+            <li><a href="bedding.html">BEDDING</a></li>
+            <li><a href="rugs.html">MATS</a></li>
+            <li><a href="pet.html">PET</a></li>
+            <li><a href="wares.html">SUNDRIES</a></li>
+            <li><a href="curtains.html">CURTAINS</a></li>
+            <li><a href="outdoor.html">OUTDOOR</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>关于赫力格斯</h3>
+          <p>一心深耕布艺道，四季织就居家柔。以匠心品质，为您织就温暖生活。</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-warn">
+      <p>⚠ 防诈骗提醒：赫力格斯不会以任何名义要求客户向个人账户转账。如有疑问请拨打官方客服热线确认。</p>
+    </div>
+    <div class="footer-legal">© 2026 NINGBO HEILIGS I&E CO.,LTD. · 宁波赫力格斯进出口有限公司 · 浙ICP备2026000000号</div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+    var products = [
+      { name: "珊瑚橘 · 灯芯绒沙发毯三件套", desc: "珊瑚橘灯芯绒 × 纯白长毛绒，复古温暖的秋冬质感", price: "¥399", was: "¥599", save: "省¥200", badge: "热销", category: "premium", img: "assets/images/7b7a6a98f42e5a8009453d08a27f0f70.jpg", alt: "珊瑚橘灯芯绒沙发毯三件套", link: "premium.html" },
+      { name: "橄榄绿 · 灯芯绒单人椅套装", desc: "低饱和军绿 × 云朵白披毯，自然沉稳的治愈之选", price: "¥459", was: "¥699", save: "省¥240", badge: "新品", category: "trendy", img: "assets/images/52e672c197b81df0488470bcb1d70387.png", alt: "橄榄绿灯芯绒单人椅套装", link: "trendy.html" },
+      { name: "雾蓝 · 条纹沙发毯套装", desc: "灰蓝细条纹 × 长毛绒，沉静安宁的高级灰调", price: "¥429", was: "¥649", save: "省¥220", badge: "", category: "premium", img: "assets/images/c0ead5cd95a6c9336d5dd6591aa3c214.png", alt: "雾霾蓝条纹沙发毯套装", link: "premium.html" },
+      { name: "奶油白 · 格调沙发毯套装", desc: "奶油灯芯绒 × 纯白绒毯，暖白调唤醒冬日松弛", price: "¥399", was: "¥599", save: "省¥200", badge: "", category: "premium", img: "assets/images/f78757878e589556a1be30fbf84181d2.jpg", alt: "奶油白条纹沙发毯套装", link: "premium.html" },
+      { name: "圣诞雪花 · 双面法兰绒盖毯", desc: "雪花印花法兰绒 × 羊羔绒内里，一毯两面皆是温柔", price: "¥299", was: "¥449", save: "省¥150", badge: "冬季限定", category: "luxury", img: "assets/images/e43c209c96a5ad425827cff721f51782.jpg", alt: "圣诞雪花双面法兰绒盖毯", link: "luxury.html" },
+      { name: "北欧松林 · 双面羊羔绒盖毯", desc: "墨绿松影 × 云白绒里，把森林的呼吸带回家", price: "¥329", was: "¥499", save: "省¥170", badge: "", category: "luxury", img: "assets/images/79914e5e6f0078589bd78e7d4aaf69ee.jpg", alt: "北欧松林双面羊羔绒盖毯", link: "luxury.html" },
+      { name: "香槟暖阳 · 双面舒棉绒盖毯", desc: "香槟暖白 × 蓬松绒里，如冬日暖阳般的包裹感", price: "¥349", was: "¥529", save: "省¥180", badge: "", category: "luxury", img: "assets/images/4f88445889fcec21099f26a64269298c.jpg", alt: "香槟暖阳双面舒棉绒盖毯", link: "luxury.html" },
+      { name: "雾粉 · 轻奢沙发毯套装", desc: "柔雾粉绒面 × 米白绒里，温柔慵懒的居家氛围", price: "¥439", was: "¥659", save: "省¥220", badge: "新品", category: "trendy", img: "assets/images/d2c9d54ba74885693a3c7d1cbc513001.jpg", alt: "雾粉轻奢沙发毯套装", link: "trendy.html" },
+      { name: "深海蓝 · 格调盖毯套装", desc: "深邃藏青 × 银灰绒里，沉静内敛的高级质感", price: "¥469", was: "¥699", save: "省¥230", badge: "新品", category: "trendy", img: "assets/images/f64265cfdb2ab2912e9696b08f105de4.jpg", alt: "深海蓝格调盖毯套装", link: "trendy.html" }
+    ];
+
+    var params = new URLSearchParams(window.location.search);
+    var kw = params.get("q") || "";
+    var grid = document.getElementById("productGrid");
+    var summary = document.getElementById("searchSummary");
+    var empty = document.getElementById("searchEmpty");
+
+    function render(keyword) {
+      var k = keyword.trim().toLowerCase();
+      grid.innerHTML = "";
+      var results = [];
+      if (k) {
+        results = products.filter(function (p) {
+          var hay = (p.name + " " + p.desc + " " + p.badge + " " + p.alt).toLowerCase();
+          return hay.indexOf(k) !== -1;
+        });
+        summary.innerHTML = '关键词「<span class="search-keyword">' + keyword + '</span>」共找到 ' + results.length + ' 个产品';
+      } else {
+        results = products;
+        summary.textContent = "全部产品 (" + results.length + ")";
+      }
+
+      if (results.length === 0) {
+        empty.style.display = "block";
+        grid.style.display = "none";
+        return;
+      }
+      empty.style.display = "none";
+      grid.style.display = "";
+
+      results.forEach(function (p) {
+        var card = document.createElement("article");
+        card.className = "product-card reveal visible";
+        var badgeHtml = p.badge ? '<span class="product-badge">' + p.badge + '</span>' : '';
+        card.innerHTML =
+          '<figure class="product-media">' +
+            '<img src="' + p.img + '" alt="' + p.alt + '" loading="lazy" />' +
+            badgeHtml +
+          '</figure>' +
+          '<div class="product-info">' +
+            '<h3>' + p.name + '</h3>' +
+            '<p>' + p.desc + '</p>' +
+            '<div class="price-row">' +
+              '<span class="price-now">' + p.price + '</span>' +
+              '<span class="price-was">' + p.was + '</span>' +
+              '<span class="price-save">' + p.save + '</span>' +
+            '</div>' +
+          '</div>';
+        grid.appendChild(card);
+      });
+    }
+
+    render(kw);
+
+    var searchInput = document.getElementById("searchInput");
+    if (searchInput) {
+      searchInput.value = kw;
+      searchInput.addEventListener("input", function () {
+        var val = searchInput.value;
+        var newUrl = window.location.pathname + "?q=" + encodeURIComponent(val);
+        history.replaceState(null, "", newUrl);
+        render(val);
+      });
+      searchInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") e.preventDefault();
+      });
+    }
+
+    var header = document.getElementById("siteHeader");
+    function onScrollHeader() {
+      if (!header) return;
+      if (window.scrollY > 12) header.classList.add("scrolled");
+      else header.classList.remove("scrolled");
+    }
+    window.addEventListener("scroll", onScrollHeader, { passive: true });
+    onScrollHeader();
+
+    var navToggle = document.getElementById("navToggle");
+    var mobileMenu = document.getElementById("mobileMenu");
+    var menuBackdrop = document.getElementById("menuBackdrop");
+    var drawerClose = document.getElementById("drawerClose");
+
+    function setMenu(open) {
+      if (!navToggle || !mobileMenu) return;
+      navToggle.setAttribute("aria-expanded", String(open));
+      if (open) {
+        mobileMenu.hidden = false;
+        requestAnimationFrame(function () { mobileMenu.classList.add("open"); if (menuBackdrop) menuBackdrop.classList.add("open"); });
+        document.body.style.overflow = "hidden";
+      } else {
+        mobileMenu.classList.remove("open");
+        if (menuBackdrop) menuBackdrop.classList.remove("open");
+        document.body.style.overflow = "";
+        setTimeout(function () { mobileMenu.hidden = true; }, 420);
+      }
+    }
+    if (navToggle && mobileMenu) {
+      navToggle.addEventListener("click", function () { setMenu(navToggle.getAttribute("aria-expanded") !== "true"); });
+      if (drawerClose) drawerClose.addEventListener("click", function () { setMenu(false); });
+      if (menuBackdrop) menuBackdrop.addEventListener("click", function () { setMenu(false); });
+    }
+  })();
+  </script>
+  <script src="js/main.js?v=20261017"></script>
+</body>
+</html>
