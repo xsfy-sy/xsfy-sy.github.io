@@ -557,6 +557,13 @@
 
         <div class="form-group">
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" id="newlyLaunchedCheck" style="width:16px;height:16px;cursor:pointer;" />
+            <span>加入最新上架（NEWLY LAUNCHED）</span>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
             <input type="checkbox" id="bestsellerCheck" style="width:16px;height:16px;cursor:pointer;" />
             <span>加入畅销系列（Bestselling Collections）</span>
           </label>
@@ -640,7 +647,7 @@
     </div>
   </div>
 
-  <script src="js/products-db.js?v=20261034"></script>
+  <script src="js/products-db.js?v=20261035"></script>
   <script src="js/messages-db.js?v=20261028"></script>
   <script>
     var currentImages = [];
@@ -884,6 +891,7 @@
       var desc = document.getElementById('productDesc').value.trim();
 
       var isBestseller = document.getElementById('bestsellerCheck').checked;
+      var isNewlyLaunched = document.getElementById('newlyLaunchedCheck').checked;
       var product = {
         id: editingId || (category + '-' + Date.now()),
         category: category,
@@ -898,6 +906,7 @@
         moq: document.getElementById('productMoq').value.trim(),
         images: currentImages,
         bestseller: isBestseller,
+        newlyLaunched: isNewlyLaunched,
         createdAt: Date.now()
       };
 
@@ -935,6 +944,7 @@
       document.getElementById('productPackaging').value = '';
       document.getElementById('productMoq').value = '';
       document.getElementById('bestsellerCheck').checked = false;
+      document.getElementById('newlyLaunchedCheck').checked = false;
       currentImages = [];
       editingId = null;
       editIdEl.value = '';
@@ -955,6 +965,7 @@
       document.getElementById('productPackaging').value = '';
       document.getElementById('productMoq').value = '';
       document.getElementById('bestsellerCheck').checked = false;
+      document.getElementById('newlyLaunchedCheck').checked = false;
       currentImages = [];
       editingId = null;
       editIdEl.value = '';
@@ -1038,8 +1049,8 @@
       // 主分类过滤：匹配主分类值或主分类前缀
       if (catFilter) {
         if (catFilter === 'latest') {
-          // 最新上架：按 createdAt 降序取最新 20 条
-          filtered = filtered.slice().sort(function(a,b){ return (b.createdAt||0)-(a.createdAt||0); }).slice(0, 20);
+          // 最新上架：仅显示后台勾选了"加入最新上架"的全部产品
+          filtered = filtered.filter(function(p) { return p.newlyLaunched === true; });
         } else if (catFilter === 'bestsellers') {
           // 畅销系列：带 bestseller 标记的全部
           filtered = filtered.filter(function(p) { return p.bestseller === true; });
@@ -1096,7 +1107,7 @@
       // 当前视图下按钮的文字与行为说明
       var actionLabel = allowDelete ? '删除' :
           (catFilter === 'bestsellers' ? '移出畅销' :
-           catFilter === 'latest' ? '移出精选' : '移出分类');
+           catFilter === 'latest' ? '移出最新上架' : '移出分类');
 
       var categoryNames = {
         bedding: 'BEDDING', 'bedding-blanket': 'BEDDING / blanket', 'bedding-cushion': 'BEDDING / cushion',
@@ -1113,6 +1124,7 @@
         html += '<div class="thumb">' + (thumb ? '<img src="' + thumb + '" alt="">' : '') + '</div>';
         html += '<div class="info">';
         html += '<span class="badge">' + catLabel + '</span>';
+        if (p.newlyLaunched) html += '<span class="badge" style="background:#e8f0e0;color:#4a7c2a;">最新上架</span>';
         if (p.bestseller) html += '<span class="badge" style="background:#f5e6d3;color:#a06b1f;">畅销</span>';
         html += '<span class="badge">' + imgCount + ' 张图</span>';
         html += '<h3>' + (p.name || '未命名') + '</h3>';
@@ -1147,13 +1159,10 @@
       });
     }
 
-    // 在非"全部分类"视图下把产品移出
-    //   latest    → category 置空 + bestseller 置 false（让它退出所有精选视图，回"未分类"池）
-    //   bestsellers → bestseller 置 false
-    //   其他主分类   → category 置空
+    // 在非"全部分类"视图下把产品移出（只取消对应标记，不删除数据）
     function unassignFromView(id, viewKey) {
       var prompts = {
-        latest: '确认将此产品从"最新上架"移出？产品数据仍保留，仅取消精选状态。',
+        latest: '确认将此产品从"最新上架"移出？产品数据仍保留，仅取消勾选"加入最新上架"。',
         bestsellers: '确认将此产品移出"畅销系列"？产品数据仍保留，仅取消畅销标记。'
       };
       var msg = prompts[viewKey] || '确认将此产品移出当前分类？产品数据仍保留，可在"全部分类"视图看到。';
@@ -1165,8 +1174,7 @@
         if (viewKey === 'bestsellers') {
           p.bestseller = false;
         } else if (viewKey === 'latest') {
-          p.bestseller = false;
-          p.category = '';
+          p.newlyLaunched = false;
         } else {
           p.category = '';
         }
@@ -1206,6 +1214,7 @@
         document.getElementById('productPackaging').value = p.packaging || '';
         document.getElementById('productMoq').value = p.moq || '';
         document.getElementById('bestsellerCheck').checked = !!p.bestseller;
+        document.getElementById('newlyLaunchedCheck').checked = !!p.newlyLaunched;
         currentImages = p.images ? p.images.slice() : [];
         renderPreview();
         window.scrollTo({ top: 0, behavior: 'smooth' });

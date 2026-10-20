@@ -8,8 +8,7 @@
                        "assets/images/bedding-001.avif",
                        "assets/images/bedding-005.avif"
                    ],
-        "createdAt":  1790066683750.7405,
-        "bestseller":  true
+        "createdAt":  1790066683750.7405
     },
     {
         "id":  "bedding-002",
@@ -20,8 +19,7 @@
                        "assets/images/bedding-002.avif",
                        "assets/images/bedding-005.avif"
                    ],
-        "createdAt":  1790066683751.4194,
-        "bestseller":  true
+        "createdAt":  1790066683751.4194
     },
     {
         "id":  "bedding-003",
@@ -32,8 +30,7 @@
                        "assets/images/bedding-003.avif",
                        "assets/images/bedding-005.avif"
                    ],
-        "createdAt":  1790066683751.948,
-        "bestseller":  true
+        "createdAt":  1790066683751.948
     },
     {
         "id":  "bedding-004",
@@ -44,8 +41,7 @@
                        "assets/images/bedding-004.avif",
                        "assets/images/bedding-005.avif"
                    ],
-        "createdAt":  1790066683751.2993,
-        "bestseller":  true
+        "createdAt":  1790066683751.2993
     },
     {
         "id":  "bedding-008",
@@ -57,8 +53,7 @@
                        "assets/images/bedding-009.avif",
                        "assets/images/bedding-010.avif"
                    ],
-        "createdAt":  1790066683751.9717,
-        "bestseller":  true
+        "createdAt":  1790066683751.9717
     },
     {
         "id":  "bedding-011",
@@ -69,8 +64,7 @@
                        "assets/images/bedding-011.avif",
                        "assets/images/bedding-012.avif"
                    ],
-        "createdAt":  1790066683751.37,
-        "bestseller":  true
+        "createdAt":  1790066683751.37
     },
     {
         "id":  "bedding-013",

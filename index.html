@@ -640,7 +640,7 @@
     </div>
   </footer>
 
-  <script src="js/products-db.js?v=20261034"></script>
+  <script src="js/products-db.js?v=20261035"></script>
   <script>
     /* ================================================================
        诊断探针：把整条执行链路的状态打到 DOM 上，便于无痕窗口排查
@@ -726,7 +726,8 @@
       if (nextBtn) nextBtn.addEventListener('click', function () { turn(1); });
 
       function finish(products) {
-        allProducts = products || [];
+        // NEWLY LAUNCHED 只显示后台手动勾选的"加入最新上架"
+        allProducts = (products || []).filter(function (p) { return p.newlyLaunched === true; });
         if (allProducts.length === 0) {
           if (emptyTip) emptyTip.style.display = '';
           if (nav) nav.style.display = 'none';
@@ -835,13 +836,8 @@
         var jsonList = results[1];
         var all = (pdbList && pdbList.length) ? pdbList : jsonList;
 
-        // 先筛带 bestseller 标记的
+        // Bestselling Collections 只显示后台手动勾选的"加入畅销系列"
         var bs = (all || []).filter(function (p) { return p.bestseller === true; });
-
-        // 如果没人被标记，兜底用前 6 款（保证板块永远有内容）
-        if (bs.length === 0 && all && all.length) {
-          bs = all.slice(0, 6);
-        }
 
         // 按上架时间降序
         bs.sort(function (a, b) { return (b.createdAt || 0) - (a.createdAt || 0); });
