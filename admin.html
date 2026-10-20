@@ -640,7 +640,7 @@
     </div>
   </div>
 
-  <script src="js/products-db.js?v=20261033"></script>
+  <script src="js/products-db.js?v=20261034"></script>
   <script src="js/messages-db.js?v=20261028"></script>
   <script>
     var currentImages = [];
@@ -1090,6 +1090,14 @@
         productList.innerHTML = '<div class="empty-state"><p>暂无产品，请使用左侧表单添加</p></div>';
         return;
       }
+      var catFilter = filterCategory.value;
+      // 是否允许"真删除"：仅在"全部分类"视图下
+      var allowDelete = !catFilter;
+      // 当前视图下按钮的文字与行为说明
+      var actionLabel = allowDelete ? '删除' :
+          (catFilter === 'bestsellers' ? '移出畅销' :
+           catFilter === 'latest' ? '移出精选' : '移出分类');
+
       var categoryNames = {
         bedding: 'BEDDING', 'bedding-blanket': 'BEDDING / blanket', 'bedding-cushion': 'BEDDING / cushion',
         'bedding-mattress-protector': 'BEDDING / Mattress protector', 'bedding-duvet-cover-pillowcase-set': 'BEDDING / Duvet Cover & Pillowcase Set',
@@ -1100,17 +1108,19 @@
       products.forEach(function(p) {
         var thumb = p.images && p.images[0] ? p.images[0] : '';
         var imgCount = p.images ? p.images.length : 0;
+        var catLabel = (p.category === '') ? '<span style="color:#999;">未分类</span>' : (categoryNames[p.category] || p.category);
         html += '<div class="admin-product-item" data-id="' + p.id + '">';
         html += '<div class="thumb">' + (thumb ? '<img src="' + thumb + '" alt="">' : '') + '</div>';
         html += '<div class="info">';
-        html += '<span class="badge">' + (categoryNames[p.category] || p.category) + '</span>';
+        html += '<span class="badge">' + catLabel + '</span>';
+        if (p.bestseller) html += '<span class="badge" style="background:#f5e6d3;color:#a06b1f;">畅销</span>';
         html += '<span class="badge">' + imgCount + ' 张图</span>';
         html += '<h3>' + (p.name || '未命名') + '</h3>';
         html += '<p>' + (p.description || '无描述') + '</p>';
         html += '</div>';
         html += '<div class="item-actions">';
         html += '<button class="edit-btn" data-id="' + p.id + '">编辑</button>';
-        html += '<button class="del-btn" data-id="' + p.id + '">删除</button>';
+        html += '<button class="del-btn" data-id="' + p.id + '">' + actionLabel + '</button>';
         html += '</div>';
         html += '</div>';
       });
@@ -1124,8 +1134,45 @@
       });
       productList.querySelectorAll('.del-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
-          deleteProduct(btn.getAttribute('data-id'));
+          var id = btn.getAttribute('data-id');
+          if (allowDelete) {
+            // 全部分类 → 真删除产品
+            if (!confirm('确认删除此产品？删除后无法恢复。')) return;
+            deleteProduct(id);
+          } else {
+            // 分类视图 → 只移出当前视图，不删除产品
+            unassignFromView(id, catFilter);
+          }
         });
+      });
+    }
+
+    // 在非"全部分类"视图下把产品移出
+    //   latest    → category 置空 + bestseller 置 false（让它退出所有精选视图，回"未分类"池）
+    //   bestsellers → bestseller 置 false
+    //   其他主分类   → category 置空
+    function unassignFromView(id, viewKey) {
+      var prompts = {
+        latest: '确认将此产品从"最新上架"移出？产品数据仍保留，仅取消精选状态。',
+        bestsellers: '确认将此产品移出"畅销系列"？产品数据仍保留，仅取消畅销标记。'
+      };
+      var msg = prompts[viewKey] || '确认将此产品移出当前分类？产品数据仍保留，可在"全部分类"视图看到。';
+      if (!confirm(msg)) return;
+
+      ProductsDB.getAll().then(function(list) {
+        var p = list.find(function(x) { return x.id === id; });
+        if (!p) return;
+        if (viewKey === 'bestsellers') {
+          p.bestseller = false;
+        } else if (viewKey === 'latest') {
+          p.bestseller = false;
+          p.category = '';
+        } else {
+          p.category = '';
+        }
+        return ProductsDB.update(p);
+      }).then(function() {
+        loadProducts();
       });
     }
 

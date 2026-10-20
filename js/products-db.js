@@ -35,8 +35,11 @@
 
   // 产品的实际归类：优先按标题识别，其次用存储的 category
   function effectiveCategory(p) {
-    var byName = NAME_TO_CATEGORY[String(p.name || "").trim().toLowerCase()];
-    return byName || p.category || "";
+    // 如果 category 明确是空字符串（"移出分类"操作的结果），
+    // 不再按 name 兜底，让它保持"未分类"状态
+    if (p && p.category === '') return '';
+    var byName = NAME_TO_CATEGORY[String(p && p.name || "").trim().toLowerCase()];
+    return byName || (p && p.category) || "";
   }
 
   // 把存量产品从主分类（bedding / curtains）归位到细分类
