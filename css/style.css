@@ -2611,7 +2611,7 @@ address { font-style: normal; }
   background-color: #faf5ec;
   background-image: url('../assets/images/bg-footer.png');
   background-size: cover;
-  background-position: center 30%;
+  background-position: center 80%;
   background-repeat: no-repeat;
   background-blend-mode: normal;
   position: relative;
@@ -2621,7 +2621,6 @@ address { font-style: normal; }
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(250,245,236,0.05);
   pointer-events: none;
   z-index: 0;
 }
