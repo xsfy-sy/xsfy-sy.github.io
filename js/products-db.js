@@ -83,7 +83,7 @@
     });
   }
 
-  function getAll() {
+  function getAllRaw() {
     return openDB().then(function () {
       return new Promise(function (resolve, reject) {
         var tx = db.transaction(STORE_NAME, "readonly");
@@ -102,6 +102,32 @@
         };
       });
     });
+  }
+
+  /* 首次打开（本地库为空）时载入站点自带的产品数据。
+     静态站点把产品存在浏览器本地，新访客/新设备打开时库是空的，
+     这里用 js/default-products.json 兜底，保证线上站也能显示完整商品。 */
+  var seedPromise = null;
+  var SEED_URL = "js/default-products.json";
+
+  function seedIfEmpty() {
+    if (!seedPromise) {
+      seedPromise = getAllRaw().then(function (list) {
+        if (list.length) return;
+        return fetch(SEED_URL)
+          .then(function (res) { return res.ok ? res.json() : null; })
+          .then(function (items) {
+            if (!items || !items.length) return;
+            return Promise.all(items.map(function (p) { return add(p); }));
+          })
+          .catch(function () { /* 没有内置数据或读取失败时静默跳过 */ });
+      });
+    }
+    return seedPromise;
+  }
+
+  function getAll() {
+    return seedIfEmpty().then(getAllRaw);
   }
 
   /* 按产品 id 精确查询单条记录（用于心愿清单报价表补全规格） */

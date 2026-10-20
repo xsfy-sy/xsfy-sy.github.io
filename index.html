@@ -640,7 +640,7 @@
     </div>
   </footer>
 
-  <script src="js/products-db.js?v=20261019b"></script>
+  <script src="js/products-db.js?v=20261029"></script>
   <script>
     /* 渲染最近上架产品：每页 10 个（5 个一排 = 两排），可用左右按钮轮换翻页 */
     (function () {
@@ -751,7 +751,7 @@
           var secondImg = (p.images && p.images[1]) || firstImg;
 
           var article = document.createElement('article');
-          article.className = 'product-card reveal';
+          article.className = 'product-card';
           article.setAttribute('data-category', p.category || '');
           article.innerHTML =
             '<a href="product-detail.html?id=' + encodeURIComponent(p.id) + '" class="product-link">' +
