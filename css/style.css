@@ -67,6 +67,7 @@ body {
   background: var(--cream);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 img { max-width: 100%; display: block; }
@@ -1085,7 +1086,7 @@ address { font-style: normal; }
 }
 .inquire-quote {
   width: 100%;
-  min-width: 760px;
+  max-width: 760px;
   border-collapse: collapse;
   font-size: 12px;
   color: var(--taupe);
@@ -2740,7 +2741,9 @@ address { font-style: normal; }
 
 /* ---------- 响应式 ---------- */
 @media (max-width: 1180px) {
-  .product-grid { grid-template-columns: repeat(3, 1fr); }
+  .product-grid,
+  #campaign .product-grid,
+  #series .product-grid { grid-template-columns: repeat(3, 1fr); }
   .room-grid { grid-template-columns: repeat(3, 1fr); }
   .spotlight-grid { grid-template-columns: repeat(3, 1fr); }
 }
@@ -2756,7 +2759,9 @@ address { font-style: normal; }
 }
 
 @media (max-width: 900px) {
-  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .product-grid,
+  #campaign .product-grid,
+  #series .product-grid { grid-template-columns: repeat(2, 1fr); }
   .campaign-cards { grid-template-columns: repeat(2, 1fr); }
   .gallery-item,
   .gallery-item:nth-child(3n + 1),
@@ -2781,7 +2786,9 @@ address { font-style: normal; }
 
 @media (max-width: 640px) {
   :root { --section: 56px; }
-  .product-grid { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; }
+  .product-grid,
+  #campaign .product-grid,
+  #series .product-grid { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; }
   .campaign-cards { grid-template-columns: 1fr; }
   .room-grid { grid-template-columns: repeat(2, 1fr); }
   .spotlight-grid { grid-template-columns: repeat(2, 1fr); }
@@ -3393,7 +3400,9 @@ address { font-style: normal; }
 /* ============ 移动端向电脑端靠拢（统一布局） ============ */
 /* 1) 产品列表：手机上不再降为 1 列 */
 @media (max-width: 1023px) {
-  .product-grid { grid-template-columns: repeat(3, 1fr); }
+  .product-grid,
+  #campaign .product-grid,
+  #series .product-grid { grid-template-columns: repeat(3, 1fr); }
 }
 /* 2) 顶部菜单：手机上完整展开一行导航（不用抽屉替代）；3) 产品列表多列 */
 @media (max-width: 900px) {
@@ -3418,11 +3427,15 @@ address { font-style: normal; }
     font-size: 11px;
     letter-spacing: 0.06em;
   }
-  .product-grid { grid-template-columns: repeat(3, 1fr); }
+  .product-grid,
+  #campaign .product-grid,
+  #series .product-grid { grid-template-columns: repeat(3, 1fr); }
 }
 /* 4) Hero 按钮并排、页脚多列、产品网格 2 列 */
 @media (max-width: 640px) {
-  .product-grid {
+  .product-grid,
+  #campaign .product-grid,
+  #series .product-grid {
     grid-template-columns: repeat(2, 1fr);
     max-width: none;
     margin-inline: 0;
