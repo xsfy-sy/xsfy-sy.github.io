@@ -412,10 +412,41 @@
       align-items: center;
       justify-content: center;
       margin-right: 4px;
-      touch-action: none;   /* 阻止触摸设备的滚动干扰 */
+      touch-action: none;
     }
     .drag-handle:active { cursor: grabbing; color: #888; }
-    .admin-product-item.drag-item { transition: opacity 0.15s; }
+    .admin-product-item.drag-item { transition: opacity 0.15s, background 0.15s; }
+    .admin-product-item.is-selected {
+      background: #faf6ed !important;
+      box-shadow: inset 3px 0 0 #c4a97a;
+    }
+    .row-checkbox {
+      flex-shrink: 0;
+      width: 16px; height: 16px;
+      margin-right: 8px;
+      cursor: pointer;
+      accent-color: #8a7a5a;
+    }
+    .drag-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      background: #faf6ed;
+      border-radius: 6px;
+      border-left: 3px solid #c4a97a;
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+    }
+    .drag-toolbar__select {
+      display: flex; align-items: center; gap: 6px;
+      cursor: pointer; color: #5a4d32;
+    }
+    .drag-toolbar__select input { accent-color: #8a7a5a; width: 15px; height: 15px; }
+    .drag-toolbar__hint {
+      color: #a09070; font-size: 12px;
+    }
     /* 幽灵副本 */
     .drag-ghost {
       opacity: 0.85;
@@ -701,6 +732,8 @@
   <script>
     var currentImages = [];
     var editingId = null;
+    var editedNewlyOrder = null;   // 编辑时记录原有 newlyLaunchedOrder
+    var editedBestOrder = null;    // 编辑时记录原有 bestsellerOrder
 
     // DOM
     var uploadArea = document.getElementById('uploadArea');
@@ -956,16 +989,50 @@
         images: currentImages,
         bestseller: isBestseller,
         newlyLaunched: isNewlyLaunched,
+        newlyLaunchedOrder: isNewlyLaunched ? (editedNewlyOrder || null) : undefined,
+        bestsellerOrder: isBestseller ? (editedBestOrder || null) : undefined,
         createdAt: Date.now()
       };
 
-      var promise = editingId ? ProductsDB.update(product) : ProductsDB.add(product);
-      promise.then(function() {
-        alert(editingId ? '产品已更新' : '产品上传成功');
-        softResetForm();
-        loadProducts();
-      }).catch(function(err) {
-        alert('上传失败：' + err.message);
+      // 自动置顶：首次勾选时分配新的 order 值
+      (function assignOrder(p) {
+        if (!editingId) {
+          // 新建 → 查当前最大 order + 1
+          var keys = [];
+          if (p.newlyLaunched && p.newlyLaunchedOrder === null) keys.push('newlyLaunchedOrder');
+          if (p.bestseller && p.bestsellerOrder === null) keys.push('bestsellerOrder');
+          if (!keys.length) return Promise.resolve(p);
+          return ProductsDB.getAll().then(function(all) {
+            keys.forEach(function(k) {
+              var max = 0;
+              all.forEach(function(x) { if (x[k] && x[k] > max) max = x[k]; });
+              p[k] = max + 1;
+            });
+            return p;
+          });
+        }
+        // 编辑：之前没勾选现在勾上了 → 也自动给值
+        var edits = [];
+        if (p.newlyLaunched && p.newlyLaunchedOrder === null && !editedNewlyOrder) edits.push('newlyLaunchedOrder');
+        if (p.bestseller && p.bestsellerOrder === null && !editedBestOrder) edits.push('bestsellerOrder');
+        if (!edits.length) return Promise.resolve(p);
+        return ProductsDB.getAll().then(function(all) {
+          edits.forEach(function(k) {
+            var max = 0;
+            all.forEach(function(x) { if (x[k] && x[k] > max) max = x[k]; });
+            p[k] = max + 1;
+          });
+          return p;
+        });
+      })(product).then(function(finalProduct) {
+        var promise = editingId ? ProductsDB.update(finalProduct) : ProductsDB.add(finalProduct);
+        promise.then(function() {
+          alert(editingId ? '产品已更新' : '产品上传成功');
+          softResetForm();
+          loadProducts();
+        }).catch(function(err) {
+          alert('上传失败：' + err.message);
+        });
       });
     });
 
@@ -993,6 +1060,8 @@
       document.getElementById('newlyLaunchedCheck').checked = false;
       currentImages = [];
       editingId = null;
+      editedNewlyOrder = null;
+      editedBestOrder = null;
       editIdEl.value = '';
       formTitle.textContent = '添加新产品';
       saveBtn.textContent = '上传产品';
@@ -1014,6 +1083,8 @@
       document.getElementById('newlyLaunchedCheck').checked = false;
       currentImages = [];
       editingId = null;
+      editedNewlyOrder = null;
+      editedBestOrder = null;
       editIdEl.value = '';
       formTitle.textContent = '添加新产品';
       saveBtn.textContent = '上传产品';
@@ -1171,7 +1242,10 @@
         var imgCount = p.images ? p.images.length : 0;
         var catLabel = (p.category === '') ? '<span style="color:#999;">未分类</span>' : (categoryNames[p.category] || p.category);
         html += '<div class="admin-product-item' + (enableDrag ? ' drag-item' : '') + '" data-id="' + p.id + '">';
-        if (enableDrag) html += '<div class="drag-handle" title="拖动排序">⋮⋮</div>';
+        if (enableDrag) {
+          html += '<input type="checkbox" class="row-checkbox" data-id="' + p.id + '" />';
+          html += '<div class="drag-handle" title="拖动排序">⋮⋮</div>';
+        }
         html += '<div class="thumb">' + (thumb ? '<img src="' + thumb + '" alt="">' : '') + '</div>';
         html += '<div class="info">';
         html += '<span class="badge">' + catLabel + '</span>';
@@ -1188,6 +1262,28 @@
         html += '</div>';
       });
       productList.innerHTML = html;
+
+      // 多选工具栏（仅 latest / bestsellers）
+      if (enableDrag && products.length > 0) {
+        var toolbar = document.createElement('div');
+        toolbar.className = 'drag-toolbar';
+        toolbar.innerHTML =
+          '<label class="drag-toolbar__select"><input type="checkbox" class="select-all-cb" /> 全选</label>' +
+          '<span class="drag-toolbar__hint">拖动任意手柄可整组移动</span>';
+        productList.insertBefore(toolbar, productList.firstChild);
+
+        // 全选
+        toolbar.querySelector('.select-all-cb').addEventListener('change', function(e) {
+          var rows = productList.querySelectorAll('.row-checkbox');
+          rows.forEach(function(cb) { cb.checked = e.target.checked; });
+          updateSelectedHighlight();
+        });
+
+        // 单行勾选
+        productList.querySelectorAll('.row-checkbox').forEach(function(cb) {
+          cb.addEventListener('change', updateSelectedHighlight);
+        });
+      }
 
       // 拖拽提示条
       var hintBar = productList.querySelector('.drag-hint');
@@ -1224,33 +1320,83 @@
       }
     }
 
-    // 拖拽排序：Pointer Events（比原生 HTML5 DnD 灵敏得多）
+    // 更新选中行高亮样式
+    function updateSelectedHighlight() {
+      productList.querySelectorAll('.drag-item').forEach(function(row) {
+        var cb = row.querySelector('.row-checkbox');
+        row.classList.toggle('is-selected', cb && cb.checked);
+      });
+    }
+
+    // 拖拽排序（单选 / 多选整组）
     function bindDragSort(viewKey) {
-      var state = { dragging: null, startY: 0, offsetY: 0, ghost: null, hintLine: null };
+      var state = null;   // { dragging, selected, ghost, hintLine, offsetY }
       var items = productList.querySelectorAll('.drag-item');
 
-      // 只在拖拽手柄上启动——避免点编辑/删除按钮误触发
       items.forEach(function(item) {
         var handle = item.querySelector('.drag-handle');
         if (!handle) return;
         handle.addEventListener('pointerdown', function(e) {
           e.preventDefault();
           e.stopPropagation();
-          state.dragging = item;
-          state.startY = e.clientY;
-          state.offsetY = item.getBoundingClientRect().top - e.clientY;
+
+          // 收集当前选中组（至少包含被拖的这一行）
+          var selected = [];
+          if (item.classList.contains('is-selected')) {
+            // 已在选中组 → 拖整组，保持 DOM 顺序
+            productList.querySelectorAll('.drag-item.is-selected').forEach(function(r) {
+              selected.push(r);
+            });
+          } else {
+            // 未选中 → 只拖这一行
+            selected = [item];
+          }
+
+          // 如果被拖的这行没选中，其它行也没有选中 → 清空之前的多选高亮
+          if (selected.length === 1) {
+            productList.querySelectorAll('.drag-item').forEach(function(r) {
+              r.classList.toggle('is-selected', r === item);
+            });
+            var cb = item.querySelector('.row-checkbox');
+            if (cb) cb.checked = false;
+          }
+
+          var firstRect = selected[0].getBoundingClientRect();
+          state = {
+            dragging: item,
+            selected: selected,
+            offsetY: firstRect.top - e.clientY,
+            ghost: null, hintLine: null
+          };
           handle.setPointerCapture(e.pointerId);
 
-          // 创建"幽灵"副本跟着指针移动
-          var ghost = item.cloneNode(true);
-          ghost.classList.add('drag-ghost');
-          ghost.style.position = 'fixed';
-          ghost.style.width = item.offsetWidth + 'px';
-          ghost.style.left = item.getBoundingClientRect().left + 'px';
-          ghost.style.top = item.getBoundingClientRect().top + 'px';
-          document.body.appendChild(ghost);
-          state.ghost = ghost;
-          item.style.opacity = '0.35';
+          // 创建"幽灵"副本：多选时显示堆叠在一起的压缩预览
+          var ghostWrap = document.createElement('div');
+          ghostWrap.className = 'drag-ghost';
+          ghostWrap.style.position = 'fixed';
+          ghostWrap.style.width = firstRect.width + 'px';
+          ghostWrap.style.left = firstRect.left + 'px';
+          ghostWrap.style.top = firstRect.top + 'px';
+          ghostWrap.style.zIndex = '9999';
+          ghostWrap.style.pointerEvents = 'none';
+
+          // 把选中行的缩略内容塞进幽灵（多选时显示多行堆叠感）
+          selected.forEach(function(srow, idx) {
+            var ghostRow = srow.cloneNode(true);
+            ghostRow.classList.remove('drag-item', 'is-selected');
+            ghostRow.style.opacity = (idx === 0) ? '1' : '0.7';
+            ghostRow.style.marginTop = (idx === 0) ? '0' : '-2px';
+            ghostRow.style.borderBottom = (idx === selected.length - 1) ? '' : 'none';
+            ghostRow.style.boxShadow = 'none';
+            ghostRow.querySelector('.row-checkbox').checked = true;
+            ghostRow.querySelector('.row-checkbox').style.pointerEvents = 'none';
+            ghostWrap.appendChild(ghostRow);
+          });
+          document.body.appendChild(ghostWrap);
+          state.ghost = ghostWrap;
+
+          // 被拖组整体降透明
+          selected.forEach(function(r) { r.style.opacity = '0.25'; });
 
           // 插入指示线
           var line = document.createElement('div');
@@ -1260,81 +1406,92 @@
         });
 
         handle.addEventListener('pointermove', function(e) {
-          if (!state.dragging) return;
+          if (!state) return;
           var y = e.clientY + state.offsetY;
           state.ghost.style.top = y + 'px';
-          state.ghost.style.transform = 'scale(1.02)';
 
-          // 找当前指针下方的目标元素，计算插入位置
-          var dragging = state.dragging;
+          // 找插入位置（按组首行计算）
           var target = null;
           var insertAfter = false;
-          items.forEach(function(it) {
-            if (it === dragging) return;
+          var groupSet = {};
+          state.selected.forEach(function(r) { groupSet[r.getAttribute('data-id')] = true; });
+
+          // 收集可见的非本组目标
+          var allTargets = [];
+          productList.querySelectorAll('.drag-item').forEach(function(it) {
+            if (!groupSet[it.getAttribute('data-id')]) allTargets.push(it);
+          });
+          // 如果整表都被选中了 → 允许拖到自己之外的位置也没意义
+          if (allTargets.length === 0) return;
+
+          for (var i = 0; i < allTargets.length; i++) {
+            var it = allTargets[i];
             var r = it.getBoundingClientRect();
             if (e.clientY >= r.top && e.clientY <= r.bottom) {
               target = it;
               insertAfter = (e.clientY - r.top) / r.height > 0.5;
+              break;
             }
-          });
-          if (target) {
-            var r = target.getBoundingClientRect();
-            var lineTop = insertAfter ? r.bottom + 'px' : r.top + 'px';
-            state.hintLine.style.top = lineTop;
-            state.hintLine.style.left = r.left + 'px';
-            state.hintLine.style.width = r.width + 'px';
-          } else {
-            // 没在任何 item 上 → 插顶或插底
-            var firstTop = items[0].getBoundingClientRect().top;
-            var lastBottom = items[items.length - 1].getBoundingClientRect().bottom;
+          }
+          if (!target) {
+            var firstTop = allTargets[0].getBoundingClientRect().top;
+            var lastBottom = allTargets[allTargets.length - 1].getBoundingClientRect().bottom;
             if (e.clientY < firstTop) {
-              state.hintLine.style.top = firstTop + 'px';
-              state.hintLine.style.left = items[0].getBoundingClientRect().left + 'px';
-              state.hintLine.style.width = items[0].offsetWidth + 'px';
-              target = items[0]; insertAfter = false;
+              target = allTargets[0]; insertAfter = false;
             } else if (e.clientY > lastBottom) {
-              state.hintLine.style.top = lastBottom + 'px';
-              state.hintLine.style.left = items[items.length - 1].getBoundingClientRect().left + 'px';
-              state.hintLine.style.width = items[items.length - 1].offsetWidth + 'px';
-              target = items[items.length - 1]; insertAfter = true;
+              target = allTargets[allTargets.length - 1]; insertAfter = true;
             }
+          }
+
+          if (target) {
+            var tr = target.getBoundingClientRect();
+            var lineTop = insertAfter ? tr.bottom + 'px' : tr.top + 'px';
+            state.hintLine.style.top = lineTop;
+            state.hintLine.style.left = tr.left + 'px';
+            state.hintLine.style.width = tr.width + 'px';
           }
           state._target = target;
           state._insertAfter = insertAfter;
         });
 
         handle.addEventListener('pointerup', function(e) {
-          if (!state.dragging) return;
+          if (!state) return;
           handle.releasePointerCapture(e.pointerId);
 
-          var dragging = state.dragging;
+          var selected = state.selected;
           var target = state._target;
           var insertAfter = state._insertAfter;
 
-          if (target && target !== dragging) {
-            if (insertAfter) {
-              dragging.parentNode.insertBefore(dragging, target.nextSibling);
-            } else {
-              dragging.parentNode.insertBefore(dragging, target);
-            }
+          if (target && selected.length) {
+            // 按当前 DOM 顺序组内排序（保证相对顺序）
+            var ordered = [];
+            productList.querySelectorAll('.drag-item').forEach(function(r) {
+              if (state.selected.indexOf(r) !== -1) ordered.push(r);
+            });
+            ordered.forEach(function(r, idx) {
+              if (idx === 0) {
+                target.parentNode.insertBefore(r, insertAfter ? target.nextSibling : target);
+              } else {
+                ordered[idx - 1].parentNode.insertBefore(r, ordered[idx - 1].nextSibling);
+              }
+            });
             saveOrderFromDOM(viewKey);
           }
 
           // 清理
-          dragging.style.opacity = '';
-          if (state.ghost) state.ghost.remove();
-          if (state.hintLine) state.hintLine.remove();
-          state.dragging = null; state.ghost = null; state.hintLine = null;
-          state._target = null; state._insertAfter = null;
+          selected.forEach(function(r) { r.style.opacity = ''; });
+          state.ghost.remove();
+          state.hintLine.remove();
+          state = null;
         });
 
         handle.addEventListener('pointercancel', function() {
-          if (state.dragging) {
-            state.dragging.style.opacity = '';
+          if (state) {
+            state.selected.forEach(function(r) { r.style.opacity = ''; });
             if (state.ghost) state.ghost.remove();
             if (state.hintLine) state.hintLine.remove();
+            state = null;
           }
-          state.dragging = null; state.ghost = null; state.hintLine = null;
         });
       });
     }
@@ -1400,6 +1557,8 @@
         var p = products.find(function(x) { return x.id === id; });
         if (!p) return;
         editingId = p.id;
+        editedNewlyOrder = p.newlyLaunchedOrder || null;
+        editedBestOrder = p.bestsellerOrder || null;
         editIdEl.value = p.id;
         formTitle.textContent = '编辑产品';
         saveBtn.textContent = '更新产品';
