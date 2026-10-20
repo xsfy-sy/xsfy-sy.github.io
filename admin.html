@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=20261032" />
+  <link rel="stylesheet" href="css/style.css?v=20261033" />
   <style>
     body { background: #f5f5f0; }
     .admin-wrap {
@@ -399,6 +399,36 @@
       word-break: break-word;
     }
 
+    /* 拖拽排序 */
+    .drag-handle {
+      flex-shrink: 0;
+      width: 22px;
+      color: #bbb;
+      font-size: 16px;
+      letter-spacing: 0;
+      cursor: grab;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 4px;
+    }
+    .drag-handle:active { cursor: grabbing; color: #888; }
+    .admin-product-item.drag-item { transition: background 0.15s; }
+    .admin-product-item.drag-over { background: #f5f3ee; }
+    .admin-product-item.drag-item[draggable="true"] { cursor: grab; }
+    .admin-product-item.drag-item[draggable="true"]:active { cursor: grabbing; }
+    .drag-hint {
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      color: #8a7a5a;
+      background: #faf6ed;
+      padding: 8px 14px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      border-left: 3px solid #c4a97a;
+    }
+
     .empty-state {
       text-align: center;
       padding: 60px 20px;
@@ -647,7 +677,7 @@
     </div>
   </div>
 
-  <script src="js/products-db.js?v=20261035"></script>
+  <script src="js/products-db.js?v=20261036"></script>
   <script src="js/messages-db.js?v=20261028"></script>
   <script>
     var currentImages = [];
@@ -1049,11 +1079,13 @@
       // 主分类过滤：匹配主分类值或主分类前缀
       if (catFilter) {
         if (catFilter === 'latest') {
-          // 最新上架：仅显示后台勾选了"加入最新上架"的全部产品
+          // 最新上架：仅显示后台勾选了"加入最新上架"的全部产品，按 newlyLaunchedOrder 升序
           filtered = filtered.filter(function(p) { return p.newlyLaunched === true; });
+          filtered.sort(function(a, b) { return (a.newlyLaunchedOrder || 99999) - (b.newlyLaunchedOrder || 99999); });
         } else if (catFilter === 'bestsellers') {
-          // 畅销系列：带 bestseller 标记的全部
+          // 畅销系列：带 bestseller 标记的全部，按 bestsellerOrder 升序
           filtered = filtered.filter(function(p) { return p.bestseller === true; });
+          filtered.sort(function(a, b) { return (a.bestsellerOrder || 99999) - (b.bestsellerOrder || 99999); });
         } else {
           filtered = filtered.filter(function(p) {
             var pc = (p.category || '').toLowerCase();
@@ -1104,6 +1136,8 @@
       var catFilter = filterCategory.value;
       // 是否允许"真删除"：仅在"全部分类"视图下
       var allowDelete = !catFilter;
+      // 是否启用拖拽排序：仅最新上架 / 畅销系列视图
+      var enableDrag = (catFilter === 'latest' || catFilter === 'bestsellers');
       // 当前视图下按钮的文字与行为说明
       var actionLabel = allowDelete ? '删除' :
           (catFilter === 'bestsellers' ? '移出畅销' :
@@ -1120,7 +1154,8 @@
         var thumb = p.images && p.images[0] ? p.images[0] : '';
         var imgCount = p.images ? p.images.length : 0;
         var catLabel = (p.category === '') ? '<span style="color:#999;">未分类</span>' : (categoryNames[p.category] || p.category);
-        html += '<div class="admin-product-item" data-id="' + p.id + '">';
+        html += '<div class="admin-product-item' + (enableDrag ? ' drag-item' : '') + '" data-id="' + p.id + '"' + (enableDrag ? ' draggable="true"' : '') + '>';
+        if (enableDrag) html += '<div class="drag-handle" title="拖动排序">⋮⋮</div>';
         html += '<div class="thumb">' + (thumb ? '<img src="' + thumb + '" alt="">' : '') + '</div>';
         html += '<div class="info">';
         html += '<span class="badge">' + catLabel + '</span>';
@@ -1137,6 +1172,15 @@
         html += '</div>';
       });
       productList.innerHTML = html;
+
+      // 拖拽提示条
+      var hintBar = productList.querySelector('.drag-hint');
+      if (enableDrag && products.length > 0 && !hintBar) {
+        var hint = document.createElement('div');
+        hint.className = 'drag-hint';
+        hint.textContent = '💡 拖动左侧 ⋮⋮ 手柄可调整顺序，拖完自动保存';
+        productList.insertBefore(hint, productList.firstChild);
+      }
 
       // 绑定按钮
       productList.querySelectorAll('.edit-btn').forEach(function(btn) {
@@ -1156,6 +1200,87 @@
             unassignFromView(id, catFilter);
           }
         });
+      });
+
+      // 拖拽排序绑定（仅 latest / bestsellers 视图）
+      if (enableDrag) {
+        bindDragSort(catFilter);
+      }
+    }
+
+    // 拖拽排序：原生 HTML5 DnD，拖完批量写回 order 字段
+    function bindDragSort(viewKey) {
+      var items = productList.querySelectorAll('.drag-item');
+      var dragSrcEl = null;
+
+      items.forEach(function(el) {
+        el.addEventListener('dragstart', function(e) {
+          dragSrcEl = this;
+          this.style.opacity = '0.4';
+          e.dataTransfer.effectAllowed = 'move';
+          try { e.dataTransfer.setData('text/plain', this.getAttribute('data-id')); } catch(err) {}
+        });
+        el.addEventListener('dragend', function() {
+          this.style.opacity = '';
+          items.forEach(function(i) { i.classList.remove('drag-over'); });
+        });
+        el.addEventListener('dragover', function(e) {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          return false;
+        });
+        el.addEventListener('dragenter', function() {
+          this.classList.add('drag-over');
+        });
+        el.addEventListener('dragleave', function() {
+          this.classList.remove('drag-over');
+        });
+        el.addEventListener('drop', function(e) {
+          e.preventDefault();
+          if (dragSrcEl !== this) {
+            // 把拖拽元素插到目标元素之前/之后
+            var rect = this.getBoundingClientRect();
+            var after = (e.clientY - rect.top) / rect.height > 0.5;
+            if (after) {
+              this.parentNode.insertBefore(dragSrcEl, this.nextSibling);
+            } else {
+              this.parentNode.insertBefore(dragSrcEl, this);
+            }
+            saveOrderFromDOM(viewKey);
+          }
+          items.forEach(function(i) { i.classList.remove('drag-over'); });
+          return false;
+        });
+      });
+    }
+
+    // 按 DOM 当前顺序批量保存 order 字段
+    function saveOrderFromDOM(viewKey) {
+      var key = (viewKey === 'latest') ? 'newlyLaunchedOrder' : 'bestsellerOrder';
+      var ids = [];
+      productList.querySelectorAll('.drag-item').forEach(function(el) {
+        ids.push(el.getAttribute('data-id'));
+      });
+
+      ProductsDB.getAll().then(function(list) {
+        var updates = [];
+        ids.forEach(function(id, idx) {
+          var p = list.find(function(x) { return x.id === id; });
+          if (p && p[key] !== idx + 1) {
+            p[key] = idx + 1;
+            updates.push(ProductsDB.update(p));
+          }
+        });
+        // 同时清理掉不在当前视图里的旧排序值（比如移出的产品还留着 order）
+        list.forEach(function(p) {
+          if (p[key] && ids.indexOf(p.id) === -1) {
+            p[key] = 99999;
+            updates.push(ProductsDB.update(p));
+          }
+        });
+        if (updates.length) return Promise.all(updates);
+      }).then(function() {
+        loadProducts();
       });
     }
 

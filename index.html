@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=20261032" />
+  <link rel="stylesheet" href="css/style.css?v=20261033" />
 </head>
 <body>
   <a class="skip-link" href="#main">跳至主要内容</a>
@@ -640,7 +640,7 @@
     </div>
   </footer>
 
-  <script src="js/products-db.js?v=20261035"></script>
+  <script src="js/products-db.js?v=20261036"></script>
   <script>
     /* ================================================================
        诊断探针：把整条执行链路的状态打到 DOM 上，便于无痕窗口排查
@@ -726,8 +726,10 @@
       if (nextBtn) nextBtn.addEventListener('click', function () { turn(1); });
 
       function finish(products) {
-        // NEWLY LAUNCHED 只显示后台手动勾选的"加入最新上架"
-        allProducts = (products || []).filter(function (p) { return p.newlyLaunched === true; });
+        // NEWLY LAUNCHED 只显示后台手动勾选的"加入最新上架"，按 newlyLaunchedOrder 升序
+        allProducts = (products || [])
+          .filter(function (p) { return p.newlyLaunched === true; })
+          .sort(function (a, b) { return (a.newlyLaunchedOrder || 99999) - (b.newlyLaunchedOrder || 99999); });
         if (allProducts.length === 0) {
           if (emptyTip) emptyTip.style.display = '';
           if (nav) nav.style.display = 'none';
@@ -836,11 +838,9 @@
         var jsonList = results[1];
         var all = (pdbList && pdbList.length) ? pdbList : jsonList;
 
-        // Bestselling Collections 只显示后台手动勾选的"加入畅销系列"
+        // Bestselling Collections 只显示后台手动勾选的"加入畅销系列"，按 bestsellerOrder 升序
         var bs = (all || []).filter(function (p) { return p.bestseller === true; });
-
-        // 按上架时间降序
-        bs.sort(function (a, b) { return (b.createdAt || 0) - (a.createdAt || 0); });
+        bs.sort(function (a, b) { return (a.bestsellerOrder || 99999) - (b.bestsellerOrder || 99999); });
         render(bs);
       }).catch(function () {
         render([]);
