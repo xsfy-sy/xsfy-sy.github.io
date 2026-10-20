@@ -1602,65 +1602,104 @@ address { font-style: normal; }
 .spotlight-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(16px, 2.2vw, 28px);
+  gap: clamp(20px, 2.6vw, 32px);
 }
 .spotlight-card {
   display: block;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  background: #fff;
+  border: 1px solid #eadfcc;
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(40, 32, 24, 0.06);
-  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+  box-shadow:
+    0 1px 3px rgba(40, 32, 24, 0.04),
+    0 6px 18px rgba(40, 32, 24, 0.06);
+  transition: transform 0.5s cubic-bezier(.25,.8,.25,1),
+              box-shadow 0.5s var(--ease),
+              border-color 0.5s var(--ease);
+  position: relative;
+}
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  border: 0px solid transparent;
+  transition: border-color 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  pointer-events: none;
+  z-index: 5;
 }
 .spotlight-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 14px 36px rgba(40, 32, 24, 0.14);
-  border-color: var(--gold);
+  transform: translateY(-8px);
+  border-color: #c4a97a;
+  box-shadow:
+    0 2px 6px rgba(196, 169, 122, 0.18),
+    0 20px 48px rgba(40, 32, 24, 0.18),
+    0 0 0 1px rgba(196, 169, 122, 0.25);
 }
 .spotlight-img {
   position: relative;
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--cream);
+  border: 2px solid #fff;
+  border-radius: 12px;
+  margin: 6px;
+  box-sizing: border-box;
 }
 .spotlight-img::after {
   content: "";
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  height: 45%;
-  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.18) 60%, rgba(0,0,0,0) 100%);
+  height: 50%;
+  background: linear-gradient(to top, rgba(18,14,10,0.72) 0%, rgba(18,14,10,0.30) 55%, rgba(18,14,10,0) 100%);
   pointer-events: none;
-  transition: opacity 0.4s var(--ease);
+  transition: height 0.5s var(--ease), background 0.5s var(--ease);
 }
 .spotlight-card:hover .spotlight-img::after {
-  height: 55%;
-  background: linear-gradient(to top, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.28) 55%, rgba(0,0,0,0) 100%);
+  height: 60%;
+  background: linear-gradient(to top, rgba(14,10,6,0.82) 0%, rgba(14,10,6,0.38) 50%, rgba(14,10,6,0) 100%);
 }
 .spotlight-img img {
   width: 100%; height: 100%;
   object-fit: cover;
-  transition: transform 0.9s var(--ease), filter 0.4s var(--ease);
+  transition: transform 1.1s cubic-bezier(.25,.8,.25,1), filter 0.5s var(--ease);
+  filter: brightness(0.98) saturate(1.02);
 }
 .spotlight-card:hover .spotlight-img img {
-  transform: scale(1.07);
-  filter: saturate(1.05);
+  transform: scale(1.06);
+  filter: brightness(1.04) saturate(1.08);
 }
 .spotlight-img h3 {
   position: absolute;
-  left: 22px; bottom: 18px;
+  left: 26px; bottom: 22px;
   margin: 0;
   font-family: var(--sans);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.30em;
   color: #fff;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
   z-index: 2;
-  transition: letter-spacing 0.4s var(--ease);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  transition: letter-spacing 0.5s var(--ease);
+}
+.spotlight-img h3::after {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: #d4b884;
+  opacity: 0.85;
+  transition: width 0.5s var(--ease), opacity 0.5s var(--ease);
 }
 .spotlight-card:hover .spotlight-img h3 {
-  letter-spacing: 0.32em;
+  letter-spacing: 0.38em;
+}
+.spotlight-card:hover .spotlight-img h3::after {
+  width: 40px;
+  opacity: 1;
 }
 
 /* ---------- 热销臻品（标签切换 + 卡片） ---------- */
