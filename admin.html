@@ -586,6 +586,8 @@
             <div class="filter-item">
               <select id="filterCategory">
                 <option value="">全部分类</option>
+                <option value="latest">最新上架</option>
+                <option value="bestsellers">畅销系列</option>
                 <option value="bedding">BEDDING</option>
                 <option value="rugs">MATS</option>
                 <option value="pet">PET</option>
@@ -638,7 +640,7 @@
     </div>
   </div>
 
-  <script src="js/products-db.js?v=20261032"></script>
+  <script src="js/products-db.js?v=20261033"></script>
   <script src="js/messages-db.js?v=20261028"></script>
   <script>
     var currentImages = [];
@@ -987,8 +989,15 @@
     // 根据主分类刷新细分类下拉
     function updateFilterSubcategory() {
       var cat = filterCategory.value;
-      var subs = filterSubMap[cat] || [];
       filterSubcategory.innerHTML = '<option value="">全部细分类</option>';
+      filterSubcategory.disabled = false;
+      if (cat === 'latest' || cat === 'bestsellers') {
+        filterSubcategory.innerHTML = '<option value="">— 不适用 —</option>';
+        filterSubcategory.disabled = true;
+        filterSubcategory.style.display = '';
+        return;
+      }
+      var subs = filterSubMap[cat] || [];
       if (subs.length === 0) {
         filterSubcategory.style.display = 'none';
         return;
@@ -1028,13 +1037,21 @@
 
       // 主分类过滤：匹配主分类值或主分类前缀
       if (catFilter) {
-        filtered = filtered.filter(function(p) {
-          var pc = (p.category || '').toLowerCase();
-          return pc === catFilter || pc.indexOf(catFilter + '-') === 0;
-        });
+        if (catFilter === 'latest') {
+          // 最新上架：按 createdAt 降序取最新 20 条
+          filtered = filtered.slice().sort(function(a,b){ return (b.createdAt||0)-(a.createdAt||0); }).slice(0, 20);
+        } else if (catFilter === 'bestsellers') {
+          // 畅销系列：带 bestseller 标记的全部
+          filtered = filtered.filter(function(p) { return p.bestseller === true; });
+        } else {
+          filtered = filtered.filter(function(p) {
+            var pc = (p.category || '').toLowerCase();
+            return pc === catFilter || pc.indexOf(catFilter + '-') === 0;
+          });
+        }
       }
-      // 细分类过滤：精确匹配 category 值
-      if (subFilter) {
+      // 细分类过滤：精确匹配 category 值（仅主分类模式下生效）
+      if (subFilter && catFilter !== 'latest' && catFilter !== 'bestsellers') {
         filtered = filtered.filter(function(p) {
           return (p.category || '').toLowerCase() === subFilter;
         });
