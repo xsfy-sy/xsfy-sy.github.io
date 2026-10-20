@@ -1443,22 +1443,15 @@ address { font-style: normal; }
 .grid-nav-btn svg { width: 22px; height: 22px; }
 .grid-nav-btn:hover { color: var(--gold); }
 .grid-nav-btn:active { transform: scale(0.94); }
-/* NEWLY LAUNCHED 翻页按钮：墨绿背景 + 白色加粗 */
+/* NEWLY LAUNCHED 翻页按钮：墨绿加粗箭头 */
 #campaign .grid-nav-btn {
-  width: 38px;
-  height: 38px;
-  background: var(--moss);
-  color: #fff;
-  border-radius: 50%;
+  color: var(--moss);
 }
 #campaign .grid-nav-btn svg {
   stroke-width: 2.2;
-  width: 20px;
-  height: 20px;
 }
 #campaign .grid-nav-btn:hover {
-  background: #3a4733;
-  color: #fff;
+  color: #3a4733;
 }
 .campaign-card {
   position: relative;
