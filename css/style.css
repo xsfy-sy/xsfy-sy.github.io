@@ -2609,11 +2609,6 @@ address { font-style: normal; }
 /* ---------- 页脚（浅色精致多列 + 低透明度布纹背景） ---------- */
 .site-footer {
   background-color: #faf5ec;
-  background-image: url('../assets/images/bg-footer.png');
-  background-size: cover;
-  background-position: center 65%;
-  background-repeat: no-repeat;
-  background-blend-mode: normal;
   position: relative;
   color: var(--taupe);
 }
@@ -2623,6 +2618,19 @@ address { font-style: normal; }
   inset: 0;
   pointer-events: none;
   z-index: 0;
+}
+.site-footer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../assets/images/bg-footer.png');
+  background-size: cover;
+  background-position: center 65%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 0;
+  filter: contrast(1.35) saturate(1.2) brightness(1.05);
+  image-rendering: -webkit-optimize-contrast;
 }
 .site-footer > * { position: relative; z-index: 1; }
 .footer-grid {
