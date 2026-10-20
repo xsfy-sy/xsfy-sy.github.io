@@ -1590,6 +1590,9 @@ address { font-style: normal; }
 #bestsellerGrid .product-media {
   aspect-ratio: 4 / 3.4;
 }
+#bestsellerGrid .product-badge {
+  background: #c83c3c;
+}
 #series .block-head {
   display: flex;
   align-items: center;
