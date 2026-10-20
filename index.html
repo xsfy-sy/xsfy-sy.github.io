@@ -640,9 +640,41 @@
     </div>
   </footer>
 
-  <script src="js/products-db.js?v=20261030"></script>
+  <script src="js/products-db.js?v=20261031"></script>
   <script>
-    /* 渲染最近上架产品：每页 10 个（5 个一排 = 两排），可用左右按钮轮换翻页 */
+    /* ================================================================
+       诊断探针：把整条执行链路的状态打到 DOM 上，便于无痕窗口排查
+       ================================================================ */
+    (function () {
+      try {
+        var probe = document.createElement('div');
+        probe.id = '__diagnose';
+        probe.style.cssText = 'position:fixed;bottom:8px;right:8px;z-index:99999;' +
+          'font-family:Consolas,monospace;font-size:11px;line-height:1.5;' +
+          'background:rgba(0,0,0,0.78);color:#0f0;padding:6px 8px;border-radius:4px;' +
+          'max-width:280px;white-space:pre-wrap;pointer-events:none;display:none;';
+        document.body.appendChild(probe);
+        function diag(msg) {
+          probe.textContent = msg;
+          probe.style.display = 'block';
+          try { console.log('[DIAG] ' + msg); } catch(e){}
+        }
+        diag('boot:1');
+        diag('boot:1 ProductsDB=' + (typeof ProductsDB) + ' indexedDB=' + (typeof indexedDB));
+        document.addEventListener('DOMContentLoaded', function () { diag('DOMContentLoaded'); });
+        window.addEventListener('load', function () { diag('window.load'); });
+      } catch (e) {
+        try { console.error('probe error', e); } catch(e2){}
+      }
+    })();
+  </script>
+  <script>
+    /* 渲染最近上架产品：每页 10 个（5 个一排 = 两排），可用左右按钮轮换翻页
+       数据源优先级：
+         1) 并行发起 ProductsDB.getAll() 与 fetch JSON，谁先 resolve 用谁
+         2) 两者都失败 → 兜底为空数组（显示"暂无新品"）
+         3) 任何 Promise reject 都被 catch，脚本永不抛异常
+    */
     (function () {
       var grid = document.getElementById('newArrivalsGrid');
       var emptyTip = document.getElementById('newArrivalsEmpty');
@@ -651,19 +683,16 @@
       var nextBtn = document.getElementById('newArrivalsNext');
       if (!grid) return;
 
-      var PAGE_SIZE = 10;   // 每页 10 个（配合 5 列布局 = 两排）
+      var PAGE_SIZE = 10;
       var allProducts = [];
       var pageCount = 1;
       var page = 0;
 
-      // 渲染当前页的产品卡片
       function renderPage() {
         grid.innerHTML = '';
-
         allProducts.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE).forEach(function (p) {
           var firstImg = (p.images && p.images[0]) || '';
           var secondImg = (p.images && p.images[1]) || firstImg;
-
           var article = document.createElement('article');
           article.className = 'product-card';
           article.setAttribute('data-category', p.category || '');
@@ -678,10 +707,7 @@
               '<h3>' + (p.name || '新品') + '</h3>' +
               (p.description ? '<p>' + p.description + '</p>' : '') +
             '</div>';
-
           grid.appendChild(article);
-
-          // hover 切换第二张图
           var link = article.querySelector('.product-link');
           var img = article.querySelector('img');
           if (link && img && p.images && p.images.length >= 2) {
@@ -691,7 +717,6 @@
         });
       }
 
-      // 左右轮换翻页（循环：最后一页再点下一张回到第一页）
       function turn(step) {
         if (pageCount <= 1) return;
         page = (page + step + pageCount) % pageCount;
@@ -700,21 +725,44 @@
       if (prevBtn) prevBtn.addEventListener('click', function () { turn(-1); });
       if (nextBtn) nextBtn.addEventListener('click', function () { turn(1); });
 
-      ProductsDB.getAll().then(function (products) {
+      function finish(products) {
         allProducts = products || [];
-
         if (allProducts.length === 0) {
           if (emptyTip) emptyTip.style.display = '';
           if (nav) nav.style.display = 'none';
           return;
         }
-
-        // getAll 已按上架时间降序（最新的在前），这里直接分页
         pageCount = Math.ceil(allProducts.length / PAGE_SIZE);
         renderPage();
+      }
+
+      /* 两路并行，谁先 resolve 用谁 */
+      var pdbP = Promise.resolve()
+        .then(function () {
+          if (typeof ProductsDB === 'undefined' || !ProductsDB.getAll) {
+            return Promise.reject(new Error('ProductsDB missing'));
+          }
+          return ProductsDB.getAll();
+        })
+        .then(function (list) { return list || []; })
+        .catch(function () { return []; });   // PDB 挂了也别 reject
+
+      var jsonP = fetch('js/default-products.json')
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (list) { return Array.isArray(list) ? list : []; })
+        .catch(function () { return []; });   // fetch 挂了也别 reject
+
+      // 等两路都返回，取非空的那一路（JSON 兜底永远有 15 款）
+      Promise.all([pdbP, jsonP]).then(function (results) {
+        var pdbList = results[0];
+        var jsonList = results[1];
+        var chosen = (pdbList && pdbList.length) ? pdbList : jsonList;
+        finish(chosen);
       }).catch(function () {
-        if (emptyTip) emptyTip.style.display = '';
-        if (nav) nav.style.display = 'none';
+        finish([]);   // 极端兜底：真的啥都没了
       });
     })();
   </script>
