@@ -640,7 +640,7 @@
     </div>
   </footer>
 
-  <script src="js/products-db.js?v=20261031"></script>
+  <script src="js/products-db.js?v=20261032"></script>
   <script>
     /* ================================================================
        诊断探针：把整条执行链路的状态打到 DOM 上，便于无痕窗口排查
@@ -767,32 +767,25 @@
     })();
   </script>
   <script>
-    /* 渲染畅销系列产品（Bestselling Collections） */
+    /* 渲染畅销系列产品（Bestselling Collections）
+       两路数据源并行：ProductsDB + fetch JSON
+       如果没有产品被标记 bestseller，兜底用前 6 款（保证板块永远有内容）
+    */
     (function () {
       var grid = document.getElementById('bestsellerGrid');
       var emptyTip = document.getElementById('bestsellerEmpty');
       if (!grid) return;
 
-      ProductsDB.getAll().then(function (products) {
-        var bestsellers = (products || []).filter(function (p) {
-          return p.bestseller === true;
-        });
-
-        // 清空原有占位内容（含空状态提示）
+      function render(bestsellers) {
         grid.innerHTML = '';
 
-        if (bestsellers.length === 0) {
+        if (!bestsellers || bestsellers.length === 0) {
           if (emptyTip) {
             grid.appendChild(emptyTip);
             emptyTip.style.display = '';
           }
           return;
         }
-
-        // 按上架时间降序
-        bestsellers.sort(function (a, b) {
-          return (b.createdAt || 0) - (a.createdAt || 0);
-        });
 
         bestsellers.forEach(function (p) {
           var firstImg = (p.images && p.images[0]) || '';
@@ -815,7 +808,6 @@
 
           grid.appendChild(article);
 
-          // hover 切换第二张图
           var link = article.querySelector('.product-link');
           var img = article.querySelector('img');
           if (link && img && p.images && p.images.length >= 2) {
@@ -823,35 +815,39 @@
             link.addEventListener('mouseleave', function () { img.src = firstImg; });
           }
         });
+      }
 
-        // 重新绑定 reveal 动画
-        if (window.reinitializeReveal) {
-          window.reinitializeReveal();
-        } else if ('IntersectionObserver' in window) {
-          var reveals = grid.querySelectorAll('.reveal:not(.visible)');
-          var io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                io.unobserve(entry.target);
-              }
-            });
-          }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-          reveals.forEach(function (el) { io.observe(el); });
-        } else {
-          grid.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visible'); });
+      var pdbP = Promise.resolve()
+        .then(function () {
+          if (typeof ProductsDB === 'undefined' || !ProductsDB.getAll) return Promise.reject(new Error('missing'));
+          return ProductsDB.getAll();
+        })
+        .then(function (list) { return list || []; })
+        .catch(function () { return []; });
+
+      var jsonP = fetch('js/default-products.json')
+        .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
+        .then(function (list) { return Array.isArray(list) ? list : []; })
+        .catch(function () { return []; });
+
+      Promise.all([pdbP, jsonP]).then(function (results) {
+        var pdbList = results[0];
+        var jsonList = results[1];
+        var all = (pdbList && pdbList.length) ? pdbList : jsonList;
+
+        // 先筛带 bestseller 标记的
+        var bs = (all || []).filter(function (p) { return p.bestseller === true; });
+
+        // 如果没人被标记，兜底用前 6 款（保证板块永远有内容）
+        if (bs.length === 0 && all && all.length) {
+          bs = all.slice(0, 6);
         }
 
-        // 通知 main.js 重新筛选（兼容动态加载的卡片）
-        if (window.refreshProductFilter) {
-          window.refreshProductFilter();
-        }
+        // 按上架时间降序
+        bs.sort(function (a, b) { return (b.createdAt || 0) - (a.createdAt || 0); });
+        render(bs);
       }).catch(function () {
-        if (emptyTip) {
-          grid.innerHTML = '';
-          grid.appendChild(emptyTip);
-          emptyTip.style.display = '';
-        }
+        render([]);
       });
     })();
   </script>
