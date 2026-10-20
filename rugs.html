@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=20261018" />
+  <link rel="stylesheet" href="css/style.css?v=20261028" />
 </head>
 <body>
   <a class="skip-link" href="#main">跳至主要内容</a>
@@ -171,7 +171,6 @@
       <div class="container page-hero-content">
         <p class="hero-eyebrow reveal">MATS COLLECTION</p>
         <h1 class="hero-title reveal">MATS</h1>
-        <p class="hero-subtitle reveal">羊毛 · 长毛绒 · 手工编织<br />以一席柔软，定义空间的温度与格调</p>
         <div class="hero-cta">
           <a href="contact.html" class="btn btn-solid">CONTACT US</a>
           <a href="exhibitions.html" class="btn btn-ghost">EXHIBITIONS</a>
@@ -253,7 +252,7 @@
   </footer>
 
   <script src="js/main.js?v=20261017"></script>
-  <script src="js/products-db.js?v=20261018"></script>
+  <script src="js/products-db.js?v=20261019b"></script>
   <script>
     /* 从后台数据库动态加载产品 */
     (function() {
@@ -261,7 +260,7 @@
       var noResults = document.querySelector('.no-results');
       if (!grid) return;
 
-      ProductsDB.getByCategory('rugs').then(function(products) {
+      ProductsDB.getByCategoryPrefix('rugs').then(function(products) {
         if (!products || products.length === 0) {
           // 无数据：保留"筹备中"提示，grid 留空
           return;

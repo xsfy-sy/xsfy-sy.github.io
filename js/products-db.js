@@ -18,7 +18,8 @@
     "BEDDING-Mattress protector": "bedding-mattress-protector",
     "BEDDING-Duvet Cover & Pillowcase Set": "bedding-duvet-cover-pillowcase-set",
     "Grommet Curtains": "curtains-grommet",
-    "Track Curtains": "curtains-track"
+    "Track Curtains": "curtains-track",
+    "MATS-Placemat": "rugs-placemat"
   };
 
   // 按标题归类（大小写、首尾空格不敏感），由上面的映射表派生。

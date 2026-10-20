@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=20261017" />
+  <link rel="stylesheet" href="css/style.css?v=20261028" />
 </head>
 <body>
   <a class="skip-link" href="#main">跳至主要内容</a>
@@ -171,17 +171,17 @@
     <!-- ============ Hero 首屏（保留不变） ============ -->
     <section class="hero" id="hero">
       <div class="hero-media">
-        <a class="hero-slide active" href="#series" aria-label="成品面料质感" tabindex="0">
-          <img src="assets/images/hero-texture-folds.jpg" alt="叠放的家纺面料布褶特写" />
+        <a class="hero-slide active" href="#series" aria-label="面料裁剪车间实景" tabindex="0">
+          <img src="assets/images/hero-export-1.jpg?v=20261019b" alt="家纺面料裁剪车间，大型裁床与层叠面料" />
         </a>
-        <a class="hero-slide" href="#series" aria-label="织物肌理工艺" tabindex="-1">
-          <img src="assets/images/hero-texture-weave.jpg" alt="织物肌理特写" />
+        <a class="hero-slide" href="#series" aria-label="成品包装装箱实景" tabindex="-1">
+          <img src="assets/images/hero-export-2.jpg?v=20261019b" alt="家纺成品包装装箱区，工人将叠好的床品装入出口纸箱" />
         </a>
-        <a class="hero-slide" href="#series" aria-label="坯布整装待发" tabindex="-1">
-          <img src="assets/images/hero-texture-rolls.jpg" alt="坯布卷整装待发" />
+        <a class="hero-slide" href="#series" aria-label="成品仓储实景" tabindex="-1">
+          <img src="assets/images/hero-export-3.jpg?v=20261019b" alt="家纺出口仓库，成箱成卷的备货" />
         </a>
-        <a class="hero-slide" href="#series" aria-label="纱线备料源头" tabindex="-1">
-          <img src="assets/images/hero-texture-yarn.jpg" alt="纱线备料" />
+        <a class="hero-slide" href="#series" aria-label="装柜出运实景" tabindex="-1">
+          <img src="assets/images/hero-export-4.jpg?v=20261019b" alt="工人把成箱床品装入集装箱准备出运" />
         </a>
       </div>
       <div class="hero-scrim"></div>
@@ -222,6 +222,14 @@
       <div class="container">
         <div class="block-head reveal">
           <h2 class="block-title">NEWLY LAUNCHED · KEEP PACE WITH TIMES</h2>
+          <div class="grid-nav" id="newArrivalsNav">
+            <button type="button" class="grid-nav-btn" id="newArrivalsPrev" aria-label="上一页" title="上一页">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+            </button>
+            <button type="button" class="grid-nav-btn" id="newArrivalsNext" aria-label="下一页" title="下一页">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
         </div>
         <div class="product-grid" id="newArrivalsGrid">
           <p class="empty-tip" id="newArrivalsEmpty" style="display:none;">暂无新品</p>
@@ -469,14 +477,39 @@
                 <path d="M3 21V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v16l-4-2-4 2-4-2-4 2z" />
                 <path d="M8 8h8M8 12h8M8 16h5" />
               </svg>
-              <h3>公司信息</h3>
+              <h3>Company Information</h3>
             </div>
-            <div class="contact-detail">
-              <p><strong>NINGBO HEILIGS I&E CO.,LTD.</strong></p>
-              <p>宁波赫力格斯进出口有限公司</p>
-              <p>General Manager: Pier Lin 林杰</p>
-              <p>NO:.313 CIGU E-COMMERCIAL PARK,<br />CICHENG, NINGBO 315031, CHINA</p>
-              <p>宁波市江北区慈城慈谷电商园318/313号</p>
+            <button class="contact-nav contact-nav-prev" type="button" aria-label="上一家公司">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+            </button>
+            <button class="contact-nav contact-nav-next" type="button" aria-label="下一家公司">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+            </button>
+            <div class="contact-carousel company-carousel">
+              <div class="contact-slides">
+                <article class="contact-slide is-active">
+                  <div class="contact-detail">
+                    <p><strong>NINGBO HEILIGS I&E CO.,LTD.</strong></p>
+                    <p>宁波赫力格斯进出口有限公司</p>
+                    <p>General Manager: Pier Lin 林杰</p>
+                    <p>NO:.318/313 CIGU E-COMMERCIAL PARK,<br />CICHENG, NINGBO 315031, CHINA</p>
+                    <p>宁波市江北区慈城慈谷电商园318/313号</p>
+                    <p>PHONE: <a href="tel:+8613777942972">+86-13777942972</a></p>
+                    <p>邮箱：<a href="mailto:pierlin@vip.163.com">pierlin@vip.163.com</a></p>
+                  </div>
+                </article>
+                <article class="contact-slide">
+                  <div class="contact-detail">
+                    <p><strong>NINGBO SWEETY HOME CO.,LTD.</strong></p>
+                    <p>宁波思唯家居有限公司</p>
+                    <p>General Manager: Pier Lin 林杰</p>
+                    <p>NO:.318/313 CIGU E-COMMERCIAL PARK,<br />CICHENG, NINGBO 315031, CHINA</p>
+                    <p>宁波市江北区慈城慈谷电商园318/313号</p>
+                    <p>PHONE: <a href="tel:+8613777942972">+86-13777942972</a></p>
+                    <p>邮箱：<a href="mailto:pierlin@vip.163.com">pierlin@vip.163.com</a></p>
+                  </div>
+                </article>
+              </div>
             </div>
           </div>
           <div class="contact-card reveal">
@@ -484,7 +517,7 @@
               <svg class="contact-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
               </svg>
-              <h3>联系方式</h3>
+              <h3>Contact Information</h3>
             </div>
             <button class="contact-nav contact-nav-prev" type="button" aria-label="上一位联系人">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
@@ -502,8 +535,8 @@
                     <p><span class="contact-label">邮箱</span><br /><a href="mailto:pierlin@vip.163.com">pierlin@vip.163.com</a></p>
                   </div>
                   <div class="contact-actions">
-                    <a href="tel:+8613777942972" class="btn btn-solid btn-sm">立即拨打</a>
-                    <a href="mailto:pierlin@vip.163.com" class="btn btn-outline btn-sm">发送邮件</a>
+                    <a href="tel:+8613777942972" class="btn btn-solid btn-sm">CALL NOW</a>
+                    <a href="mailto:pierlin@vip.163.com" class="btn btn-outline btn-sm">SEND EMAIL</a>
                   </div>
                 </article>
                 <article class="contact-slide">
@@ -514,8 +547,8 @@
                     <p><span class="contact-label">邮箱</span><br /><a href="mailto:cherry@nbheiligs.com">cherry@nbheiligs.com</a></p>
                   </div>
                   <div class="contact-actions">
-                    <a href="tel:+8618757410206" class="btn btn-solid btn-sm">立即拨打</a>
-                    <a href="mailto:cherry@nbheiligs.com" class="btn btn-outline btn-sm">发送邮件</a>
+                    <a href="tel:+8618757410206" class="btn btn-solid btn-sm">CALL NOW</a>
+                    <a href="mailto:cherry@nbheiligs.com" class="btn btn-outline btn-sm">SEND EMAIL</a>
                   </div>
                 </article>
                 <article class="contact-slide">
@@ -526,8 +559,8 @@
                     <p><span class="contact-label">邮箱</span><br /><a href="mailto:jessica@nbheiligs.com">jessica@nbheiligs.com</a></p>
                   </div>
                   <div class="contact-actions">
-                    <a href="tel:+8615058016856" class="btn btn-solid btn-sm">立即拨打</a>
-                    <a href="mailto:jessica@nbheiligs.com" class="btn btn-outline btn-sm">发送邮件</a>
+                    <a href="tel:+8615058016856" class="btn btn-solid btn-sm">CALL NOW</a>
+                    <a href="mailto:jessica@nbheiligs.com" class="btn btn-outline btn-sm">SEND EMAIL</a>
                   </div>
                 </article>
                 <article class="contact-slide">
@@ -538,8 +571,8 @@
                     <p><span class="contact-label">邮箱</span><br /><a href="mailto:helena@nbheiligs.com">helena@nbheiligs.com</a></p>
                   </div>
                   <div class="contact-actions">
-                    <a href="tel:+8617815934595" class="btn btn-solid btn-sm">立即拨打</a>
-                    <a href="mailto:helena@nbheiligs.com" class="btn btn-outline btn-sm">发送邮件</a>
+                    <a href="tel:+8617815934595" class="btn btn-solid btn-sm">CALL NOW</a>
+                    <a href="mailto:helena@nbheiligs.com" class="btn btn-outline btn-sm">SEND EMAIL</a>
                   </div>
                 </article>
               </div>
@@ -591,7 +624,7 @@
       <nav class="footer-col" aria-label="关于赫力格斯">
         <h4>关于赫力格斯</h4>
         <ul>
-          <li><a href="#series">在线选购</a></li>
+          <li><a href="index.html">首页</a></li>
           <li><a href="contact.html">联系我们</a></li>
           <li><a href="exhibitions.html">最近参展</a></li>
         </ul>
@@ -607,38 +640,32 @@
     </div>
   </footer>
 
-  <script src="js/products-db.js?v=20261018"></script>
+  <script src="js/products-db.js?v=20261019b"></script>
   <script>
-    /* 渲染最近上架产品 */
+    /* 渲染最近上架产品：每页 10 个（5 个一排 = 两排），可用左右按钮轮换翻页 */
     (function () {
       var grid = document.getElementById('newArrivalsGrid');
       var emptyTip = document.getElementById('newArrivalsEmpty');
+      var nav = document.getElementById('newArrivalsNav');
+      var prevBtn = document.getElementById('newArrivalsPrev');
+      var nextBtn = document.getElementById('newArrivalsNext');
       if (!grid) return;
 
-      var LIMIT = 12;
+      var PAGE_SIZE = 10;   // 每页 10 个（配合 5 列布局 = 两排）
+      var allProducts = [];
+      var pageCount = 1;
+      var page = 0;
 
-      ProductsDB.getAll().then(function (products) {
-        if (!products || products.length === 0) {
-          if (emptyTip) emptyTip.style.display = '';
-          return;
-        }
-
-        // 按上架时间降序（最新的在前）
-        products.sort(function (a, b) {
-          return (b.createdAt || 0) - (a.createdAt || 0);
-        });
-
-        var latest = products.slice(0, LIMIT);
-
-        // 清空占位
+      // 渲染当前页的产品卡片
+      function renderPage() {
         grid.innerHTML = '';
 
-        latest.forEach(function (p) {
+        allProducts.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE).forEach(function (p) {
           var firstImg = (p.images && p.images[0]) || '';
           var secondImg = (p.images && p.images[1]) || firstImg;
 
           var article = document.createElement('article');
-          article.className = 'product-card reveal';
+          article.className = 'product-card';
           article.setAttribute('data-category', p.category || '');
           article.innerHTML =
             '<a href="product-detail.html?id=' + encodeURIComponent(p.id) + '" class="product-link">' +
@@ -662,26 +689,32 @@
             link.addEventListener('mouseleave', function () { img.src = firstImg; });
           }
         });
+      }
 
-        // 重新绑定 reveal 动画
-        if (window.reinitializeReveal) {
-          window.reinitializeReveal();
-        } else if ('IntersectionObserver' in window) {
-          var reveals = grid.querySelectorAll('.reveal:not(.visible)');
-          var io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                io.unobserve(entry.target);
-              }
-            });
-          }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-          reveals.forEach(function (el) { io.observe(el); });
-        } else {
-          grid.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visible'); });
+      // 左右轮换翻页（循环：最后一页再点下一张回到第一页）
+      function turn(step) {
+        if (pageCount <= 1) return;
+        page = (page + step + pageCount) % pageCount;
+        renderPage();
+      }
+      if (prevBtn) prevBtn.addEventListener('click', function () { turn(-1); });
+      if (nextBtn) nextBtn.addEventListener('click', function () { turn(1); });
+
+      ProductsDB.getAll().then(function (products) {
+        allProducts = products || [];
+
+        if (allProducts.length === 0) {
+          if (emptyTip) emptyTip.style.display = '';
+          if (nav) nav.style.display = 'none';
+          return;
         }
+
+        // getAll 已按上架时间降序（最新的在前），这里直接分页
+        pageCount = Math.ceil(allProducts.length / PAGE_SIZE);
+        renderPage();
       }).catch(function () {
         if (emptyTip) emptyTip.style.display = '';
+        if (nav) nav.style.display = 'none';
       });
     })();
   </script>
@@ -777,45 +810,52 @@
   <script src="js/main.js?v=20261017"></script>
   <script>
     (function () {
-      var carousel = document.querySelector('.contact-carousel');
-      if (!carousel) return;
-      var slides = carousel.querySelectorAll('.contact-slide');
-      var prevBtn = document.querySelector('.contact-nav-prev');
-      var nextBtn = document.querySelector('.contact-nav-next');
-      if (!slides.length) return;
+      var carousels = document.querySelectorAll('.contact-carousel');
+      if (!carousels.length) return;
 
-      var current = 0;
-      var total = slides.length;
-      var track = carousel.querySelector('.contact-slides');
+      carousels.forEach(function (carousel) {
+        var slides = carousel.querySelectorAll('.contact-slide');
+        if (!slides.length) return;
 
-      function update() {
-        track.style.transform = 'translateX(' + (-current * 100) + '%)';
-      }
+        var total = slides.length;
+        var track = carousel.querySelector('.contact-slides');
+        var card = carousel.closest('.contact-card');
+        var prevBtn = card ? card.querySelector('.contact-nav-prev') : null;
+        var nextBtn = card ? card.querySelector('.contact-nav-next') : null;
+        var bidirectional = carousel.classList.contains('company-carousel');
+        var current = 0;
 
-      function goNext() {
-        if (current === total - 1) {
-          track.style.transition = 'none';
-          current = 0;
-          update();
-          void track.offsetHeight;
-          track.style.transition = '';
-        } else {
-          current++;
-          update();
+        function update(animate) {
+          if (animate === false) { track.style.transition = 'none'; }
+          track.style.transform = 'translateX(' + (-current * 100) + '%)';
+          if (animate === false) {
+            void track.offsetHeight;
+            track.style.transition = '';
+          }
         }
-      }
 
-      if (prevBtn) prevBtn.addEventListener('click', goNext);
-      if (nextBtn) nextBtn.addEventListener('click', goNext);
+        function goNext() {
+          if (current === total - 1) { current = 0; update(false); }
+          else { current++; update(); }
+        }
 
-      update();
+        function goPrev() {
+          if (current === 0) { current = total - 1; update(false); }
+          else { current--; update(); }
+        }
 
-      var timer = setInterval(goNext, 3000);
-      var card = carousel.closest('.contact-card');
-      if (card) {
-        card.addEventListener('mouseenter', function () { clearInterval(timer); });
-        card.addEventListener('mouseleave', function () { timer = setInterval(goNext, 3000); });
-      }
+        if (prevBtn) prevBtn.addEventListener('click', bidirectional ? goPrev : goNext);
+        if (nextBtn) nextBtn.addEventListener('click', goNext);
+
+        update(false);
+
+        var interval = bidirectional ? 4000 : 3000;
+        var timer = setInterval(goNext, interval);
+        if (card) {
+          card.addEventListener('mouseenter', function () { clearInterval(timer); });
+          card.addEventListener('mouseleave', function () { timer = setInterval(goNext, interval); });
+        }
+      });
     })();
   </script>
 </body>

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=20261028" />
   <style>
     body { background: #f5f5f0; }
     .admin-wrap {
@@ -146,6 +146,12 @@
       grid-template-columns: repeat(4, 1fr);
       gap: 10px;
       margin-top: 12px;
+    }
+    /* 拖拽排序时拖到缩略图右侧/下方的空白区域 → 放到最后一位 */
+    .upload-preview.drag-zone {
+      outline: 2px dashed #b0895a;
+      outline-offset: 6px;
+      border-radius: 10px;
     }
     .upload-preview .preview-item {
       position: relative;
@@ -378,6 +384,21 @@
       color: #c0392b;
     }
 
+    /* 留言信息区 */
+    .product-admin-list.message-admin-list {
+      margin-top: 32px;
+      height: auto;
+      max-height: 620px;
+    }
+    .message-admin-list .admin-product-item { align-items: flex-start; }
+    .message-admin-list .admin-product-item .info p {
+      white-space: normal;
+      overflow: visible;
+      color: #555;
+      line-height: 1.7;
+      word-break: break-word;
+    }
+
     .empty-state {
       text-align: center;
       padding: 60px 20px;
@@ -589,6 +610,20 @@
         </div>
       </div>
     </div>
+
+    <!-- 留言信息 -->
+    <div class="product-admin-list message-admin-list">
+      <div class="list-header">
+        <h2>留言信息 (<span id="msgTotalCount">0</span>)</h2>
+        <div class="list-filters">
+          <button class="admin-btn" id="refreshMsgBtn">刷新</button>
+          <button class="admin-btn" id="clearMsgBtn">清空留言</button>
+        </div>
+      </div>
+      <div class="scroll-area" id="msgScrollArea">
+        <div id="msgList"></div>
+      </div>
+    </div>
   </div>
 
   <!-- 确认上传对话框 -->
@@ -603,7 +638,8 @@
     </div>
   </div>
 
-  <script src="js/products-db.js?v=20261018"></script>
+  <script src="js/products-db.js?v=20261019b"></script>
+  <script src="js/messages-db.js?v=20261028"></script>
   <script>
     var currentImages = [];
     var editingId = null;
@@ -613,13 +649,16 @@
     var productCategory = document.getElementById('productCategory');
     var productName = document.getElementById('productName');
 
-    // 各主分类对应的细分类（仅 bedding 有细分类，其余分类无细分类）
+    // 各主分类对应的细分类
     var subcategoryMap = {
       bedding: [
         { value: 'BEDDING-Blanket', label: 'BEDDING-Blanket' },
         { value: 'BEDDING-Cushion', label: 'BEDDING-Cushion' },
         { value: 'BEDDING-Mattress protector', label: 'BEDDING-Mattress protector' },
         { value: 'BEDDING-Duvet Cover & Pillowcase Set', label: 'BEDDING-Duvet Cover & Pillowcase Set' }
+      ],
+      rugs: [
+        { value: 'MATS-Placemat', label: 'MATS-Placemat' }
       ],
       curtains: [
         { value: 'Grommet Curtains', label: 'Grommet Curtains' },
@@ -659,6 +698,9 @@
         if (name === 'BEDDING-Cushion') return 'bedding-cushion';
         if (name === 'BEDDING-Mattress protector') return 'bedding-mattress-protector';
         if (name === 'BEDDING-Duvet Cover & Pillowcase Set') return 'bedding-duvet-cover-pillowcase-set';
+      }
+      if (cat === 'rugs' && name) {
+        if (name === 'MATS-Placemat') return 'rugs-placemat';
       }
       if (cat === 'curtains' && name) {
         if (name === 'Grommet Curtains') return 'curtains-grommet';
@@ -754,6 +796,7 @@
           document.querySelectorAll('.preview-item').forEach(function(el) {
             el.classList.remove('drag-over');
           });
+          uploadPreview.classList.remove('drag-zone');
         });
         item.addEventListener('dragover', function(e) {
           e.preventDefault();
@@ -765,12 +808,20 @@
         });
         item.addEventListener('drop', function(e) {
           e.preventDefault();
+          e.stopPropagation();
           item.classList.remove('drag-over');
+          uploadPreview.classList.remove('drag-zone');
           var targetIdx = parseInt(item.dataset.idx, 10);
-          if (dragSrcIdx === null || dragSrcIdx === targetIdx) return;
-          // 交换位置
+          if (dragSrcIdx === null) return;
+
+          /* 落在缩略图左半 → 插到它前面；落在右半 → 插到它后面。
+             这样「放到最后一位」也拖得到（拖到最后一张的右半即可）。 */
+          var rect = item.getBoundingClientRect();
+          var insertAfter = (e.clientX - rect.left) > rect.width / 2;
+
           var moved = currentImages.splice(dragSrcIdx, 1)[0];
-          currentImages.splice(targetIdx, 0, moved);
+          var at = targetIdx - (dragSrcIdx < targetIdx ? 1 : 0) + (insertAfter ? 1 : 0);
+          currentImages.splice(at, 0, moved);
           dragSrcIdx = null;
           renderPreview();
         });
@@ -778,6 +829,25 @@
         uploadPreview.appendChild(item);
       });
     }
+
+    /* 拖到缩略图右侧/下方的空白区域 → 直接放到最后一位 */
+    uploadPreview.addEventListener('dragover', function(e) {
+      if (dragSrcIdx === null) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      /* 仅当真正落在网格空白处（而非某张缩略图上）时才高亮，避免干扰 */
+      if (e.target === uploadPreview) uploadPreview.classList.add('drag-zone');
+    });
+    uploadPreview.addEventListener('drop', function(e) {
+      if (dragSrcIdx === null) return;
+      e.preventDefault();
+      e.stopPropagation();
+      uploadPreview.classList.remove('drag-zone');
+      var moved = currentImages.splice(dragSrcIdx, 1)[0];
+      currentImages.push(moved);
+      dragSrcIdx = null;
+      renderPreview();
+    });
 
     // 上传产品（弹出确认对话框）
     var confirmModal = document.getElementById('confirmModal');
@@ -904,6 +974,9 @@
         { value: 'bedding-cushion', label: 'BEDDING-Cushion' },
         { value: 'bedding-mattress-protector', label: 'BEDDING-Mattress protector' },
         { value: 'bedding-duvet-cover-pillowcase-set', label: 'BEDDING-Duvet Cover & Pillowcase Set' }
+      ],
+      rugs: [
+        { value: 'rugs-placemat', label: 'MATS-Placemat' }
       ],
       curtains: [
         { value: 'curtains-grommet', label: 'Grommet Curtains' },
@@ -1155,9 +1228,72 @@
       importFile.value = '';
     });
 
+    // ============ 留言信息 ============
+    var msgList = document.getElementById('msgList');
+    var msgTotalCount = document.getElementById('msgTotalCount');
+
+    var subjectFallback = '未填写咨询类型';
+
+    function escapeHtml(str) {
+      return String(str == null ? '' : str).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function formatMsgTime(ts) {
+      var d = new Date(ts || 0);
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+      return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) +
+        ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+    }
+
+    function renderMessages(list) {
+      msgTotalCount.textContent = list.length;
+      if (!list.length) {
+        msgList.innerHTML = '<div class="empty-state"><p>暂无留言</p></div>';
+        return;
+      }
+      var html = '';
+      list.forEach(function (m) {
+        html += '<div class="admin-product-item" data-id="' + m.id + '">';
+        html += '<div class="info">';
+        html += '<span class="badge">' + (escapeHtml(m.subject) || subjectFallback) + '</span>';
+        html += '<span class="badge">' + formatMsgTime(m.createdAt) + '</span>';
+        html += '<h3>' + escapeHtml(m.name) + ' · ' + escapeHtml(m.phone) + '</h3>';
+        if (m.email) html += '<p>邮箱：' + escapeHtml(m.email) + '</p>';
+        html += '<p>' + escapeHtml(m.message) + '</p>';
+        html += '</div>';
+        html += '<div class="item-actions">';
+        html += '<button class="del-btn" data-id="' + m.id + '">删除</button>';
+        html += '</div>';
+        html += '</div>';
+      });
+      msgList.innerHTML = html;
+
+      msgList.querySelectorAll('.del-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (!confirm('确认删除这条留言？')) return;
+          MessagesDB.remove(btn.getAttribute('data-id')).then(loadMessages);
+        });
+      });
+    }
+
+    function loadMessages() {
+      MessagesDB.getAll().then(renderMessages).catch(function (err) {
+        msgList.innerHTML = '<div class="empty-state"><p>读取留言失败：' + escapeHtml(err.message) + '</p></div>';
+      });
+    }
+
+    document.getElementById('refreshMsgBtn').addEventListener('click', loadMessages);
+    document.getElementById('clearMsgBtn').addEventListener('click', function () {
+      if (!confirm('确认清空全部留言？此操作不可恢复。')) return;
+      MessagesDB.clearAll().then(loadMessages);
+    });
+
     // 初始加载
     updateFilterSubcategory();
     loadProducts();
+    loadMessages();
   </script>
 </body>
 </html>

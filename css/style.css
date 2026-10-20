@@ -1411,6 +1411,37 @@ address { font-style: normal; }
   grid-template-columns: repeat(2, 1fr);
   gap: clamp(14px, 2vw, 24px);
 }
+/* 首页「NEWLY LAUNCHED」产品网格（#newArrivalsGrid）与全站产品列表保持一致：
+   统一使用紧凑的 5 列布局。该网格位于 #campaign 区块内，此前未套用
+   #series .product-grid 的 5 列规则，只能走通用 .product-grid 响应式
+   （4 列 / ≤900px 2 列），导致首页产品卡片比其它页面宽 2 倍以上、图片被异常放大。 */
+#campaign .product-grid {
+  grid-template-columns: repeat(5, 1fr);
+  gap: clamp(12px, 1.6vw, 20px);
+}
+/* NEWLY LAUNCHED 板块的左右翻页按钮：无边框、仅图标，与站内轮播控件风格一致 */
+.grid-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  align-self: center;
+}
+.grid-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--brown);
+  cursor: pointer;
+  transition: color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.grid-nav-btn svg { width: 22px; height: 22px; }
+.grid-nav-btn:hover { color: var(--gold); }
+.grid-nav-btn:active { transform: scale(0.94); }
 .campaign-card {
   position: relative;
   display: block;
@@ -1746,6 +1777,15 @@ address { font-style: normal; }
   transition: transform 0.9s var(--ease);
 }
 .product-card:hover .product-media img { transform: scale(1.05); }
+
+/* 首页产品图片与其它产品列表页保持一致：完整显示不裁剪 + 内边距，
+   与 bedding / rugs / curtains 等列表页的图片处理方式完全相同，
+   避免图片以 cover 填满整个相框造成「被放大、被裁掉」的观感 */
+#newArrivalsGrid .product-media img,
+#bestsellerGrid .product-media img {
+  object-fit: contain;
+  padding: 8px 32px;
+}
 
 .product-badge {
   position: absolute;
@@ -2359,11 +2399,11 @@ address { font-style: normal; }
   text-transform: uppercase;
 }
 .contact-phone {
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--brown);
-  letter-spacing: 0.02em;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 400;
+  color: inherit;
+  letter-spacing: normal;
   transition: color var(--dur) var(--ease);
 }
 .contact-card:hover .contact-phone { color: var(--gold); }
@@ -2373,6 +2413,23 @@ address { font-style: normal; }
   display: flex;
   gap: 12px;
   margin-top: 24px;
+}
+.contact-actions .btn:hover {
+  animation: btnShake 0.4s var(--ease);
+}
+.contact-actions .btn-solid:hover {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  border-color: rgba(0, 0, 0, 0.7);
+  transform: none;
+  box-shadow: none;
+}
+.contact-actions .btn-outline:hover {
+  background: transparent;
+  color: #000;
+  border-color: #000;
+  transform: none;
+  box-shadow: none;
 }
 .contact-warning {
   margin-top: clamp(24px, 3vw, 36px);
@@ -2655,6 +2712,11 @@ address { font-style: normal; }
   position: relative;
   z-index: 2;
   padding: 120px 0 80px;
+}
+
+/* 6 个产品分类页 Banner：文字与按钮整体上移一半 */
+.page-hero:is(.page-hero--bedding, .page-hero--mats, .page-hero--pet, .page-hero--sundries, .page-hero--curtains, .page-hero--outdoor, .page-hero--contact, .page-hero--exhibitions) .page-hero-content {
+  padding: 60px 0 140px;
 }
 
 .page-hero .hero-eyebrow {
@@ -3000,6 +3062,9 @@ address { font-style: normal; }
   .page-hero-content {
     padding: 100px 0 60px;
   }
+  .page-hero:is(.page-hero--bedding, .page-hero--mats, .page-hero--pet, .page-hero--sundries, .page-hero--curtains, .page-hero--outdoor, .page-hero--contact, .page-hero--exhibitions) .page-hero-content {
+    padding: 50px 0 110px;
+  }
 }
 
 /* ---------- 无障碍：减少动效 ---------- */
@@ -3125,4 +3190,73 @@ address { font-style: normal; }
   .exhibition-item--reverse .exhibition-figure {
     order: 0;
   }
+}
+
+/* ============ 移动端向电脑端靠拢（统一布局） ============ */
+/* 1) 产品列表：手机上不再降为 1 列 */
+@media (max-width: 1023px) {
+  .product-grid { grid-template-columns: repeat(3, 1fr); }
+}
+/* 2) 顶部菜单：手机上完整展开一行导航（不用抽屉替代）；3) 产品列表多列 */
+@media (max-width: 900px) {
+  .header-inner {
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    padding-block: 12px;
+  }
+  .main-nav {
+    display: flex;
+    flex: 1 0 100%;
+    order: 3;
+    justify-content: center;
+  }
+  .main-nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px;
+  }
+  .main-nav .nav-link {
+    padding: 6px 8px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+  .product-grid { grid-template-columns: repeat(3, 1fr); }
+}
+/* 4) Hero 按钮并排、页脚多列、产品网格 2 列 */
+@media (max-width: 640px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: none;
+    margin-inline: 0;
+  }
+  .campaign-cards { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-bottom {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 18px;
+  }
+  .hero-cta { justify-content: center; }
+  .hero-cta .btn { width: auto; }
+  .main-nav .nav-link {
+    padding: 4px 5px;
+    font-size: 10px;
+    letter-spacing: 0.02em;
+  }
+}
+
+/* ============ 联系我们页：上下板块间距收紧 ============ */
+/* 信息卡片板块底部与在线留言板块顶部的留白各减半 */
+.page-contact .contact-section {
+  padding-bottom: clamp(28px, 3.5vw, 56px);
+}
+.page-contact .section-tint {
+  padding-top: clamp(28px, 3.5vw, 56px);
+}
+
+/* ============ 最近参展页：末尾展会图片与页脚之间补足留白 ============ */
+/* .exhibition-section.section 底部内边距为 0，末张图片会紧贴页脚灰色区域 */
+.page-exhibitions .exhibition-section {
+  padding-bottom: clamp(48px, 7vw, 96px);
 }
