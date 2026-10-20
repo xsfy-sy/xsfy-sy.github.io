@@ -19,7 +19,7 @@
   --gold-soft:    #D3BE93;   /* 浅香槟 描边 */
   --gold-pale:    #C9A974;   /* 淡香槟金 顶底背景 */
   --moss:         #475540;   /* 墨绿 点缀 */
-  --line:         #D8CCB6;   /* 分隔线 暖米 */
+  --line:         #E8DFCE;   /* 分隔线 暖米（调淡） */
   --sale:         #9B2730;   /* 现价红 酒红 */
   --charcoal:     #2B261D;   /* 浓咖灰 深色背景 */
   --charcoal-2:   #1C1812;   /* 极深背景 */
@@ -39,13 +39,13 @@
   --dur: 0.6s;
 
   /* 阴影 — 层次更精细 */
-  --shadow-soft: 0 24px 60px rgba(var(--shadow-rgb), 0.10);
-  --shadow-card: 0 1px 3px rgba(var(--shadow-rgb), 0.04), 0 8px 24px rgba(var(--shadow-rgb), 0.06);
-  --shadow-card-hover: 0 4px 8px rgba(var(--shadow-rgb), 0.06), 0 24px 48px rgba(var(--shadow-rgb), 0.16);
+  --shadow-soft: 0 24px 60px rgba(var(--shadow-rgb), 0.08);
+  --shadow-card: 0 1px 2px rgba(var(--shadow-rgb), 0.02), 0 4px 12px rgba(var(--shadow-rgb), 0.03);
+  --shadow-card-hover: 0 2px 6px rgba(var(--shadow-rgb), 0.04), 0 8px 20px rgba(var(--shadow-rgb), 0.06);
 
   /* 圆角 */
-  --radius: 10px;
-  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-sm: 5px;
 }
 
 /* ---------- Reset ---------- */
@@ -1473,7 +1473,7 @@ address { font-style: normal; }
   transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 .campaign-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-card-hover);
 }
 .campaign-card img {
@@ -1481,11 +1481,11 @@ address { font-style: normal; }
   object-fit: cover;
   transition: transform 0.9s var(--ease);
 }
-.campaign-card:hover img { transform: scale(1.06); }
+.campaign-card:hover img { transform: scale(1.02); }
 .campaign-card::after {
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 30%, rgba(20,15,10,0.65) 100%);
+  background: linear-gradient(180deg, transparent 35%, rgba(20,15,10,0.38) 100%);
   pointer-events: none;
 }
 .campaign-overlay {
@@ -1497,19 +1497,16 @@ address { font-style: normal; }
 .campaign-overlay h3 {
   font-family: var(--serif);
   font-size: clamp(20px, 2.4vw, 26px);
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  letter-spacing: 0.05em;
 }
 .campaign-overlay span {
   display: inline-block;
   margin-top: 6px;
-  font-size: 12.5px;
-  letter-spacing: 0.2em;
+  font-size: 12px;
+  letter-spacing: 0.18em;
   color: var(--gold-soft);
-  transform: translateY(6px);
-  transition: transform 0.5s var(--ease);
 }
-.campaign-card:hover .campaign-overlay span { transform: translateY(0); }
 
 /* ---------- 按空间选购 ---------- */
 .room-grid {
@@ -1535,7 +1532,7 @@ address { font-style: normal; }
   transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 .room-card:hover .room-img {
-  transform: scale(1.04);
+  transform: scale(1.02);
   box-shadow: var(--shadow-card-hover);
 }
 .room-img img {
@@ -1543,16 +1540,14 @@ address { font-style: normal; }
   object-fit: cover;
   transition: transform 0.8s var(--ease);
 }
-.room-card:hover .room-img img { transform: scale(1.06); }
+.room-card:hover .room-img img { transform: scale(1.02); }
 .room-label {
   font-family: var(--sans);
   font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-weight: 400;
+  letter-spacing: 0.06em;
   color: var(--ink);
-  transition: color var(--dur) var(--ease);
 }
-.room-card:hover .room-label { color: var(--brown); }
 
 /* ---------- 品类总览 ---------- */
 .cat-spotlight.section { padding-top: clamp(16px, 2vw, 28px); padding-bottom: 0; }
@@ -1627,12 +1622,10 @@ address { font-style: normal; }
 .spotlight-card {
   display: block;
   background: #fff;
-  border: 1px solid #eadfcc;
-  border-radius: 14px;
+  border: 1px solid #ece3d1;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow:
-    0 1px 3px rgba(40, 32, 24, 0.04),
-    0 6px 18px rgba(40, 32, 24, 0.06);
+  box-shadow: var(--shadow-card);
   transition: transform 0.5s cubic-bezier(.25,.8,.25,1),
               box-shadow 0.5s var(--ease),
               border-color 0.5s var(--ease);
@@ -1642,27 +1635,23 @@ address { font-style: normal; }
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 14px;
+  border-radius: 10px;
   border: 0px solid transparent;
   transition: border-color 0.5s var(--ease), box-shadow 0.5s var(--ease);
   pointer-events: none;
   z-index: 5;
 }
 .spotlight-card:hover {
-  transform: translateY(-8px);
-  border-color: #c4a97a;
-  box-shadow:
-    0 2px 6px rgba(196, 169, 122, 0.18),
-    0 20px 48px rgba(40, 32, 24, 0.18),
-    0 0 0 1px rgba(196, 169, 122, 0.25);
+  transform: translateY(-2px);
+  border-color: #e6dcc9;
+  box-shadow: var(--shadow-card-hover);
 }
 .spotlight-img {
   position: relative;
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--cream);
-  border: 2px solid #fff;
-  border-radius: 12px;
+  border-radius: 10px;
   margin: 6px;
   box-sizing: border-box;
 }
@@ -1670,14 +1659,14 @@ address { font-style: normal; }
   content: "";
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  height: 50%;
-  background: linear-gradient(to top, rgba(18,14,10,0.72) 0%, rgba(18,14,10,0.30) 55%, rgba(18,14,10,0) 100%);
+  height: 45%;
+  background: linear-gradient(to top, rgba(18,14,10,0.48) 0%, rgba(18,14,10,0.18) 55%, rgba(18,14,10,0) 100%);
   pointer-events: none;
   transition: height 0.5s var(--ease), background 0.5s var(--ease);
 }
 .spotlight-card:hover .spotlight-img::after {
-  height: 60%;
-  background: linear-gradient(to top, rgba(14,10,6,0.82) 0%, rgba(14,10,6,0.38) 50%, rgba(14,10,6,0) 100%);
+  height: 50%;
+  background: linear-gradient(to top, rgba(14,10,6,0.58) 0%, rgba(14,10,6,0.22) 50%, rgba(14,10,6,0) 100%);
 }
 .spotlight-img img {
   width: 100%; height: 100%;
@@ -1686,39 +1675,33 @@ address { font-style: normal; }
   filter: brightness(0.98) saturate(1.02);
 }
 .spotlight-card:hover .spotlight-img img {
-  transform: scale(1.06);
-  filter: brightness(1.04) saturate(1.08);
+  transform: scale(1.02);
 }
 .spotlight-img h3 {
   position: absolute;
-  left: 26px; bottom: 22px;
+  left: 22px; bottom: 18px;
   margin: 0;
   font-family: var(--sans);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.30em;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
   color: #fff;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.30);
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   align-items: flex-start;
-  transition: letter-spacing 0.5s var(--ease);
 }
 .spotlight-img h3::after {
   content: "";
-  width: 24px;
+  width: 18px;
   height: 1px;
   background: #d4b884;
-  opacity: 0.85;
-  transition: width 0.5s var(--ease), opacity 0.5s var(--ease);
-}
-.spotlight-card:hover .spotlight-img h3 {
-  letter-spacing: 0.38em;
+  opacity: 0.75;
 }
 .spotlight-card:hover .spotlight-img h3::after {
-  width: 40px;
+  width: 24px;
   opacity: 1;
 }
 
@@ -1855,9 +1838,8 @@ address { font-style: normal; }
   to   { opacity: 1; transform: translateY(0); }
 }
 .product-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-card-hover);
-  border-color: var(--gold-soft);
 }
 
 .product-media {
@@ -1872,7 +1854,7 @@ address { font-style: normal; }
   box-sizing: border-box;
   transition: transform 0.9s var(--ease);
 }
-.product-card:hover .product-media img { transform: scale(1.05); }
+.product-card:hover .product-media img { transform: scale(1.02); }
 
 /* 首页 NEWLY LAUNCHED 卡片更紧凑 */
 #newArrivalsGrid .product-media {
@@ -1908,19 +1890,19 @@ address { font-style: normal; }
   background: #4a7c2a;
 }
 
-.product-info { padding: 18px 18px 22px; }
+.product-info { padding: 14px 16px 16px; }
 .product-info h3 {
   font-family: var(--serif);
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 500;
   color: var(--ink);
-  letter-spacing: 0.03em;
-  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+  margin-bottom: 4px;
   line-height: 1.4;
 }
 .product-info p {
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: 12.5px;
+  line-height: 1.6;
   color: var(--taupe);
 }
 
@@ -2629,7 +2611,7 @@ address { font-style: normal; }
   background-repeat: no-repeat;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.5;
+  opacity: 0.6;
 }
 .site-footer > * { position: relative; z-index: 1; }
 .footer-grid {
@@ -3005,7 +2987,7 @@ address { font-style: normal; }
   transition: all var(--dur) var(--ease);
 }
 .feature-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-card-hover);
 }
 
@@ -3088,7 +3070,7 @@ address { font-style: normal; }
   transition: all var(--dur) var(--ease);
 }
 .concept-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-card-hover);
 }
 
@@ -3103,7 +3085,7 @@ address { font-style: normal; }
   transition: transform var(--dur) var(--ease);
 }
 .concept-card:hover .concept-img img {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .concept-card h3 {
