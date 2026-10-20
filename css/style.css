@@ -2424,13 +2424,13 @@ address { font-style: normal; }
   transition: opacity 0.5s var(--ease);
 }
 .contact-card:hover::after { opacity: 0.28; }
-/* Company Information — 暖米色调毯子 */
+/* Company Information — 玻璃会议桌+城市天际线 */
 .contact-grid .contact-card:first-of-type::after {
-  background-image: url('../assets/images/hero-cream-blanket.jpg');
+  background-image: url('../assets/images/bg-company.jpg');
 }
-/* Contact Information — 灰蓝色调毯子 */
+/* Contact Information — 皮面办公桌+咖啡+钢笔 */
 .contact-grid .contact-card:last-of-type::after {
-  background-image: url('../assets/images/hero-bluegrey-blanket.jpg');
+  background-image: url('../assets/images/bg-contact.jpg');
 }
 .contact-card::before {
   content: '';
