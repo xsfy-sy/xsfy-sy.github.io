@@ -2611,7 +2611,7 @@ address { font-style: normal; }
   background-color: #faf5ec;
   background-image: url('../assets/images/bg-footer.png');
   background-size: cover;
-  background-position: center;
+  background-position: center 30%;
   background-repeat: no-repeat;
   background-blend-mode: normal;
   position: relative;
