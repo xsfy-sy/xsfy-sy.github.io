@@ -481,13 +481,14 @@ address { font-style: normal; }
   padding: 6px 20px;
   font-family: "Jost", var(--sans);
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 600;
   color: var(--ink-soft);
   text-decoration: none;
   position: relative;
   transition: color var(--dur) var(--ease), letter-spacing var(--dur) var(--ease);
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 .main-nav .nav-link:hover {
   color: var(--gold);
