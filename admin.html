@@ -963,9 +963,6 @@
       promise.then(function() {
         alert(editingId ? '产品已更新' : '产品上传成功');
         softResetForm();
-        searchInput.value = '';
-        filterCategory.value = '';
-        updateFilterSubcategory();
         loadProducts();
       }).catch(function(err) {
         alert('上传失败：' + err.message);
@@ -1438,9 +1435,6 @@
     function deleteProduct(id) {
       if (!confirm('确认删除此产品？')) return;
       ProductsDB.remove(id).then(function() {
-        searchInput.value = '';
-        filterCategory.value = '';
-        updateFilterSubcategory();
         loadProducts();
       });
     }
