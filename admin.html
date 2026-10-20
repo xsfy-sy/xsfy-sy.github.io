@@ -412,12 +412,31 @@
       align-items: center;
       justify-content: center;
       margin-right: 4px;
+      touch-action: none;   /* 阻止触摸设备的滚动干扰 */
     }
     .drag-handle:active { cursor: grabbing; color: #888; }
-    .admin-product-item.drag-item { transition: background 0.15s; }
-    .admin-product-item.drag-over { background: #f5f3ee; }
-    .admin-product-item.drag-item[draggable="true"] { cursor: grab; }
-    .admin-product-item.drag-item[draggable="true"]:active { cursor: grabbing; }
+    .admin-product-item.drag-item { transition: opacity 0.15s; }
+    /* 幽灵副本 */
+    .drag-ghost {
+      opacity: 0.85;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      border-radius: 6px;
+      background: #fff;
+      z-index: 9999;
+      pointer-events: none;
+      transform-origin: center;
+      transition: transform 0.08s ease-out;
+    }
+    /* 插入指示线 */
+    .drag-hint-line {
+      position: fixed;
+      height: 3px;
+      background: linear-gradient(90deg, #c4a97a, #d4bb8a, #c4a97a);
+      border-radius: 2px;
+      box-shadow: 0 2px 6px rgba(196, 169, 122, 0.5);
+      z-index: 9998;
+      pointer-events: none;
+    }
     .drag-hint {
       font-family: 'Jost', sans-serif;
       font-size: 12px;
@@ -1154,7 +1173,7 @@
         var thumb = p.images && p.images[0] ? p.images[0] : '';
         var imgCount = p.images ? p.images.length : 0;
         var catLabel = (p.category === '') ? '<span style="color:#999;">未分类</span>' : (categoryNames[p.category] || p.category);
-        html += '<div class="admin-product-item' + (enableDrag ? ' drag-item' : '') + '" data-id="' + p.id + '"' + (enableDrag ? ' draggable="true"' : '') + '>';
+        html += '<div class="admin-product-item' + (enableDrag ? ' drag-item' : '') + '" data-id="' + p.id + '">';
         if (enableDrag) html += '<div class="drag-handle" title="拖动排序">⋮⋮</div>';
         html += '<div class="thumb">' + (thumb ? '<img src="' + thumb + '" alt="">' : '') + '</div>';
         html += '<div class="info">';
@@ -1208,48 +1227,117 @@
       }
     }
 
-    // 拖拽排序：原生 HTML5 DnD，拖完批量写回 order 字段
+    // 拖拽排序：Pointer Events（比原生 HTML5 DnD 灵敏得多）
     function bindDragSort(viewKey) {
+      var state = { dragging: null, startY: 0, offsetY: 0, ghost: null, hintLine: null };
       var items = productList.querySelectorAll('.drag-item');
-      var dragSrcEl = null;
 
-      items.forEach(function(el) {
-        el.addEventListener('dragstart', function(e) {
-          dragSrcEl = this;
-          this.style.opacity = '0.4';
-          e.dataTransfer.effectAllowed = 'move';
-          try { e.dataTransfer.setData('text/plain', this.getAttribute('data-id')); } catch(err) {}
-        });
-        el.addEventListener('dragend', function() {
-          this.style.opacity = '';
-          items.forEach(function(i) { i.classList.remove('drag-over'); });
-        });
-        el.addEventListener('dragover', function(e) {
+      // 只在拖拽手柄上启动——避免点编辑/删除按钮误触发
+      items.forEach(function(item) {
+        var handle = item.querySelector('.drag-handle');
+        if (!handle) return;
+        handle.addEventListener('pointerdown', function(e) {
           e.preventDefault();
-          e.dataTransfer.dropEffect = 'move';
-          return false;
+          e.stopPropagation();
+          state.dragging = item;
+          state.startY = e.clientY;
+          state.offsetY = item.getBoundingClientRect().top - e.clientY;
+          handle.setPointerCapture(e.pointerId);
+
+          // 创建"幽灵"副本跟着指针移动
+          var ghost = item.cloneNode(true);
+          ghost.classList.add('drag-ghost');
+          ghost.style.position = 'fixed';
+          ghost.style.width = item.offsetWidth + 'px';
+          ghost.style.left = item.getBoundingClientRect().left + 'px';
+          ghost.style.top = item.getBoundingClientRect().top + 'px';
+          document.body.appendChild(ghost);
+          state.ghost = ghost;
+          item.style.opacity = '0.35';
+
+          // 插入指示线
+          var line = document.createElement('div');
+          line.className = 'drag-hint-line';
+          document.body.appendChild(line);
+          state.hintLine = line;
         });
-        el.addEventListener('dragenter', function() {
-          this.classList.add('drag-over');
+
+        handle.addEventListener('pointermove', function(e) {
+          if (!state.dragging) return;
+          var y = e.clientY + state.offsetY;
+          state.ghost.style.top = y + 'px';
+          state.ghost.style.transform = 'scale(1.02)';
+
+          // 找当前指针下方的目标元素，计算插入位置
+          var dragging = state.dragging;
+          var target = null;
+          var insertAfter = false;
+          items.forEach(function(it) {
+            if (it === dragging) return;
+            var r = it.getBoundingClientRect();
+            if (e.clientY >= r.top && e.clientY <= r.bottom) {
+              target = it;
+              insertAfter = (e.clientY - r.top) / r.height > 0.5;
+            }
+          });
+          if (target) {
+            var r = target.getBoundingClientRect();
+            var lineTop = insertAfter ? r.bottom + 'px' : r.top + 'px';
+            state.hintLine.style.top = lineTop;
+            state.hintLine.style.left = r.left + 'px';
+            state.hintLine.style.width = r.width + 'px';
+          } else {
+            // 没在任何 item 上 → 插顶或插底
+            var firstTop = items[0].getBoundingClientRect().top;
+            var lastBottom = items[items.length - 1].getBoundingClientRect().bottom;
+            if (e.clientY < firstTop) {
+              state.hintLine.style.top = firstTop + 'px';
+              state.hintLine.style.left = items[0].getBoundingClientRect().left + 'px';
+              state.hintLine.style.width = items[0].offsetWidth + 'px';
+              target = items[0]; insertAfter = false;
+            } else if (e.clientY > lastBottom) {
+              state.hintLine.style.top = lastBottom + 'px';
+              state.hintLine.style.left = items[items.length - 1].getBoundingClientRect().left + 'px';
+              state.hintLine.style.width = items[items.length - 1].offsetWidth + 'px';
+              target = items[items.length - 1]; insertAfter = true;
+            }
+          }
+          state._target = target;
+          state._insertAfter = insertAfter;
         });
-        el.addEventListener('dragleave', function() {
-          this.classList.remove('drag-over');
-        });
-        el.addEventListener('drop', function(e) {
-          e.preventDefault();
-          if (dragSrcEl !== this) {
-            // 把拖拽元素插到目标元素之前/之后
-            var rect = this.getBoundingClientRect();
-            var after = (e.clientY - rect.top) / rect.height > 0.5;
-            if (after) {
-              this.parentNode.insertBefore(dragSrcEl, this.nextSibling);
+
+        handle.addEventListener('pointerup', function(e) {
+          if (!state.dragging) return;
+          handle.releasePointerCapture(e.pointerId);
+
+          var dragging = state.dragging;
+          var target = state._target;
+          var insertAfter = state._insertAfter;
+
+          if (target && target !== dragging) {
+            if (insertAfter) {
+              dragging.parentNode.insertBefore(dragging, target.nextSibling);
             } else {
-              this.parentNode.insertBefore(dragSrcEl, this);
+              dragging.parentNode.insertBefore(dragging, target);
             }
             saveOrderFromDOM(viewKey);
           }
-          items.forEach(function(i) { i.classList.remove('drag-over'); });
-          return false;
+
+          // 清理
+          dragging.style.opacity = '';
+          if (state.ghost) state.ghost.remove();
+          if (state.hintLine) state.hintLine.remove();
+          state.dragging = null; state.ghost = null; state.hintLine = null;
+          state._target = null; state._insertAfter = null;
+        });
+
+        handle.addEventListener('pointercancel', function() {
+          if (state.dragging) {
+            state.dragging.style.opacity = '';
+            if (state.ghost) state.ghost.remove();
+            if (state.hintLine) state.hintLine.remove();
+          }
+          state.dragging = null; state.ghost = null; state.hintLine = null;
         });
       });
     }
