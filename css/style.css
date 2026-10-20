@@ -2609,7 +2609,7 @@ address { font-style: normal; }
 /* ---------- 页脚（浅色精致多列 + 低透明度布纹背景） ---------- */
 .site-footer {
   background-color: #f4ede2;
-  background-image: url('../assets/images/bg-footer.jpg');
+  background-image: url('../assets/images/bg-footer.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -2621,7 +2621,7 @@ address { font-style: normal; }
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(244,237,226,0.55);
+  background: rgba(244,237,226,0.40);
   pointer-events: none;
   z-index: 0;
 }
