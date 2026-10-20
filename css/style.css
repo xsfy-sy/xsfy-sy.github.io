@@ -1448,7 +1448,7 @@ address { font-style: normal; }
   color: var(--moss);
 }
 #campaign .grid-nav-btn svg {
-  stroke-width: 2.2;
+  stroke-width: 3.0;
 }
 #campaign .grid-nav-btn:hover {
   color: #3a4733;
@@ -1458,7 +1458,7 @@ address { font-style: normal; }
   color: #c83c3c;
 }
 #series .grid-nav-btn svg {
-  stroke-width: 2.2;
+  stroke-width: 3.0;
 }
 #series .grid-nav-btn:hover {
   color: #a32f2f;
