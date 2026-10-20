@@ -1572,11 +1572,11 @@ address { font-style: normal; }
 /* 产品列表页（非首页着色区块）的 #series 直接连着页脚，需补足底部留白，避免分页控件紧贴页脚灰色区域 */
 #series.section:not(.section-tint) { padding-bottom: clamp(48px, 7vw, 96px); }
 .exhibition-section.section { padding-top: clamp(10px, 1.5vw, 20px); padding-bottom: 0; border-top: none; }
-.exhibition-section .block-head { margin-bottom: clamp(28px, 4vw, 44px); }
+.exhibition-section .block-head { margin-bottom: clamp(14px, 1.8vw, 22px); }
 .exhibition-section .block-title {
   font-family: var(--sans);
   font-size: clamp(15px, 1.8vw, 20px);
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   padding-bottom: 12px;
