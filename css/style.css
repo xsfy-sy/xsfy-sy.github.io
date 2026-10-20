@@ -1586,7 +1586,7 @@ address { font-style: normal; }
 .contact-section .block-title {
   font-family: var(--sans);
   font-size: clamp(15px, 1.8vw, 20px);
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   padding-bottom: 12px;
@@ -2398,32 +2398,40 @@ address { font-style: normal; }
   flex-direction: column;
   height: 100%;
   min-height: clamp(300px, 32vw, 380px);
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  background: #fff;
+  border: 1px solid #eadfcc;
+  border-radius: 14px;
   padding: clamp(28px, 4vw, 44px);
-  box-shadow: var(--shadow-card);
+  box-shadow:
+    0 1px 3px rgba(40, 32, 24, 0.04),
+    0 6px 18px rgba(40, 32, 24, 0.06);
   overflow: hidden;
-  transition: box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease), background var(--dur) var(--ease), transform 0.35s var(--ease);
+  transition: box-shadow 0.5s var(--ease),
+              border-color 0.5s var(--ease),
+              background 0.5s var(--ease),
+              transform 0.5s cubic-bezier(.25,.8,.25,1);
 }
 .contact-card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+  background: linear-gradient(90deg, #c4a97a, #d4b884);
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 0.5s var(--ease);
 }
 .contact-card:hover {
-  box-shadow: var(--shadow-card-hover);
-  border-color: var(--gold);
-  background: linear-gradient(135deg, rgba(176, 137, 90, 0.10), rgba(211, 190, 147, 0.06));
-  transform: translateY(-3px);
+  border-color: #c4a97a;
+  box-shadow:
+    0 2px 6px rgba(196, 169, 122, 0.18),
+    0 20px 48px rgba(40, 32, 24, 0.18),
+    0 0 0 1px rgba(196, 169, 122, 0.25);
+  background: linear-gradient(135deg, #fffdf7, #fff8ec);
+  transform: translateY(-8px);
 }
 .contact-card:hover::before { transform: scaleX(1); }
-.contact-card:active { transform: translateY(0); box-shadow: var(--shadow-card); }
+.contact-card:active { transform: translateY(-4px); }
 .contact-card-head {
   display: flex;
   align-items: center;
