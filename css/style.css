@@ -2608,7 +2608,7 @@ address { font-style: normal; }
 
 /* ---------- 页脚（浅色精致多列 + 低透明度布纹背景） ---------- */
 .site-footer {
-  background-color: #f4ede2;
+  background-color: #faf5ec;
   background-image: url('../assets/images/bg-footer.png');
   background-size: cover;
   background-position: center;
@@ -2621,7 +2621,7 @@ address { font-style: normal; }
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(244,237,226,0.30);
+  background: rgba(250,245,236,0.22);
   pointer-events: none;
   z-index: 0;
 }
@@ -2715,7 +2715,7 @@ address { font-style: normal; }
   font-size: 12px;
   color: #8a7f72;
   letter-spacing: 0.06em;
-  background: rgba(244,237,226,0.6);
+  background: rgba(250,245,236,0.6);
   backdrop-filter: blur(2px);
 }
 .footer-legal { color: #8a7f72; text-align: center; }
