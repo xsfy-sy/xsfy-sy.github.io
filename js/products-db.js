@@ -104,30 +104,49 @@
     });
   }
 
-  /* 首次打开（本地库为空）时载入站点自带的产品数据。
-     静态站点把产品存在浏览器本地，新访客/新设备打开时库是空的，
-     这里用 js/default-products.json 兜底，保证线上站也能显示完整商品。 */
-  var seedPromise = null;
+  /* 站点自带的产品数据（兜底 JSON）：
+     静态站点把产品存在浏览器本地 IndexedDB，新访客/新设备/隐私模式
+     等场景下本地库可能是空的或不可用。这里把 js/default-products.json
+     作为数据源，每次 getAll 都会先查本地库；若为空或 IndexedDB 挂了，
+     直接用 JSON 的内容。JSON 只 fetch 一次并缓存，顺手写进 IndexedDB
+     让 admin 后台也能看到。 */
   var SEED_URL = "js/default-products.json";
+  var _seedCache = null;
 
-  function seedIfEmpty() {
-    if (!seedPromise) {
-      seedPromise = getAllRaw().then(function (list) {
-        if (list.length) return;
-        return fetch(SEED_URL)
-          .then(function (res) { return res.ok ? res.json() : null; })
-          .then(function (items) {
-            if (!items || !items.length) return;
-            return Promise.all(items.map(function (p) { return add(p); }));
-          })
-          .catch(function () { /* 没有内置数据或读取失败时静默跳过 */ });
+  function fetchSeedJSON() {
+    if (_seedCache) return _seedCache;
+    _seedCache = fetch(SEED_URL)
+      .then(function (res) { return res.ok ? res.json() : null; })
+      .then(function (items) {
+        items = Array.isArray(items) ? items : [];
+        // 顺手写入 IndexedDB，让 admin 也能看到
+        if (items.length) {
+          addAllSilently(items);
+        }
+        return items;
+      })
+      .catch(function () { return []; });
+    return _seedCache;
+  }
+
+  /* 批量写入但忽略重复错误（admin 可能已导入） */
+  function addAllSilently(items) {
+    openDB().then(function () {
+      var tx = db.transaction(STORE_NAME, "readwrite");
+      var store = tx.objectStore(STORE_NAME);
+      items.forEach(function (p) {
+        try { store.add(p); } catch (e) { /* 忽略重复 key */ }
       });
-    }
-    return seedPromise;
+    }).catch(function () { /* IndexedDB 不可用时静默 */ });
   }
 
   function getAll() {
-    return seedIfEmpty().then(getAllRaw);
+    return getAllRaw()
+      .catch(function () { return []; })   // IndexedDB 挂了也不 reject
+      .then(function (list) {
+        if (list && list.length) return list;
+        return fetchSeedJSON();             // 空库 → 直接用 JSON
+      });
   }
 
   /* 按产品 id 精确查询单条记录（用于心愿清单报价表补全规格） */
