@@ -1453,6 +1453,16 @@ address { font-style: normal; }
 #campaign .grid-nav-btn:hover {
   color: #3a4733;
 }
+/* POPULAR PICKS 翻页按钮：红色加粗箭头 */
+#series .grid-nav-btn {
+  color: #c83c3c;
+}
+#series .grid-nav-btn svg {
+  stroke-width: 2.2;
+}
+#series .grid-nav-btn:hover {
+  color: #a32f2f;
+}
 .campaign-card {
   position: relative;
   display: block;
