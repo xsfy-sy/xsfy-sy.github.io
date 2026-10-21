@@ -3456,6 +3456,19 @@ address { font-style: normal; }
     letter-spacing: 0.02em;
   }
 }
+/* 5) Hero：桌面端 21/8 的宽高比放到手机上只剩一条窄带，
+      标题与按钮会被 overflow:hidden 裁掉，这里改用固定高度完整展示 */
+@media (max-width: 900px) {
+  .hero {
+    aspect-ratio: auto;
+    min-height: 460px;
+    max-height: 78vh;
+  }
+  .hero-cta { margin-top: 28px; }
+}
+@media (max-width: 640px) {
+  .hero { min-height: 400px; }
+}
 
 /* ============ 联系我们页：上下板块间距收紧 ============ */
 /* 信息卡片板块底部与在线留言板块顶部的留白各减半 */
