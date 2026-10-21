@@ -540,34 +540,7 @@
     </div>
   </footer>
 
-  <script src="js/products-db.js?v=20261036"></script>
-  <script>
-    /* ================================================================
-       诊断探针：把整条执行链路的状态打到 DOM 上，便于无痕窗口排查
-       ================================================================ */
-    (function () {
-      try {
-        var probe = document.createElement('div');
-        probe.id = '__diagnose';
-        probe.style.cssText = 'position:fixed;bottom:8px;right:8px;z-index:99999;' +
-          'font-family:Consolas,monospace;font-size:11px;line-height:1.5;' +
-          'background:rgba(0,0,0,0.78);color:#0f0;padding:6px 8px;border-radius:4px;' +
-          'max-width:280px;white-space:pre-wrap;pointer-events:none;display:none;';
-        document.body.appendChild(probe);
-        function diag(msg) {
-          probe.textContent = msg;
-          probe.style.display = 'block';
-          try { console.log('[DIAG] ' + msg); } catch(e){}
-        }
-        diag('boot:1');
-        diag('boot:1 ProductsDB=' + (typeof ProductsDB) + ' indexedDB=' + (typeof indexedDB));
-        document.addEventListener('DOMContentLoaded', function () { diag('DOMContentLoaded'); });
-        window.addEventListener('load', function () { diag('window.load'); });
-      } catch (e) {
-        try { console.error('probe error', e); } catch(e2){}
-      }
-    })();
-  </script>
+  <script src="js/products-db.js?v=20261037"></script>
   <script>
     /* 渲染最近上架产品：每页 10 个（5 个一排 = 两排），可用左右按钮轮换翻页
        数据源优先级：
@@ -645,8 +618,12 @@
         renderPage();
       }
 
-      /* 两路并行，谁先 resolve 用谁 */
-      var pdbP = Promise.resolve()
+      /* 两路并行，谁先 resolve 用谁；各自带超时，避免弱网/隐私模式下一直空白 */
+      var wait = (typeof ProductsDB !== 'undefined' && ProductsDB.withTimeout)
+        ? ProductsDB.withTimeout
+        : function (p) { return p; };
+
+      var pdbP = wait(Promise.resolve()
         .then(function () {
           if (typeof ProductsDB === 'undefined' || !ProductsDB.getAll) {
             return Promise.reject(new Error('ProductsDB missing'));
@@ -654,15 +631,15 @@
           return ProductsDB.getAll();
         })
         .then(function (list) { return list || []; })
-        .catch(function () { return []; });   // PDB 挂了也别 reject
+        .catch(function () { return []; }), 3000, []);   // PDB 挂了也别 reject
 
-      var jsonP = fetch('js/default-products.json')
+      var jsonP = wait(fetch('js/default-products.json')
         .then(function (res) {
           if (!res.ok) throw new Error('HTTP ' + res.status);
           return res.json();
         })
         .then(function (list) { return Array.isArray(list) ? list : []; })
-        .catch(function () { return []; });   // fetch 挂了也别 reject
+        .catch(function () { return []; }), 6000, []);   // fetch 挂了也别 reject
 
       // 等两路都返回，取非空的那一路（JSON 兜底永远有 15 款）
       Promise.all([pdbP, jsonP]).then(function (results) {
@@ -747,18 +724,22 @@
         renderPage();
       }
 
-      var pdbP = Promise.resolve()
+      var wait = (typeof ProductsDB !== 'undefined' && ProductsDB.withTimeout)
+        ? ProductsDB.withTimeout
+        : function (p) { return p; };
+
+      var pdbP = wait(Promise.resolve()
         .then(function () {
           if (typeof ProductsDB === 'undefined' || !ProductsDB.getAll) return Promise.reject(new Error('missing'));
           return ProductsDB.getAll();
         })
         .then(function (list) { return list || []; })
-        .catch(function () { return []; });
+        .catch(function () { return []; }), 3000, []);
 
-      var jsonP = fetch('js/default-products.json')
+      var jsonP = wait(fetch('js/default-products.json')
         .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
         .then(function (list) { return Array.isArray(list) ? list : []; })
-        .catch(function () { return []; });
+        .catch(function () { return []; }), 6000, []);
 
       Promise.all([pdbP, jsonP]).then(function (results) {
         var pdbList = results[0];

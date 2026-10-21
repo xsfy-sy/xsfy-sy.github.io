@@ -64,8 +64,12 @@
     });
   }
 
+  // 只打开一次：首页有多个区块同时调用 getAll，
+  // 反复 indexedDB.open 在部分移动端/隐私模式下会卡住不回调
+  var _dbPromise = null;
   function openDB() {
-    return new Promise(function (resolve, reject) {
+    if (_dbPromise) return _dbPromise;
+    _dbPromise = new Promise(function (resolve, reject) {
       var req = indexedDB.open(DB_NAME, DB_VERSION);
       req.onupgradeneeded = function (e) {
         var database = e.target.result;
@@ -83,7 +87,12 @@
       req.onerror = function (e) {
         reject(e.target.error);
       };
+      // 其它标签页占用旧版本时不要让页面一直等下去
+      req.onblocked = function () {
+        reject(new Error('indexedDB blocked'));
+      };
     });
+    return _dbPromise;
   }
 
   function getAllRaw() {
@@ -143,12 +152,22 @@
     }).catch(function () { /* IndexedDB 不可用时静默 */ });
   }
 
+  /* 超时兜底：IndexedDB 在隐私模式 / 存储被禁用时可能永远不回调，
+     不能让首页产品区一直空白 */
+  function withTimeout(promise, ms, fallback) {
+    return Promise.race([
+      promise,
+      new Promise(function (resolve) {
+        setTimeout(function () { resolve(fallback); }, ms);
+      })
+    ]);
+  }
+
   function getAll() {
-    return getAllRaw()
-      .catch(function () { return []; })   // IndexedDB 挂了也不 reject
+    return withTimeout(getAllRaw().catch(function () { return []; }), 1500, [])
       .then(function (list) {
         if (list && list.length) return list;
-        return fetchSeedJSON();             // 空库 → 直接用 JSON
+        return withTimeout(fetchSeedJSON(), 6000, []);   // 空库 → 直接用 JSON
       });
   }
 
@@ -304,5 +323,6 @@
     fileToBase64: fileToBase64,
     exportData: exportData,
     importData: importData,
+    withTimeout: withTimeout,
   };
 })(window);
