@@ -584,7 +584,7 @@
             <option value="bedding">BEDDING</option>
             <option value="rugs">MATS</option>
             <option value="pet">PET</option>
-            <option value="wares">SUNDRIES</option>
+            <option value="wares">ACCESSORIES</option>
             <option value="curtains">CURTAINS</option>
             <option value="outdoor">OUTDOOR</option>
           </select>
@@ -678,7 +678,7 @@
                 <option value="bedding">BEDDING</option>
                 <option value="rugs">MATS</option>
                 <option value="pet">PET</option>
-                <option value="wares">SUNDRIES</option>
+                <option value="wares">ACCESSORIES</option>
                 <option value="curtains">CURTAINS</option>
                 <option value="outdoor">OUTDOOR</option>
               </select>
@@ -1194,7 +1194,7 @@
           var desc = (p.description || '').toLowerCase();
           var categoryNames = {
             bedding: 'bedding', rugs: 'mats', pet: 'pet',
-            wares: 'sundries', curtains: 'curtains', outdoor: 'outdoor'
+            wares: 'accessories', curtains: 'curtains', outdoor: 'outdoor'
           };
           var catFull = (categoryNames[p.category] || '').toLowerCase();
           return name.indexOf(keyword) !== -1 ||
@@ -1233,7 +1233,7 @@
       var categoryNames = {
         bedding: 'BEDDING', 'bedding-blanket': 'BEDDING / blanket', 'bedding-cushion': 'BEDDING / cushion',
         'bedding-mattress-protector': 'BEDDING / Mattress protector', 'bedding-duvet-cover-pillowcase-set': 'BEDDING / Duvet Cover & Pillowcase Set',
-        rugs: 'MATS', pet: 'PET', wares: 'SUNDRIES', curtains: 'CURTAINS',
+        rugs: 'MATS', pet: 'PET', wares: 'ACCESSORIES', curtains: 'CURTAINS',
         'curtains-grommet': 'CURTAINS / Grommet Curtains', 'curtains-track': 'CURTAINS / Track Curtains', outdoor: 'OUTDOOR'
       };
       var html = '';
