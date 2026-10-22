@@ -1369,31 +1369,29 @@ address { font-style: normal; }
   transform: translateX(-50%);
   z-index: 6;
   display: flex;
-  gap: 10px;
+  gap: 7px;
 }
 .hero-dot {
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
   padding: 0;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.38);
   background: transparent;
   cursor: pointer;
-  transition: background var(--dur) var(--ease), transform var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), opacity var(--dur) var(--ease);
 }
 .hero-dot:hover {
-  border-color: #fff;
-  transform: scale(1.2);
+  border-color: rgba(255, 255, 255, 0.75);
 }
 .hero-dot.active {
-  background: #fff;
-  border-color: #fff;
-  transform: scale(1.25);
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(255, 255, 255, 0.72);
 }
 @media (max-width: 768px) {
   .hero-arrow { width: 36px; height: 36px; }
-  .hero-dots { bottom: 18px; gap: 8px; }
-  .hero-dot { width: 8px; height: 8px; }
+  .hero-dots { bottom: 18px; gap: 6px; }
+  .hero-dot { width: 6px; height: 6px; }
 }
 
 /* ---------- 主题活动卡片网格 ---------- */
