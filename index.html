@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=20261039" />
+  <link rel="stylesheet" href="css/style.css?v=20261040" />
 </head>
 <body>
   <a class="skip-link" href="#main">跳至主要内容</a>
@@ -310,11 +310,20 @@
       <div class="container">
         <div class="block-head reveal">
           <h2 class="block-title">RECENT EXHIBITIONS</h2>
+          <div class="grid-nav" id="exhibitionNav">
+            <button type="button" class="grid-nav-btn" id="exhibitionPrev" aria-label="上一场" title="上一场">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+            </button>
+            <button type="button" class="grid-nav-btn" id="exhibitionNext" aria-label="下一场" title="下一场">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
         </div>
 
-        <div class="exhibition-list">
+        <div class="exhibition-slider reveal" id="exhibitionSlider">
+        <div class="exhibition-list" id="exhibitionList">
           <!-- 展会 1 -->
-          <article class="exhibition-item reveal">
+          <article class="exhibition-item">
             <figure class="exhibition-figure">
               <img src="assets/images/hero-spring.jpg" alt="上海家博会现场" loading="lazy" />
               <span class="exhibition-tag">FACE</span>
@@ -330,7 +339,7 @@
           </article>
 
           <!-- 展会 2 -->
-          <article class="exhibition-item exhibition-item--reverse reveal">
+          <article class="exhibition-item exhibition-item--reverse">
             <figure class="exhibition-figure">
               <img src="assets/images/hero-autumn.jpg" alt="法兰克福家纺展" loading="lazy" />
               <span class="exhibition-tag">FACE</span>
@@ -346,7 +355,7 @@
           </article>
 
           <!-- 展会 3 -->
-          <article class="exhibition-item reveal">
+          <article class="exhibition-item">
             <figure class="exhibition-figure">
               <img src="assets/images/hero-winter.jpg" alt="广交会现场" loading="lazy" />
               <span class="exhibition-tag">FACE</span>
@@ -360,6 +369,7 @@
               <a href="contact.html" class="exhibition-link">查看回顾 →</a>
             </div>
           </article>
+        </div>
         </div>
       </div>
     </section>
@@ -751,7 +761,7 @@
       });
     })();
   </script>
-  <script src="js/main.js?v=20261017"></script>
+  <script src="js/main.js?v=20261040"></script>
   <script>
     (function () {
       var carousels = document.querySelectorAll('.contact-carousel');

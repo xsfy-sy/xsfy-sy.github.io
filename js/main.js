@@ -91,6 +91,73 @@
     }
   }
 
+  /* ---------- 最近参展轮播（自动 + 手动按钮） ---------- */
+  var exList = doc.getElementById("exhibitionList");
+  if (exList) {
+    var exItems = exList.querySelectorAll(".exhibition-item");
+    var exPrev = doc.getElementById("exhibitionPrev");
+    var exNext = doc.getElementById("exhibitionNext");
+    var exIndex = 0;
+    var exTimer = null;
+
+    function showExhibition(idx) {
+      exIndex = idx;
+      exList.style.transform = "translateX(-" + idx * 100 + "%)";
+    }
+
+    function restartExTimer() {
+      if (exTimer) clearInterval(exTimer);
+      if (exItems.length > 1) {
+        exTimer = setInterval(function () {
+          showExhibition((exIndex + 1) % exItems.length);
+        }, 5000);
+      }
+    }
+
+    if (exItems.length > 1) {
+      restartExTimer();
+
+      if (exPrev) {
+        exPrev.addEventListener("click", function () {
+          showExhibition((exIndex - 1 + exItems.length) % exItems.length);
+          restartExTimer();
+        });
+      }
+      if (exNext) {
+        exNext.addEventListener("click", function () {
+          showExhibition((exIndex + 1) % exItems.length);
+          restartExTimer();
+        });
+      }
+
+      /* 触屏滑动切换 */
+      var exTouchX = null;
+      exList.addEventListener("touchstart", function (e) {
+        exTouchX = e.touches[0].clientX;
+        if (exTimer) clearInterval(exTimer);
+      }, { passive: true });
+      exList.addEventListener("touchend", function (e) {
+        if (exTouchX === null) return;
+        var dx = e.changedTouches[0].clientX - exTouchX;
+        if (Math.abs(dx) > 40) {
+          if (dx < 0) showExhibition((exIndex + 1) % exItems.length);
+          else showExhibition((exIndex - 1 + exItems.length) % exItems.length);
+        }
+        exTouchX = null;
+        restartExTimer();
+      }, { passive: true });
+
+      /* 暂停自动轮播：鼠标悬停时 */
+      var exSlider = doc.getElementById("exhibitionSlider");
+      if (exSlider) {
+        exSlider.addEventListener("mouseenter", function () {
+          if (exTimer) clearInterval(exTimer);
+        });
+        exSlider.addEventListener("mouseleave", restartExTimer);
+      }
+    }
+  }
+
   /* ---------- 侧滑抽屉菜单 ---------- */
   var navToggle = doc.getElementById("navToggle");
   var mobileMenu = doc.getElementById("mobileMenu");

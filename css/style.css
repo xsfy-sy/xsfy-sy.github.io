@@ -3282,17 +3282,22 @@ address { font-style: normal; }
   .js .reveal, .reveal.visible { opacity: 1; transform: none; }
 }
 
-/* ---------- 最近参展 ---------- */
+/* ---------- 最近参展（一行轮播：自动 + 手动） ---------- */
 .exhibition-section {
   background: var(--cream-2);
 }
-.exhibition-list {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(40px, 5vw, 72px);
+.exhibition-slider {
+  overflow: hidden;
   margin-top: clamp(28px, 4vw, 44px);
 }
+.exhibition-list {
+  display: flex;
+  transition: transform 0.7s var(--ease);
+  will-change: transform;
+}
 .exhibition-item {
+  flex: 0 0 100%;
+  min-width: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(32px, 4vw, 56px);
@@ -3301,6 +3306,8 @@ address { font-style: normal; }
 .exhibition-item--reverse .exhibition-figure {
   order: 2;
 }
+/* RECENT EXHIBITIONS 翻页按钮 */
+#exhibition .grid-nav-btn svg { stroke-width: 2.4; }
 .exhibition-figure {
   position: relative;
   aspect-ratio: 4 / 3;
