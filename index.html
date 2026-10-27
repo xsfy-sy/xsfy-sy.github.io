@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=20261041" />
+  <link rel="stylesheet" href="css/style.css?v=20261042" />
 </head>
 <body>
   <a class="skip-link" href="#main">跳至主要内容</a>
@@ -408,6 +408,10 @@
                   </div>
                 </article>
               </div>
+              <div class="contact-dots" role="tablist" aria-label="公司轮播选择">
+                <button class="contact-dot active" role="tab" aria-selected="true" aria-label="公司 1"></button>
+                <button class="contact-dot" role="tab" aria-selected="false" aria-label="公司 2"></button>
+              </div>
             </div>
           </div>
           <div class="contact-card reveal">
@@ -473,6 +477,12 @@
                     <a href="mailto:helena@nbheiligs.com" class="btn btn-outline btn-sm">SEND EMAIL</a>
                   </div>
                 </article>
+              </div>
+              <div class="contact-dots" role="tablist" aria-label="联系人轮播选择">
+                <button class="contact-dot active" role="tab" aria-selected="true" aria-label="联系人 1"></button>
+                <button class="contact-dot" role="tab" aria-selected="false" aria-label="联系人 2"></button>
+                <button class="contact-dot" role="tab" aria-selected="false" aria-label="联系人 3"></button>
+                <button class="contact-dot" role="tab" aria-selected="false" aria-label="联系人 4"></button>
               </div>
             </div>
           </div>
@@ -749,7 +759,7 @@
       });
     })();
   </script>
-  <script src="js/main.js?v=20261041"></script>
+  <script src="js/main.js?v=20261042"></script>
   <script>
     (function () {
       var carousels = document.querySelectorAll('.contact-carousel');
@@ -761,6 +771,7 @@
 
         var total = slides.length;
         var track = carousel.querySelector('.contact-slides');
+        var dots = carousel.querySelectorAll('.contact-dot');
         var card = carousel.closest('.contact-card');
         var prevBtn = card ? card.querySelector('.contact-nav-prev') : null;
         var nextBtn = card ? card.querySelector('.contact-nav-next') : null;
@@ -773,6 +784,12 @@
           if (animate === false) {
             void track.offsetHeight;
             track.style.transition = '';
+          }
+          if (dots.length) {
+            dots.forEach(function (dot, i) {
+              dot.classList.toggle('active', i === current);
+              dot.setAttribute('aria-selected', i === current ? 'true' : 'false');
+            });
           }
         }
 
@@ -788,6 +805,17 @@
 
         if (prevBtn) prevBtn.addEventListener('click', bidirectional ? goPrev : goNext);
         if (nextBtn) nextBtn.addEventListener('click', goNext);
+
+        if (dots.length) {
+          dots.forEach(function (dot, i) {
+            dot.addEventListener('click', function () {
+              current = i;
+              update();
+              clearInterval(timer);
+              timer = setInterval(goNext, interval);
+            });
+          });
+        }
 
         update(false);
 

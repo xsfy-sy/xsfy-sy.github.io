@@ -2489,6 +2489,33 @@ address { font-style: normal; }
   align-items: stretch;
   transition: transform var(--dur) var(--ease);
 }
+/* CONTACT US 两张卡片底部小圆点 */
+.contact-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 0 4px;
+  margin-top: 4px;
+}
+.contact-dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(84, 64, 40, 0.30);
+  background: transparent;
+  cursor: pointer;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.contact-dot:hover { border-color: var(--brown); }
+.contact-dot.active {
+  background: rgba(84, 64, 40, 0.72);
+  border-color: rgba(84, 64, 40, 0.72);
+}
+@media (max-width: 768px) {
+  .contact-dots { padding: 12px 0 2px; gap: 5px; }
+  .contact-dot { width: 5px; height: 5px; }
+}
 .contact-slide {
   flex: 0 0 100%;
   min-width: 100%;
