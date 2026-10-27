@@ -3308,6 +3308,33 @@ address { font-style: normal; }
 }
 /* RECENT EXHIBITIONS 翻页按钮 */
 #exhibition .grid-nav-btn svg { stroke-width: 2.4; }
+/* RECENT EXHIBITIONS 小圆点指示器 */
+.exhibition-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-top: clamp(20px, 2.5vw, 32px);
+  margin-bottom: 8px;
+}
+.exhibition-dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(84, 64, 40, 0.38);
+  background: transparent;
+  cursor: pointer;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.exhibition-dot:hover { border-color: var(--brown); }
+.exhibition-dot.active {
+  background: rgba(84, 64, 40, 0.72);
+  border-color: rgba(84, 64, 40, 0.72);
+}
+@media (max-width: 768px) {
+  .exhibition-dots { margin-top: 18px; }
+  .exhibition-dot { width: 6px; height: 6px; }
+}
 .exhibition-figure {
   position: relative;
   aspect-ratio: 4 / 3;

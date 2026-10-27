@@ -95,6 +95,7 @@
   var exList = doc.getElementById("exhibitionList");
   if (exList) {
     var exItems = exList.querySelectorAll(".exhibition-item");
+    var exDots = doc.querySelectorAll(".exhibition-dot");
     var exPrev = doc.getElementById("exhibitionPrev");
     var exNext = doc.getElementById("exhibitionNext");
     var exIndex = 0;
@@ -103,6 +104,10 @@
     function showExhibition(idx) {
       exIndex = idx;
       exList.style.transform = "translateX(-" + idx * 100 + "%)";
+      exDots.forEach(function (dot, i) {
+        dot.classList.toggle("active", i === idx);
+        dot.setAttribute("aria-selected", i === idx ? "true" : "false");
+      });
     }
 
     function restartExTimer() {
@@ -146,6 +151,13 @@
         exTouchX = null;
         restartExTimer();
       }, { passive: true });
+
+      exDots.forEach(function (dot, i) {
+        dot.addEventListener("click", function () {
+          showExhibition(i);
+          restartExTimer();
+        });
+      });
 
       /* 暂停自动轮播：鼠标悬停时 */
       var exSlider = doc.getElementById("exhibitionSlider");
