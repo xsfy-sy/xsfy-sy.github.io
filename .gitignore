@@ -1,0 +1,11 @@
+﻿
+# Temp download artifacts
+assets/_cf-images/
+assets/_itextsharp/
+assets/_pdf-images/
+assets/cf*.pdf
+assets/tmp-*.pdf
+assets/images/h[1-4].jpg
+assets/images/trade-show-*.jpg
+assets/images/unsplash-*.jpg
+
