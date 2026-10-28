@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=20261058" />
+  <link rel="stylesheet" href="css/style.css?v=20261062" />
 </head>
 <body class="page-exhibitions">
   <a class="skip-link" href="#main">跳至主要内容</a>
@@ -200,9 +200,22 @@
         <div class="exhibition-list" id="exhibitionList">
           <!-- 展会 1 -->
           <article class="exhibition-item exhibition-item--reverse">
-            <figure class="exhibition-figure">
-              <img src="assets/images/exhibition-heimtextil.jpg?v=20261050" alt="Heimtextil 2027 Frankfurt exhibition hall, buyers at booths" loading="lazy" />
+            <figure class="exhibition-figure exhibition-figure--gallery" id="heimGallery">
+              <div class="exhibition-figure-track" id="heimTrack">
+                <img src="assets/images/exhibition-heimtextil-1.jpg" alt="Heimtextil Frankfurt exhibition 1 · HEILIGS PIER booth" loading="lazy" />
+                <img src="assets/images/exhibition-heimtextil-2.jpg" alt="Heimtextil Frankfurt exhibition 2 · red logo wall" loading="lazy" />
+                <img src="assets/images/exhibition-heimtextil-3.jpg" alt="Heimtextil Frankfurt exhibition 3 · tapestries & samples" loading="lazy" />
+                <img src="assets/images/exhibition-heimtextil-4.jpg" alt="Heimtextil Frankfurt exhibition 4 · Booth Hall 9.1F11C" loading="lazy" />
+                <img src="assets/images/exhibition-heimtextil-5.jpg" alt="Heimtextil Frankfurt exhibition 5 · negotiation area" loading="lazy" />
+              </div>
               <span class="exhibition-tag">FACE</span>
+              <div class="figure-dots" role="tablist" aria-label="Heimtextil exhibition photos">
+                <button class="figure-dot active" role="tab" aria-selected="true" aria-label="Photo 1"></button>
+                <button class="figure-dot" role="tab" aria-selected="false" aria-label="Photo 2"></button>
+                <button class="figure-dot" role="tab" aria-selected="false" aria-label="Photo 3"></button>
+                <button class="figure-dot" role="tab" aria-selected="false" aria-label="Photo 4"></button>
+                <button class="figure-dot" role="tab" aria-selected="false" aria-label="Photo 5"></button>
+              </div>
             </figure>
             <div class="exhibition-body">
               <p class="exhibition-date">Jan 12 — 15, 2027</p>
@@ -296,6 +309,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=20261059"></script>
+  <script src="js/main.js?v=20261062"></script>
 </body>
 </html>

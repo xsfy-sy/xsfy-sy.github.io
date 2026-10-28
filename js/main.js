@@ -170,6 +170,69 @@
     }
   }
 
+  /* ---------- Heimtextil 卡片内部图片轮播（3 秒自动 + 小圆点） ---------- */
+  var heimGallery = doc.getElementById("heimGallery");
+  if (heimGallery) {
+    var heimTrack = doc.getElementById("heimTrack");
+    var heimDots = heimGallery.querySelectorAll(".figure-dot");
+    var heimCount = heimTrack ? heimTrack.querySelectorAll("img").length : 0;
+    var heimIdx = 0;
+    var heimTimer = null;
+
+    function showHeim(idx) {
+      heimIdx = idx;
+      heimTrack.style.transform = "translateX(-" + idx * 100 + "%)";
+      heimDots.forEach(function (dot, i) {
+        dot.classList.toggle("active", i === idx);
+        dot.setAttribute("aria-selected", i === idx ? "true" : "false");
+      });
+    }
+
+    function startHeimTimer() {
+      if (heimTimer) clearInterval(heimTimer);
+      if (heimCount > 1) {
+        heimTimer = setInterval(function () {
+          showHeim((heimIdx + 1) % heimCount);
+        }, 3000);
+      }
+    }
+
+    if (heimCount > 1) {
+      startHeimTimer();
+
+      /* 小圆点点击切换 */
+      heimDots.forEach(function (dot, i) {
+        dot.addEventListener("click", function () {
+          showHeim(i);
+          startHeimTimer();
+        });
+      });
+
+      /* 鼠标悬停时暂停，离开后恢复 */
+      heimGallery.addEventListener("mouseenter", function () {
+        if (heimTimer) clearInterval(heimTimer);
+      });
+      heimGallery.addEventListener("mouseleave", startHeimTimer);
+
+      /* 触屏滑动切换（在 figure 内滑动） */
+      var heimTouchX = null;
+      heimGallery.addEventListener("touchstart", function (e) {
+        heimTouchX = e.touches[0].clientX;
+        if (heimTimer) clearInterval(heimTimer);
+      }, { passive: true });
+      heimGallery.addEventListener("touchend", function (e) {
+        if (heimTouchX === null) return;
+        var dx = e.changedTouches[0].clientX - heimTouchX;
+        if (Math.abs(dx) > 40) {
+          if (dx < 0) showHeim((heimIdx + 1) % heimCount);
+          else showHeim((heimIdx - 1 + heimCount) % heimCount);
+        }
+        heimTouchX = null;
+        startHeimTimer();
+      }, { passive: true });
+    }
+  }
+
   /* ---------- 侧滑抽屉菜单 ---------- */
   var navToggle = doc.getElementById("navToggle");
   var mobileMenu = doc.getElementById("mobileMenu");

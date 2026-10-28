@@ -3418,6 +3418,66 @@ address { font-style: normal; }
 .exhibition-item:hover .exhibition-figure img {
   transform: scale(1.04);
 }
+
+/* ---- Heimtextil 卡片内部图片轮播 ---- */
+.exhibition-figure--gallery .exhibition-figure-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s var(--ease);
+  will-change: transform;
+}
+.exhibition-figure--gallery .exhibition-figure-track img {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* 单张 img 过渡不再需要，由 track 统一驱动 */
+  transition: none;
+}
+.exhibition-figure--gallery .exhibition-figure-track img:hover {
+  transform: none;
+}
+/* hover 时 track 微缩放，保持视觉反馈 */
+.exhibition-item:hover .exhibition-figure--gallery .exhibition-figure-track {
+  transform: scale(1.04);
+}
+/* 小圆点指示器 */
+.exhibition-figure--gallery .figure-dots {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 3;
+}
+.exhibition-figure--gallery .figure-dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, width 0.25s ease;
+}
+.exhibition-figure--gallery .figure-dot:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.35);
+}
+.exhibition-figure--gallery .figure-dot.active {
+  background: #fff;
+  border-color: #fff;
+  width: 16px;
+  border-radius: 3px;
+}
+@media (max-width: 768px) {
+  .exhibition-figure--gallery .figure-dots { bottom: 10px; gap: 5px; }
+  .exhibition-figure--gallery .figure-dot { width: 5px; height: 5px; }
+  .exhibition-figure--gallery .figure-dot.active { width: 12px; }
+}
+
 .exhibition-tag {
   position: absolute;
   top: 16px;
