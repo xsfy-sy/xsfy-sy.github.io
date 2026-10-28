@@ -122,8 +122,33 @@
      作为数据源，每次 getAll 都会先查本地库；若为空或 IndexedDB 挂了，
      直接用 JSON 的内容。JSON 只 fetch 一次并缓存，顺手写进 IndexedDB
      让 admin 后台也能看到。 */
-  var SEED_URL = "js/default-products.json?v=20261071";
+  var SEED_URL = "js/default-products.json?v=20261072";
+  var SEED_JS_URL = "js/default-products.js?v=20261072";
   var _seedCache = null;
+
+  /* 通过 <script> 标签加载种子数据：file:// 双击预览时浏览器
+     禁止 fetch 读取本地 JSON，但允许加载同目录 JS */
+  function loadSeedScript() {
+    return new Promise(function (resolve) {
+      if (window.DEFAULT_PRODUCTS && window.DEFAULT_PRODUCTS.length) {
+        resolve(window.DEFAULT_PRODUCTS);
+        return;
+      }
+      var s = document.createElement("script");
+      var done = false;
+      function finish(ok) {
+        if (done) return;
+        done = true;
+        resolve(ok && window.DEFAULT_PRODUCTS && window.DEFAULT_PRODUCTS.length
+          ? window.DEFAULT_PRODUCTS : null);
+      }
+      s.src = SEED_JS_URL;
+      s.onload = function () { finish(true); };
+      s.onerror = function () { finish(false); };
+      document.head.appendChild(s);
+      setTimeout(function () { finish(true); }, 4000);   // 超时兜底
+    });
+  }
 
   /* 删除墓碑：后台删掉的播种产品 id 记进 localStorage，
      防止增量合并时把它们重新加回来 */
@@ -144,8 +169,13 @@
 
   function fetchSeedJSON() {
     if (_seedCache) return _seedCache;
-    _seedCache = fetch(SEED_URL)
-      .then(function (res) { return res.ok ? res.json() : null; })
+    // 优先走 <script> 注入（file:// 下唯一可用通道），失败再 fetch JSON
+    _seedCache = loadSeedScript()
+      .then(function (items) {
+        if (items && items.length) return items;
+        return fetch(SEED_URL)
+          .then(function (res) { return res.ok ? res.json() : null; });
+      })
       .then(function (items) {
         items = Array.isArray(items) ? items : [];
         // 顺手写入 IndexedDB，让 admin 也能看到
