@@ -638,16 +638,15 @@
       if (nextBtn) nextBtn.addEventListener('click', function () { turn(1); });
 
       function finish(products) {
-        // NEWLY LAUNCHED：后台勾选了"加入最新上架"的产品优先（按 newlyLaunchedOrder 升序），
-        // 再用最新上传的产品补足——保证新部署的产品即使没勾选也一定能进入板块并靠前展示
+        // NEWLY LAUNCHED 与后台"最新上架"视图严格一致：只显示勾选的产品，按 newlyLaunchedOrder 升序
         var list = products || [];
         var marked = list
           .filter(function (p) { return p.newlyLaunched === true; })
           .sort(function (a, b) { return (a.newlyLaunchedOrder || 99999) - (b.newlyLaunchedOrder || 99999); });
-        var rest = list
-          .filter(function (p) { return p.newlyLaunched !== true; })
-          .sort(function (a, b) { return (Number(b.createdAt) || 0) - (Number(a.createdAt) || 0); });
-        allProducts = marked.concat(rest).slice(0, 20);
+        // 兜底：数据源没有任何勾选时（如新访客的浏览器），按上传时间取最新 10 款，避免板块空白
+        allProducts = marked.length ? marked : list.slice()
+          .sort(function (a, b) { return (Number(b.createdAt) || 0) - (Number(a.createdAt) || 0); })
+          .slice(0, PAGE_SIZE);
         if (allProducts.length === 0) {
           if (emptyTip) emptyTip.style.display = '';
           if (nav) nav.style.display = 'none';
