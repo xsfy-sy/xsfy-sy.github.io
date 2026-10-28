@@ -3483,7 +3483,7 @@ address { font-style: normal; }
   top: 16px;
   left: 16px;
   padding: 6px 14px;
-  background: var(--ink);
+  background: #1f5fa5;
   color: #fff;
   font-size: 12px;
   font-weight: 500;
