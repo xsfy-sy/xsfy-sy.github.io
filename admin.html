@@ -489,6 +489,22 @@
       font-size: 14px;
     }
 
+    /* 列表底部实时总款数 */
+    .list-count-footer {
+      text-align: center;
+      padding: 14px 0 6px;
+      margin-top: 10px;
+      border-top: 1px dashed #ddd;
+      color: #999;
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+    .list-count-footer b {
+      color: #4a7c2a;
+      font-weight: 600;
+    }
+
     .admin-back-link {
       display: inline-block;
       margin-bottom: 20px;
@@ -1217,7 +1233,8 @@
 
     function renderList(products) {
       if (products.length === 0) {
-        productList.innerHTML = '<div class="empty-state"><p>暂无产品，请使用左侧表单添加</p></div>';
+        productList.innerHTML = '<div class="empty-state"><p>暂无产品，请使用左侧表单添加</p></div>' +
+          '<div class="list-count-footer">共 <b>0</b> 款</div>';
         return;
       }
       var catFilter = filterCategory.value;
@@ -1262,6 +1279,12 @@
         html += '</div>';
       });
       productList.innerHTML = html;
+
+      // 列表底部：实时显示当前分类/筛选视图的总款数
+      var countFooter = document.createElement('div');
+      countFooter.className = 'list-count-footer';
+      countFooter.innerHTML = '共 <b>' + products.length + '</b> 款';
+      productList.appendChild(countFooter);
 
       // 多选工具栏（仅 latest / bestsellers）
       if (enableDrag && products.length > 0) {
