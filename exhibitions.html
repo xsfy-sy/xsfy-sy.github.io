@@ -186,11 +186,20 @@
         <div class="block-head reveal">
           <h2 class="block-title">Recent Exhibitions</h2>
           <span class="block-desc">On-site · Craftsmanship · Meeting global clients at every event</span>
+          <div class="grid-nav" id="exhibitionNav">
+            <button type="button" class="grid-nav-btn" id="exhibitionPrev" aria-label="Previous exhibition" title="Previous">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+            </button>
+            <button type="button" class="grid-nav-btn" id="exhibitionNext" aria-label="Next exhibition" title="Next">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
         </div>
 
-        <div class="exhibition-list">
+        <div class="exhibition-slider reveal" id="exhibitionSlider">
+        <div class="exhibition-list" id="exhibitionList">
           <!-- Exhibition 1 -->
-          <article class="exhibition-item reveal">
+          <article class="exhibition-item">
             <figure class="exhibition-figure">
               <img src="assets/images/hero-spring.jpg" alt="China Home Textiles Expo live show" loading="lazy" />
               <span class="exhibition-tag">FACE</span>
@@ -206,7 +215,7 @@
           </article>
 
           <!-- Exhibition 2 -->
-          <article class="exhibition-item exhibition-item--reverse reveal">
+          <article class="exhibition-item exhibition-item--reverse">
             <figure class="exhibition-figure">
               <img src="assets/images/exhibition-heimtextil.jpg?v=20261050" alt="Heimtextil 2027 Frankfurt exhibition hall, buyers at booths" loading="lazy" />
               <span class="exhibition-tag">FACE</span>
@@ -222,7 +231,7 @@
           </article>
 
           <!-- Exhibition 3 -->
-          <article class="exhibition-item reveal">
+          <article class="exhibition-item">
             <figure class="exhibition-figure">
               <img src="assets/images/exhibition-cantonfair.jpg?v=20261048" alt="Canton Fair live show, international buyers visiting booths" loading="lazy" />
               <span class="exhibition-tag">FACE</span>
@@ -236,6 +245,12 @@
               <a href="contact.html" class="exhibition-link">View Recap →</a>
             </div>
           </article>
+        </div>
+        <div class="exhibition-dots" id="exhibitionDots" role="tablist" aria-label="Exhibition selection">
+          <button class="exhibition-dot active" role="tab" aria-selected="true" aria-label="Exhibition 1"></button>
+          <button class="exhibition-dot" role="tab" aria-selected="false" aria-label="Exhibition 2"></button>
+          <button class="exhibition-dot" role="tab" aria-selected="false" aria-label="Exhibition 3"></button>
+        </div>
         </div>
       </div>
     </section>
