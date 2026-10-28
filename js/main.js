@@ -331,7 +331,7 @@
     for (var i = 1; i <= totalPages; i++) {
       html += '<button class="page-btn' + (i === currentPage ? " active" : "") + '" data-page="' + i + '">' + i + "</button>";
     }
-    html += '<button class="page-btn' + (currentPage === totalPages ? " disabled" : "") + '" data-page="' + (totalPages + 1) + '">&#8250;</button>';
+    html += '<button class="page-btn' + (currentPage === totalPages ? " disabled" : "") + '" data-page="' + (currentPage + 1) + '">&#8250;</button>';
     html += '<span class="page-info">第 ' + currentPage + " / " + totalPages + " 页（共 " + total + " 款）</span>";
     paginationEl.innerHTML = html;
 
