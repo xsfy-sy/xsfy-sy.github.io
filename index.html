@@ -638,16 +638,16 @@
       if (nextBtn) nextBtn.addEventListener('click', function () { turn(1); });
 
       function finish(products) {
-        // NEWLY LAUNCHED 优先显示后台手动勾选的"加入最新上架"，按 newlyLaunchedOrder 升序
+        // NEWLY LAUNCHED：后台勾选了"加入最新上架"的产品优先（按 newlyLaunchedOrder 升序），
+        // 再用最新上传的产品补足——保证新部署的产品即使没勾选也一定能进入板块并靠前展示
         var list = products || [];
         var marked = list
           .filter(function (p) { return p.newlyLaunched === true; })
           .sort(function (a, b) { return (a.newlyLaunchedOrder || 99999) - (b.newlyLaunchedOrder || 99999); });
-        // 兜底：数据源还没有任何"最新上架"标记时（如线上直接用 default-products.json 播种），
-        // 按 createdAt 倒序取最新 10 款展示，避免首页显示"暂无新品"
-        allProducts = marked.length ? marked : list.slice()
-          .sort(function (a, b) { return (Number(b.createdAt) || 0) - (Number(a.createdAt) || 0); })
-          .slice(0, PAGE_SIZE);
+        var rest = list
+          .filter(function (p) { return p.newlyLaunched !== true; })
+          .sort(function (a, b) { return (Number(b.createdAt) || 0) - (Number(a.createdAt) || 0); });
+        allProducts = marked.concat(rest).slice(0, 20);
         if (allProducts.length === 0) {
           if (emptyTip) emptyTip.style.display = '';
           if (nav) nav.style.display = 'none';
