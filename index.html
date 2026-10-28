@@ -548,7 +548,7 @@
     </div>
   </footer>
 
-  <script src="js/products-db.js?v=20261037"></script>
+  <script src="js/products-db.js?v=20261060"></script>
   <script>
     /* 渲染最近上架产品：每页 10 个（5 个一排 = 两排），可用左右按钮轮换翻页
        数据源优先级：
@@ -586,7 +586,6 @@
             '</a>' +
             '<div class="product-info">' +
               '<h3>' + (p.name || '新品') + '</h3>' +
-              (p.description ? '<p>' + p.description + '</p>' : '') +
             '</div>';
           grid.appendChild(article);
           var link = article.querySelector('.product-link');
@@ -694,7 +693,6 @@
             '</a>' +
             '<div class="product-info">' +
               '<h3>' + (p.name || '畅销产品') + '</h3>' +
-              (p.description ? '<p>' + p.description + '</p>' : '') +
             '</div>';
           grid.appendChild(article);
           var link = article.querySelector('.product-link');

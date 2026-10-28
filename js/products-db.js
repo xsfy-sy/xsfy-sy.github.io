@@ -122,7 +122,7 @@
      作为数据源，每次 getAll 都会先查本地库；若为空或 IndexedDB 挂了，
      直接用 JSON 的内容。JSON 只 fetch 一次并缓存，顺手写进 IndexedDB
      让 admin 后台也能看到。 */
-  var SEED_URL = "js/default-products.json";
+  var SEED_URL = "js/default-products.json?v=20261060";
   var _seedCache = null;
 
   function fetchSeedJSON() {
