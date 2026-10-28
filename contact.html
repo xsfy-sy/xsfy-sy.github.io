@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=20261056" />
+  <link rel="stylesheet" href="css/style.css?v=20261057" />
 </head>
 <body class="page-contact">
   <a class="skip-link" href="#main">跳至主要内容</a>
@@ -323,11 +323,11 @@
         <form class="contact-form reveal" id="contactForm">
           <div class="form-row">
             <div class="form-group">
-              <label for="name">Name *</label>
+              <label for="name">Name<span class="req">*</span></label>
               <input type="text" id="name" name="name" required placeholder="Enter your name" />
             </div>
             <div class="form-group">
-              <label for="phone">Phone *</label>
+              <label for="phone">Phone<span class="req">*</span></label>
               <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number" />
             </div>
           </div>
@@ -342,7 +342,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="message">Message *</label>
+            <label for="message">Message<span class="req">*</span></label>
             <textarea id="message" name="message" rows="5" required placeholder="Describe your request or question..."></textarea>
           </div>
           <div class="form-actions">
@@ -413,7 +413,7 @@
   </footer>
 
   <script src="js/messages-db.js?v=20261028"></script>
-  <script src="js/main.js?v=20261056"></script>
+  <script src="js/main.js?v=20261057"></script>
   <script>
     // 在线留言：提交后写入本地数据库，后台"留言信息"可查看
     (function () {
