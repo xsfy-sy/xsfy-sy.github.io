@@ -170,68 +170,67 @@
     }
   }
 
-  /* ---------- Heimtextil 展会卡内部图片轮播（3 秒自动 + 小圆点） ---------- */
-  var heimGallery = doc.getElementById("heimGallery");
-  if (heimGallery) {
-    var heimTrack = doc.getElementById("heimTrack");
-    var heimDots = heimGallery.querySelectorAll(".figure-dot");
-    var heimCount = heimTrack ? heimTrack.querySelectorAll("img").length : 0;
-    var heimIdx = 0;
-    var heimTimer = null;
+  /* ---------- 展会卡内部图片轮播（每张卡独立：3 秒自动 + 小圆点手动） ---------- */
+  doc.querySelectorAll(".exhibition-figure--gallery").forEach(function (figure) {
+    var track = figure.querySelector(".exhibition-figure-track");
+    var dots = figure.querySelectorAll(".figure-dot");
+    var count = track ? track.querySelectorAll("img").length : 0;
+    var idx = 0;
+    var timer = null;
 
-    function showHeim(idx) {
-      heimIdx = idx;
-      heimTrack.style.transform = "translateX(-" + idx * 100 + "%)";
-      heimDots.forEach(function (dot, i) {
-        dot.classList.toggle("active", i === idx);
-        dot.setAttribute("aria-selected", i === idx ? "true" : "false");
+    function showImg(i) {
+      idx = i;
+      track.style.transform = "translateX(-" + i * 100 + "%)";
+      dots.forEach(function (d, k) {
+        d.classList.toggle("active", k === i);
+        d.setAttribute("aria-selected", k === i ? "true" : "false");
       });
     }
 
-    function startHeimTimer() {
-      if (heimTimer) clearInterval(heimTimer);
-      if (heimCount > 1) {
-        heimTimer = setInterval(function () {
-          showHeim((heimIdx + 1) % heimCount);
+    function startTimer() {
+      if (timer) clearInterval(timer);
+      if (count > 1) {
+        timer = setInterval(function () {
+          showImg((idx + 1) % count);
         }, 3000);
       }
     }
 
-    if (heimCount > 1) {
-      startHeimTimer();
+    if (count > 1) {
+      startTimer();
 
       /* 小圆点点击切换 */
-      heimDots.forEach(function (dot, i) {
+      dots.forEach(function (dot, i) {
         dot.addEventListener("click", function () {
-          showHeim(i);
-          startHeimTimer();
+          showImg(i);
+          startTimer();
         });
       });
 
-      /* 鼠标悬停 Heimtextil 图片区域时暂停内层轮播 */
-      heimGallery.addEventListener("mouseenter", function () {
-        if (heimTimer) clearInterval(heimTimer);
+      /* 鼠标悬停暂停，离开恢复 */
+      figure.addEventListener("mouseenter", function () {
+        if (timer) clearInterval(timer);
       });
-      heimGallery.addEventListener("mouseleave", startHeimTimer);
+      figure.addEventListener("mouseleave", startTimer);
 
-      /* 触屏滑动切换（仅在 figure 内滑动） */
-      var heimTouchX = null;
-      heimGallery.addEventListener("touchstart", function (e) {
-        heimTouchX = e.touches[0].clientX;
-        if (heimTimer) clearInterval(heimTimer);
+      /* 触屏滑动切换 */
+      var touchX = null;
+      figure.addEventListener("touchstart", function (e) {
+        touchX = e.touches[0].clientX;
+        if (timer) clearInterval(timer);
       }, { passive: true });
-      heimGallery.addEventListener("touchend", function (e) {
-        if (heimTouchX === null) return;
-        var dx = e.changedTouches[0].clientX - heimTouchX;
+      figure.addEventListener("touchend", function (e) {
+        if (touchX === null) return;
+        var dx = e.changedTouches[0].clientX - touchX;
         if (Math.abs(dx) > 40) {
-          if (dx < 0) showHeim((heimIdx + 1) % heimCount);
-          else showHeim((heimIdx - 1 + heimCount) % heimCount);
+          if (dx < 0) showImg((idx + 1) % count);
+          else showImg((idx - 1 + count) % count);
         }
-        heimTouchX = null;
-        startHeimTimer();
+        touchX = null;
+        startTimer();
       }, { passive: true });
     }
-  }
+  });
 
   /* ---------- 侧滑抽屉菜单 ---------- */
   var navToggle = doc.getElementById("navToggle");
