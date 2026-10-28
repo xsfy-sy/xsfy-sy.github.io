@@ -91,90 +91,12 @@
     }
   }
 
-  /* ---------- 最近参展轮播（自动 + 手动按钮） ---------- */
-  var exList = doc.getElementById("exhibitionList");
-  if (exList) {
-    var exItems = exList.querySelectorAll(".exhibition-item");
-    var exDots = doc.querySelectorAll(".exhibition-dot");
-    var exPrev = doc.getElementById("exhibitionPrev");
-    var exNext = doc.getElementById("exhibitionNext");
-    var exIndex = 0;
-    var exTimer = null;
-
-    function showExhibition(idx) {
-      exIndex = idx;
-      exList.style.transform = "translateX(-" + idx * 100 + "%)";
-      exDots.forEach(function (dot, i) {
-        dot.classList.toggle("active", i === idx);
-        dot.setAttribute("aria-selected", i === idx ? "true" : "false");
-      });
-    }
-
-    function restartExTimer() {
-      if (exTimer) clearInterval(exTimer);
-      if (exItems.length > 1) {
-        exTimer = setInterval(function () {
-          showExhibition((exIndex + 1) % exItems.length);
-        }, 5000);
-      }
-    }
-
-    if (exItems.length > 1) {
-      restartExTimer();
-
-      if (exPrev) {
-        exPrev.addEventListener("click", function () {
-          showExhibition((exIndex - 1 + exItems.length) % exItems.length);
-          restartExTimer();
-        });
-      }
-      if (exNext) {
-        exNext.addEventListener("click", function () {
-          showExhibition((exIndex + 1) % exItems.length);
-          restartExTimer();
-        });
-      }
-
-      /* 触屏滑动切换 */
-      var exTouchX = null;
-      exList.addEventListener("touchstart", function (e) {
-        exTouchX = e.touches[0].clientX;
-        if (exTimer) clearInterval(exTimer);
-      }, { passive: true });
-      exList.addEventListener("touchend", function (e) {
-        if (exTouchX === null) return;
-        var dx = e.changedTouches[0].clientX - exTouchX;
-        if (Math.abs(dx) > 40) {
-          if (dx < 0) showExhibition((exIndex + 1) % exItems.length);
-          else showExhibition((exIndex - 1 + exItems.length) % exItems.length);
-        }
-        exTouchX = null;
-        restartExTimer();
-      }, { passive: true });
-
-      exDots.forEach(function (dot, i) {
-        dot.addEventListener("click", function () {
-          showExhibition(i);
-          restartExTimer();
-        });
-      });
-
-      /* 暂停自动轮播：鼠标悬停时 */
-      var exSlider = doc.getElementById("exhibitionSlider");
-      if (exSlider) {
-        exSlider.addEventListener("mouseenter", function () {
-          if (exTimer) clearInterval(exTimer);
-        });
-        exSlider.addEventListener("mouseleave", restartExTimer);
-      }
-    }
-  }
-
-  /* ---------- Heimtextil 卡片内部图片轮播（3 秒自动 + 小圆点） ---------- */
+  /* ---------- Heimtextil 展会卡内部图片轮播（3 秒自动 + 小圆点） ---------- */
   var heimGallery = doc.getElementById("heimGallery");
   if (heimGallery) {
     var heimTrack = doc.getElementById("heimTrack");
     var heimDots = heimGallery.querySelectorAll(".figure-dot");
+    var heimFigure = heimGallery.querySelector(".exhibition-figure--gallery");
     var heimCount = heimTrack ? heimTrack.querySelectorAll("img").length : 0;
     var heimIdx = 0;
     var heimTimer = null;
@@ -208,28 +130,30 @@
         });
       });
 
-      /* 鼠标悬停时暂停，离开后恢复 */
+      /* 鼠标悬停整个卡片时暂停，离开后恢复 */
       heimGallery.addEventListener("mouseenter", function () {
         if (heimTimer) clearInterval(heimTimer);
       });
       heimGallery.addEventListener("mouseleave", startHeimTimer);
 
-      /* 触屏滑动切换（在 figure 内滑动） */
+      /* 触屏滑动切换（仅在 figure 区域内滑动，避免影响正文滚动） */
       var heimTouchX = null;
-      heimGallery.addEventListener("touchstart", function (e) {
-        heimTouchX = e.touches[0].clientX;
-        if (heimTimer) clearInterval(heimTimer);
-      }, { passive: true });
-      heimGallery.addEventListener("touchend", function (e) {
-        if (heimTouchX === null) return;
-        var dx = e.changedTouches[0].clientX - heimTouchX;
-        if (Math.abs(dx) > 40) {
-          if (dx < 0) showHeim((heimIdx + 1) % heimCount);
-          else showHeim((heimIdx - 1 + heimCount) % heimCount);
-        }
-        heimTouchX = null;
-        startHeimTimer();
-      }, { passive: true });
+      if (heimFigure) {
+        heimFigure.addEventListener("touchstart", function (e) {
+          heimTouchX = e.touches[0].clientX;
+          if (heimTimer) clearInterval(heimTimer);
+        }, { passive: true });
+        heimFigure.addEventListener("touchend", function (e) {
+          if (heimTouchX === null) return;
+          var dx = e.changedTouches[0].clientX - heimTouchX;
+          if (Math.abs(dx) > 40) {
+            if (dx < 0) showHeim((heimIdx + 1) % heimCount);
+            else showHeim((heimIdx - 1 + heimCount) % heimCount);
+          }
+          heimTouchX = null;
+          startHeimTimer();
+        }, { passive: true });
+      }
     }
   }
 

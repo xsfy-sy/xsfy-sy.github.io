@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=20261062" />
+  <link rel="stylesheet" href="css/style.css?v=20261063" />
 </head>
 <body>
   <a class="skip-link" href="#main">跳至主要内容</a>
@@ -310,67 +310,35 @@
       <div class="container">
         <div class="block-head reveal">
           <h2 class="block-title">RECENT EXHIBITIONS</h2>
-          <div class="grid-nav" id="exhibitionNav">
-            <button type="button" class="grid-nav-btn" id="exhibitionPrev" aria-label="上一场" title="上一场">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
-            </button>
-            <button type="button" class="grid-nav-btn" id="exhibitionNext" aria-label="下一场" title="下一场">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
-            </button>
+        </div>
+
+        <article class="exhibition-item exhibition-item--reverse reveal" id="heimGallery">
+          <figure class="exhibition-figure exhibition-figure--gallery">
+            <div class="exhibition-figure-track" id="heimTrack">
+              <img src="assets/images/exhibition-heimtextil-1.jpg" alt="Heimtextil 法兰克福展会现场 1 · HEILIGS PIER 展位" loading="lazy" />
+              <img src="assets/images/exhibition-heimtextil-2.jpg" alt="Heimtextil 法兰克福展会现场 2 · 红色 logo 背景墙" loading="lazy" />
+              <img src="assets/images/exhibition-heimtextil-3.jpg" alt="Heimtextil 法兰克福展会现场 3 · 挂毯与展架样品" loading="lazy" />
+              <img src="assets/images/exhibition-heimtextil-4.jpg" alt="Heimtextil 法兰克福展会现场 4 · Booth Hall 9.1F11C" loading="lazy" />
+              <img src="assets/images/exhibition-heimtextil-5.jpg" alt="Heimtextil 法兰克福展会现场 5 · 展位洽谈区" loading="lazy" />
+            </div>
+            <span class="exhibition-tag">FACE</span>
+            <div class="figure-dots" role="tablist" aria-label="Heimtextil exhibition photos">
+              <button class="figure-dot active" role="tab" aria-selected="true" aria-label="Photo 1"></button>
+              <button class="figure-dot" role="tab" aria-selected="false" aria-label="Photo 2"></button>
+              <button class="figure-dot" role="tab" aria-selected="false" aria-label="Photo 3"></button>
+              <button class="figure-dot" role="tab" aria-selected="false" aria-label="Photo 4"></button>
+              <button class="figure-dot" role="tab" aria-selected="false" aria-label="Photo 5"></button>
+            </div>
+          </figure>
+          <div class="exhibition-body">
+            <p class="exhibition-date">Jan 12 — 15, 2027</p>
+            <h3 class="exhibition-name">Heimtextil 2027 · Frankfurt International Home Textiles Fair</h3>
+            <p class="exhibition-venue"><span class="exhibition-label">Venue</span>Frankfurt Trade Fair, Germany</p>
+            <p class="exhibition-booth"><span class="exhibition-label">Booth</span>Hall 9.1F11C</p>
+            <p class="exhibition-desc">Showcasing our ACCESSORIES and OUTDOOR collections on the global stage, we connected with buyers worldwide and explored new home textiles trends — over 200 prospective clients secured. A successful show.</p>
+            <a href="contact.html" class="exhibition-link">View Recap →</a>
           </div>
-        </div>
-
-        <div class="exhibition-slider reveal" id="exhibitionSlider">
-        <div class="exhibition-list" id="exhibitionList">
-          <!-- 展会 1 -->
-          <article class="exhibition-item exhibition-item--reverse">
-            <figure class="exhibition-figure exhibition-figure--gallery" id="heimGallery">
-              <div class="exhibition-figure-track" id="heimTrack">
-                <img src="assets/images/exhibition-heimtextil-1.jpg" alt="Heimtextil 法兰克福展会现场 1 · HEILIGS PIER 展位" loading="lazy" />
-                <img src="assets/images/exhibition-heimtextil-2.jpg" alt="Heimtextil 法兰克福展会现场 2 · 红色 logo 背景墙" loading="lazy" />
-                <img src="assets/images/exhibition-heimtextil-3.jpg" alt="Heimtextil 法兰克福展会现场 3 · 挂毯与展架样品" loading="lazy" />
-                <img src="assets/images/exhibition-heimtextil-4.jpg" alt="Heimtextil 法兰克福展会现场 4 · Booth Hall 9.1F11C" loading="lazy" />
-                <img src="assets/images/exhibition-heimtextil-5.jpg" alt="Heimtextil 法兰克福展会现场 5 · 展位洽谈区" loading="lazy" />
-              </div>
-              <span class="exhibition-tag">FACE</span>
-              <div class="figure-dots" role="tablist" aria-label="Heimtextil exhibition photos">
-                <button class="figure-dot active" role="tab" aria-selected="true" aria-label="Photo 1"></button>
-                <button class="figure-dot" role="tab" aria-selected="false" aria-label="Photo 2"></button>
-                <button class="figure-dot" role="tab" aria-selected="false" aria-label="Photo 3"></button>
-                <button class="figure-dot" role="tab" aria-selected="false" aria-label="Photo 4"></button>
-                <button class="figure-dot" role="tab" aria-selected="false" aria-label="Photo 5"></button>
-              </div>
-            </figure>
-            <div class="exhibition-body">
-              <p class="exhibition-date">Jan 12 — 15, 2027</p>
-              <h3 class="exhibition-name">Heimtextil 2027 · Frankfurt International Home Textiles Fair</h3>
-              <p class="exhibition-venue"><span class="exhibition-label">Venue</span>Frankfurt Trade Fair, Germany</p>
-              <p class="exhibition-booth"><span class="exhibition-label">Booth</span>Hall 9.1F11C</p>
-              <p class="exhibition-desc">Showcasing our ACCESSORIES and OUTDOOR collections on the global stage, we connected with buyers worldwide and explored new home textiles trends — over 200 prospective clients secured. A successful show.</p>
-              <a href="contact.html" class="exhibition-link">View Recap →</a>
-            </div>
-          </article>
-
-          <!-- Exhibition 2 -->
-          <article class="exhibition-item">
-            <figure class="exhibition-figure">
-              <img src="assets/images/exhibition-cantonfair.jpg?v=20261048" alt="Canton Fair Booth 16.3 B 03-04, real exhibition hall with buyers visiting booths" loading="lazy" />
-              <span class="exhibition-tag">FACE</span>
-            </figure>
-            <div class="exhibition-body">
-              <p class="exhibition-date">Oct 31 — Nov 4, 2026</p>
-              <h3 class="exhibition-name">The 140th China Import and Export Fair (Canton Fair)</h3>
-              <p class="exhibition-venue"><span class="exhibition-label">Venue</span>Pazhou Complex, Guangzhou</p>
-              <p class="exhibition-booth"><span class="exhibition-label">Booth</span>16.3 B 03-04</p>
-              <p class="exhibition-desc">HEILIGS PIER will present our BEDDING, CURTAINS and PET collections at the 140th Canton Fair — Booth 16.3 B 03-04. We welcome your visit and business inquiries.</p>
-              <a href="contact.html" class="exhibition-link">Book a Visit →</a>
-            </div>
-          </article>
-        </div>
-        <div class="exhibition-dots" id="exhibitionDots" role="tablist" aria-label="Exhibition selection">
-          <button class="exhibition-dot active" role="tab" aria-selected="true" aria-label="Exhibition 1"></button>
-          <button class="exhibition-dot" role="tab" aria-selected="false" aria-label="Exhibition 2"></button>
-        </div>
+        </article>
         </div>
       </div>
     </section>
@@ -770,7 +738,7 @@
       });
     })();
   </script>
-  <script src="js/main.js?v=20261062"></script>
+  <script src="js/main.js?v=20261063"></script>
   <script>
     (function () {
       var carousels = document.querySelectorAll('.contact-carousel');
