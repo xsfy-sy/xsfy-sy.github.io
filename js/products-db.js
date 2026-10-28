@@ -199,6 +199,8 @@
           if (fresh.length) {
             addAllSilently(fresh);
             list = list.concat(fresh);
+            // 合并后重新按上传时间倒序，保证新品在各页面都排最前
+            list.sort(function (a, b) { return (b.createdAt || 0) - (a.createdAt || 0); });
           }
           return list;
         });
