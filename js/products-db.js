@@ -122,8 +122,25 @@
      作为数据源，每次 getAll 都会先查本地库；若为空或 IndexedDB 挂了，
      直接用 JSON 的内容。JSON 只 fetch 一次并缓存，顺手写进 IndexedDB
      让 admin 后台也能看到。 */
-  var SEED_URL = "js/default-products.json?v=20261060";
+  var SEED_URL = "js/default-products.json?v=20261071";
   var _seedCache = null;
+
+  /* 删除墓碑：后台删掉的播种产品 id 记进 localStorage，
+     防止增量合并时把它们重新加回来 */
+  var TOMBSTONE_KEY = "heiligs_deleted_seed_ids";
+  function getTombstones() {
+    try { return JSON.parse(localStorage.getItem(TOMBSTONE_KEY) || "[]"); }
+    catch (e) { return []; }
+  }
+  function addTombstone(id) {
+    try {
+      var list = getTombstones();
+      if (list.indexOf(id) === -1) {
+        list.push(id);
+        localStorage.setItem(TOMBSTONE_KEY, JSON.stringify(list));
+      }
+    } catch (e) { /* localStorage 不可用时静默 */ }
+  }
 
   function fetchSeedJSON() {
     if (_seedCache) return _seedCache;
@@ -166,8 +183,25 @@
   function getAll() {
     return withTimeout(getAllRaw().catch(function () { return []; }), 1500, [])
       .then(function (list) {
-        if (list && list.length) return list;
-        return withTimeout(fetchSeedJSON(), 6000, []);   // 空库 → 直接用 JSON
+        if (!list || !list.length) {
+          return withTimeout(fetchSeedJSON(), 6000, []);   // 空库 → 直接用 JSON
+        }
+        /* 增量合并：JSON 里新部署而本地库还没有、且未被后台删除过的产品，
+           补写进 IndexedDB，让首页和 admin 都能看到 */
+        return withTimeout(fetchSeedJSON(), 6000, []).then(function (seed) {
+          if (!seed || !seed.length) return list;
+          var tomb = getTombstones();
+          var known = {};
+          list.forEach(function (p) { known[p.id] = true; });
+          var fresh = seed.filter(function (p) {
+            return p && p.id && !known[p.id] && tomb.indexOf(p.id) === -1;
+          });
+          if (fresh.length) {
+            addAllSilently(fresh);
+            list = list.concat(fresh);
+          }
+          return list;
+        });
       });
   }
 
@@ -249,6 +283,7 @@
         var store = tx.objectStore(STORE_NAME);
         var req = store.delete(id);
         req.onsuccess = function () {
+          addTombstone(id);
           resolve();
         };
         req.onerror = function () {
