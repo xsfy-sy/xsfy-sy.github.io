@@ -1,5 +1,15 @@
 [
     {
+        "id":  "bedding-exhibition-01",
+        "category":  "bedding-blanket",
+        "name":  "Exhibition samples",
+        "description":  "Exhibition samples",
+        "images":  [
+                       "assets/images/bedding-exhibition-01.jpg"
+                   ],
+        "createdAt":  1793205634946
+    },
+    {
         "id":  "bedding-001",
         "category":  "bedding-blanket",
         "name":  "BEDDING-blanket",
