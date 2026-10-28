@@ -625,7 +625,7 @@
     var btn = doc.createElement("button");
     btn.className = "wish-btn";
     btn.type = "button";
-    btn.setAttribute("aria-label", "加入心愿清单");
+    btn.setAttribute("aria-label", "Add to wishlist");
     btn.innerHTML = "♡";
     btn.addEventListener("click", function (e) {
       e.preventDefault();
@@ -713,7 +713,7 @@
             '<h4>' + w.name + '</h4>' +
             '<span class="wishlist-item-price">' + w.price + '</span>' +
           '</div>' +
-          '<button class="wishlist-remove" aria-label="移除" type="button">✕</button>';
+          '<button class="wishlist-remove" aria-label="Remove" type="button">✕</button>';
         item.querySelector(".wishlist-remove").addEventListener("click", function () {
           wishlist = wishlist.filter(function (x) { return x.id !== w.id; });
           var card = doc.querySelector('[data-wish-id="' + w.id + '"]');
@@ -741,9 +741,9 @@
     var summary = doc.getElementById("inquireSummary");
     if (!summary) return;
     if (wishlist.length === 0) { summary.innerHTML = ""; return; }
-    var html = '<p class="inquire-summary-title">询价报价表 (' + wishlist.length + ' 款)</p>';
+    var html = '<p class="inquire-summary-title">Quotation Request (' + wishlist.length + ' item' + (wishlist.length > 1 ? 's' : '') + ')</p>';
     html += '<div class="inquire-quote-scroll"><table class="inquire-quote"><thead><tr>' +
-      '<th>图片</th><th>产品</th><th>克重</th><th>尺寸</th><th>颜色</th><th>包装辅料</th><th>缝制工艺</th><th>采购数量</th><th>价格</th>' +
+      '<th>Image</th><th>Product</th><th>Weight</th><th>Size</th><th>Color</th><th>Packaging</th><th>Sewing</th><th>Qty</th><th>Price</th>' +
       '</tr></thead><tbody>';
     wishlist.forEach(function (w) {
       html += '<tr>' +
@@ -754,12 +754,12 @@
         '<td>' + wishEsc(w.color || "—") + '</td>' +
         '<td>' + wishEsc(w.packaging || "—") + '</td>' +
         '<td>' + wishEsc(w.sewing || "—") + '</td>' +
-        '<td><input type="number" class="inquire-qty" min="1" step="1" value="' + (w.qty || 1000) + '" data-wid="' + wishEsc(w.id) + '" aria-label="采购数量" /></td>' +
+        '<td><input type="number" class="inquire-qty" min="1" step="1" value="' + (w.qty || 1000) + '" data-wid="' + wishEsc(w.id) + '" aria-label="Quantity" /></td>' +
         '<td class="q-price">' + wishEsc(w.price || "—") + '</td>' +
         '</tr>';
     });
     html += '</tbody></table></div>';
-    html += '<p class="inquire-quote-note">※ 采购数量可直接修改，发送时自动带入；带“—”的规格项请在后台补录产品信息。</p>';
+    html += '<p class="inquire-quote-note">※ Quantity can be edited directly and will be included when you send. Items marked "—" need their specs completed in the product data.</p>';
     summary.innerHTML = html;
   }
 
@@ -800,7 +800,7 @@
       var nameVal = nameEl ? nameEl.value : "";
       var emailVal = emailEl ? emailEl.value : "";
       if (!nameVal.trim() || !emailVal.trim()) {
-        alert("请填写姓名和邮箱");
+        alert("Please fill in your name and email.");
         return;
       }
       /* 邮件正文：文字版报价表（邮件无法嵌图，图片见网页端报价表） */
