@@ -1605,7 +1605,8 @@ address { font-style: normal; }
   aspect-ratio: 4 / 3.4;
 }
 #bestsellerGrid .product-badge {
-  background: #c83c3c;
+  background: rgba(200, 60, 60, 0.82);
+  box-shadow: 0 2px 10px rgba(200, 60, 60, 0.32);
 }
 #series .block-head {
   display: flex;
@@ -1877,16 +1878,21 @@ address { font-style: normal; }
 .product-badge {
   position: absolute;
   top: 14px; left: 14px;
-  padding: 5px 12px;
+  padding: 6px 14px;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.18em;
   color: #fff;
-  background: var(--moss);
-  border-radius: 4px;
+  background: rgba(74, 124, 42, 0.82);
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 2px 10px rgba(74, 124, 42, 0.32);
 }
 .product-badge--new {
-  background: #4a7c2a;
+  background: rgba(74, 124, 42, 0.82);
+  box-shadow: 0 2px 10px rgba(74, 124, 42, 0.32);
 }
 
 .product-info { padding: 14px 16px 16px; }
