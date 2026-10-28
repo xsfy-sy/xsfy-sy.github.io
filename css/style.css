@@ -2642,9 +2642,9 @@ address { font-style: normal; }
 .site-footer > * { position: relative; z-index: 1; }
 .footer-grid {
   display: grid;
-  /* 列宽随内容，所有列间空隙（含两端）完全均分 */
+  /* 列宽随内容，首尾列贴容器左右缘（与上方信息框对齐），列间空隙均分 */
   grid-template-columns: repeat(4, max-content);
-  justify-content: space-evenly;
+  justify-content: space-between;
   column-gap: 24px;
   row-gap: 40px;
   padding-block: clamp(56px, 7vw, 90px);
