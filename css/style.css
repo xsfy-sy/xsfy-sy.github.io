@@ -2648,8 +2648,7 @@ address { font-style: normal; }
   column-gap: 24px;
   row-gap: 40px;
   padding-block: clamp(56px, 7vw, 90px);
-  max-width: 1180px;
-  margin-inline: auto;
+  /* 不再限 1180px，直接跟随 .container（1240px），与上方信息框左右齐平 */
 }
 .brand-footer .brand-text strong { color: var(--ink); }
 .brand-footer .brand-text em { color: var(--taupe); }
