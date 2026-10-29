@@ -2972,11 +2972,12 @@ address { font-style: normal; }
 
 .page-hero .hero-title {
   font-family: var(--serif);
-  font-size: clamp(36px, 5vw, 56px);
+  font-size: clamp(24px, 5vw, 56px);
   font-weight: 600;
   line-height: 1.3;
   margin-bottom: 16px;
   color: #fff;
+  white-space: nowrap;
 }
 
 .hero-subtitle {
