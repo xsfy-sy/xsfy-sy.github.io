@@ -2583,6 +2583,21 @@ address { font-style: normal; }
 .contact-card:hover .contact-phone { color: var(--gold); }
 .contact-detail a { transition: color var(--dur) var(--ease); }
 .contact-detail a:hover { color: var(--gold); }
+/* 「打开高德地图」：地址下方的小号金色链接 */
+.map-link-row { margin-top: 12px; }
+.map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 3px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  border-bottom: 1px solid currentColor;
+  transition: opacity var(--dur) var(--ease);
+}
+.map-link:hover { opacity: 0.65; }
+.map-link svg { flex: none; }
 .contact-actions {
   display: flex;
   gap: 12px;
