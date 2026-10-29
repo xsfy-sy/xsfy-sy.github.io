@@ -371,9 +371,9 @@
 
     if (noResults) noResults.hidden = visible.length !== 0;
 
-    // 顶部"共 N 款"：按当前实际可见的产品数量实时标注
+    // 顶部产品数量：按当前实际可见的产品数量实时标注（英文）
     if (productCountEl) {
-      productCountEl.textContent = visible.length ? "共 " + visible.length + " 款" : "";
+      productCountEl.textContent = visible.length ? visible.length + (visible.length === 1 ? " Product" : " Products") : "";
     }
 
     renderPagination(visible.length);
@@ -394,7 +394,7 @@
       html += '<button class="page-btn' + (i === currentPage ? " active" : "") + '" data-page="' + i + '">' + i + "</button>";
     }
     html += '<button class="page-btn' + (currentPage === totalPages ? " disabled" : "") + '" data-page="' + (currentPage + 1) + '">&#8250;</button>';
-    html += '<span class="page-info">第 ' + currentPage + " / " + totalPages + " 页（共 " + total + " 款）</span>";
+    html += '<span class="page-info">Page ' + currentPage + " / " + totalPages + " (" + total + (total === 1 ? " Product" : " Products") + ")</span>";
     paginationEl.innerHTML = html;
 
     paginationEl.querySelectorAll(".page-btn").forEach(function (btn) {
