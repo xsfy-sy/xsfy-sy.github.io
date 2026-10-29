@@ -2654,7 +2654,9 @@ address { font-style: normal; }
 .footer-grid {
   display: grid;
   /* 自身兼任 container：由 .container 类的 width + margin-inline:auto 控制宽度和居中 */
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* 前三列均分，最后一列（ABOUT US）按内容宽度收缩并贴住容器右边缘，
+     使其右边缘到屏幕右边的距离 = COMPANY 左边缘到屏幕左边的距离 */
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
   column-gap: 24px;
   row-gap: 40px;
   padding-block: clamp(56px, 7vw, 90px);
