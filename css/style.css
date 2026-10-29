@@ -2662,7 +2662,7 @@ address { font-style: normal; }
 .footer-col h4 {
   position: relative;
   font-family: var(--sans);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
