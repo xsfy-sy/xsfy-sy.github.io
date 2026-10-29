@@ -2653,7 +2653,8 @@ address { font-style: normal; }
 .site-footer > * { position: relative; z-index: 1; }
 .footer-grid {
   display: grid;
-  /* 自身兼任 container：宽度由 .container 类的 margin-inline:auto 居中 */
+  /* 和 contact-grid 同构：外层 container 管宽度，footer-grid 管内部 4 列布局 */
+  width: 100%;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   column-gap: 24px;
   row-gap: 40px;
