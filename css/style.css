@@ -2593,6 +2593,7 @@ address { font-style: normal; }
   gap: 6px;
   padding-bottom: 3px;
   font-size: 12px;
+  font-weight: 600;
   letter-spacing: 0.12em;
   color: var(--gold);
   border-bottom: 1px solid currentColor;
