@@ -2648,13 +2648,11 @@ address { font-style: normal; }
 .site-footer > * { position: relative; z-index: 1; }
 .footer-grid {
   display: grid;
-  /* 列宽随内容，首尾列贴容器左右缘（与上方信息框对齐），列间空隙均分 */
-  grid-template-columns: repeat(4, max-content);
-  justify-content: space-between;
+  /* 4 等分容器宽度，避免 max-content 溢出导致单词中间断行 */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   column-gap: 24px;
   row-gap: 40px;
   padding-block: clamp(56px, 7vw, 90px);
-  /* 不再限 1180px，直接跟随 .container（1240px），与上方信息框左右齐平 */
 }
 .brand-footer .brand-text strong { color: var(--ink); }
 .brand-footer .brand-text em { color: var(--taupe); }
