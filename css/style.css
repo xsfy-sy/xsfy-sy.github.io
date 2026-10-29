@@ -2864,7 +2864,7 @@ address { font-style: normal; }
 /* ---------- 页面 Banner ---------- */
 .page-hero {
   position: relative;
-  min-height: 420px;
+  min-height: 380px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2952,12 +2952,15 @@ address { font-style: normal; }
 .page-hero-content {
   position: relative;
   z-index: 2;
-  padding: 120px 0 80px;
-}
-
-/* 6 个产品分类页 Banner：文字与按钮整体上移一半 */
-.page-hero:is(.page-hero--bedding, .page-hero--mats, .page-hero--pet, .page-hero--sundries, .page-hero--curtains, .page-hero--outdoor, .page-hero--contact, .page-hero--exhibitions) .page-hero-content {
-  padding: 60px 0 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 16px;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 .page-hero .hero-eyebrow {
@@ -3333,13 +3336,10 @@ address { font-style: normal; }
     margin-bottom: 24px;
   }
   .page-hero {
-    min-height: 320px;
+    min-height: 340px;
   }
   .page-hero-content {
-    padding: 100px 0 60px;
-  }
-  .page-hero:is(.page-hero--bedding, .page-hero--mats, .page-hero--pet, .page-hero--sundries, .page-hero--curtains, .page-hero--outdoor, .page-hero--contact, .page-hero--exhibitions) .page-hero-content {
-    padding: 50px 0 110px;
+    padding: 32px 16px;
   }
 }
 
