@@ -2679,7 +2679,9 @@ address { font-style: normal; }
   height: 1px;
   background: var(--gold);
 }
-/* 标题与下方链接文字左边缘对齐 */
+/* 标题与下方链接文字左边缘对齐（链接有 14px 缩进给 hover 金色横线） */
+.footer-col h4 { padding-left: 14px; }
+.footer-col h4::after { left: 14px; }
 .footer-contact { margin-top: 0; }
 .footer-contact p {
   font-size: 13px;
