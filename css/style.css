@@ -2648,8 +2648,9 @@ address { font-style: normal; }
 .site-footer > * { position: relative; z-index: 1; }
 .footer-grid {
   display: grid;
-  /* 4 等分容器宽度，避免 max-content 溢出导致单词中间断行 */
+  /* 4 等分容器宽度 + space-between 让首尾列贴容器边缘，列间间距均匀 */
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  justify-content: space-between;
   column-gap: 24px;
   row-gap: 40px;
   padding-block: clamp(56px, 7vw, 90px);
@@ -2662,7 +2663,7 @@ address { font-style: normal; }
   position: relative;
   font-family: var(--sans);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--gold);
@@ -2678,9 +2679,7 @@ address { font-style: normal; }
   height: 1px;
   background: var(--gold);
 }
-/* 标题与下方链接文字左边缘对齐（链接有 14px 缩进给 hover 横线） */
-.footer-col h4 { padding-left: 14px; }
-.footer-col h4::after { left: 14px; }
+/* 标题与下方链接文字左边缘对齐 */
 .footer-contact { margin-top: 0; }
 .footer-contact p {
   font-size: 13px;
