@@ -2457,10 +2457,12 @@ address { font-style: normal; }
 .contact-icon { color: var(--gold); flex: none; transition: color var(--dur) var(--ease), transform var(--dur) var(--ease); }
 .contact-card:hover .contact-icon { color: var(--brown); transform: scale(1.06); }
 .contact-card-head h3 {
-  font-family: var(--serif);
-  font-size: 20px;
+  /* 更高级的衬线排版：Cormorant Garamond + 大字号 + 细字重 */
+  font-family: "Cormorant Garamond", var(--serif);
+  font-size: clamp(23px, 1.7vw, 26px);
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.035em;
+  line-height: 1.1;
   color: var(--ink);
   transition: color var(--dur) var(--ease);
 }
