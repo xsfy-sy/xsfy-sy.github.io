@@ -52,13 +52,18 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
+  width: 100%;
+  min-width: 100vw;
   scroll-behavior: smooth;
   scroll-padding-top: 120px;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
+  width: 100%;
+  min-width: 100vw;
   font-family: var(--sans);
   font-weight: 400;
   font-size: 16px;
