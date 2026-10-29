@@ -768,8 +768,7 @@
         { value: 'MATS-Placemat', label: 'MATS-Placemat' }
       ],
       curtains: [
-        { value: 'Grommet Curtains', label: 'Grommet Curtains' },
-        { value: 'Track Curtains', label: 'Track Curtains' }
+        { value: 'Grommet Curtains', label: 'Grommet Curtains' }
       ]
     };
 
@@ -811,7 +810,6 @@
       }
       if (cat === 'curtains' && name) {
         if (name === 'Grommet Curtains') return 'curtains-grommet';
-        if (name === 'Track Curtains') return 'curtains-track';
       }
       return cat;
     }
@@ -1125,8 +1123,7 @@
         { value: 'rugs-placemat', label: 'MATS-Placemat' }
       ],
       curtains: [
-        { value: 'curtains-grommet', label: 'Grommet Curtains' },
-        { value: 'curtains-track', label: 'Track Curtains' }
+        { value: 'curtains-grommet', label: 'Grommet Curtains' }
       ]
     };
 
@@ -1251,7 +1248,7 @@
         bedding: 'BEDDING', 'bedding-blanket': 'BEDDING / blanket', 'bedding-cushion': 'BEDDING / cushion',
         'bedding-mattress-protector': 'BEDDING / Mattress protector', 'bedding-duvet-cover-pillowcase-set': 'BEDDING / Bedding set',
         rugs: 'MATS', pet: 'PET', wares: 'ACCESSORIES', curtains: 'CURTAINS',
-        'curtains-grommet': 'CURTAINS / Grommet Curtains', 'curtains-track': 'CURTAINS / Track Curtains', outdoor: 'OUTDOOR'
+        'curtains-grommet': 'CURTAINS / Grommet Curtains', outdoor: 'OUTDOOR'
       };
       var html = '';
       products.forEach(function(p) {
