@@ -266,7 +266,7 @@ address { font-style: normal; }
 
 /* ---------- 顶部导航条 ---------- */
 .top-nav {
-  background: #E5E5E5;
+  background: #71776E; /* 用户提供的参考色：灰绿橄榄 */
   font-size: 12px;
   position: sticky;
   top: 0;
@@ -327,7 +327,7 @@ address { font-style: normal; }
   flex: 0 0 auto;
 }
 .top-nav-slogan {
-  color: var(--taupe);
+  color: #fff;
   letter-spacing: 0.12em;
   font-size: 12px;
 }
@@ -343,7 +343,7 @@ address { font-style: normal; }
   display: block;
   height: 16px;
   line-height: 16px;
-  color: var(--taupe);
+  color: #fff;
   letter-spacing: 0.12em;
   font-size: 12px;
   opacity: 0;
