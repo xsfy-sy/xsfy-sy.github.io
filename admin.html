@@ -612,7 +612,7 @@
             <option value="BEDDING-Blanket">BEDDING-Blanket</option>
             <option value="BEDDING-Cushion">BEDDING-Cushion</option>
             <option value="BEDDING-Mattress protector">BEDDING-Mattress protector</option>
-            <option value="BEDDING-Duvet Cover & Pillowcase Set">BEDDING-Duvet Cover & Pillowcase Set</option>
+            <option value="BEDDING-Bedding set">BEDDING-Bedding set</option>
           </select>
         </div>
 
@@ -762,7 +762,7 @@
         { value: 'BEDDING-Blanket', label: 'BEDDING-Blanket' },
         { value: 'BEDDING-Cushion', label: 'BEDDING-Cushion' },
         { value: 'BEDDING-Mattress protector', label: 'BEDDING-Mattress protector' },
-        { value: 'BEDDING-Duvet Cover & Pillowcase Set', label: 'BEDDING-Duvet Cover & Pillowcase Set' }
+        { value: 'BEDDING-Bedding set', label: 'BEDDING-Bedding set' }
       ],
       rugs: [
         { value: 'MATS-Placemat', label: 'MATS-Placemat' }
@@ -804,7 +804,7 @@
         if (name === 'BEDDING-Blanket') return 'bedding-blanket';
         if (name === 'BEDDING-Cushion') return 'bedding-cushion';
         if (name === 'BEDDING-Mattress protector') return 'bedding-mattress-protector';
-        if (name === 'BEDDING-Duvet Cover & Pillowcase Set') return 'bedding-duvet-cover-pillowcase-set';
+        if (name === 'BEDDING-Bedding set' || name === 'BEDDING-Duvet Cover & Pillowcase Set') return 'bedding-duvet-cover-pillowcase-set';
       }
       if (cat === 'rugs' && name) {
         if (name === 'MATS-Placemat') return 'rugs-placemat';
@@ -1119,7 +1119,7 @@
         { value: 'bedding-blanket', label: 'BEDDING-Blanket' },
         { value: 'bedding-cushion', label: 'BEDDING-Cushion' },
         { value: 'bedding-mattress-protector', label: 'BEDDING-Mattress protector' },
-        { value: 'bedding-duvet-cover-pillowcase-set', label: 'BEDDING-Duvet Cover & Pillowcase Set' }
+        { value: 'bedding-duvet-cover-pillowcase-set', label: 'BEDDING-Bedding set' }
       ],
       rugs: [
         { value: 'rugs-placemat', label: 'MATS-Placemat' }
@@ -1249,7 +1249,7 @@
 
       var categoryNames = {
         bedding: 'BEDDING', 'bedding-blanket': 'BEDDING / blanket', 'bedding-cushion': 'BEDDING / cushion',
-        'bedding-mattress-protector': 'BEDDING / Mattress protector', 'bedding-duvet-cover-pillowcase-set': 'BEDDING / Duvet Cover & Pillowcase Set',
+        'bedding-mattress-protector': 'BEDDING / Mattress protector', 'bedding-duvet-cover-pillowcase-set': 'BEDDING / Bedding set',
         rugs: 'MATS', pet: 'PET', wares: 'ACCESSORIES', curtains: 'CURTAINS',
         'curtains-grommet': 'CURTAINS / Grommet Curtains', 'curtains-track': 'CURTAINS / Track Curtains', outdoor: 'OUTDOOR'
       };

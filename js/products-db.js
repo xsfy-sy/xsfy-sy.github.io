@@ -17,6 +17,7 @@
     "BEDDING-Cushion": "bedding-cushion",
     "BEDDING-Mattress protector": "bedding-mattress-protector",
     "BEDDING-Duvet Cover & Pillowcase Set": "bedding-duvet-cover-pillowcase-set",
+    "BEDDING-Bedding set": "bedding-duvet-cover-pillowcase-set",
     "Grommet Curtains": "curtains-grommet",
     "Track Curtains": "curtains-track",
     "MATS-Placemat": "rugs-placemat"
