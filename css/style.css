@@ -273,12 +273,17 @@ address { font-style: normal; }
   z-index: 101;
 }
 .top-nav-inner {
+  /* 覆盖 .container 的 1240px max-width 和 gutter 限制，让顶栏撑满整页 */
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-block: 10px;
-  min-height: 40px;
+  padding-block: 7px;
+  padding-inline: clamp(12px, 2vw, 24px);
+  min-height: 30px;
 }
 .top-nav-logo-left {
   height: 13px;
@@ -339,16 +344,16 @@ address { font-style: normal; }
 }
 .top-rotator {
   display: inline-block;
-  height: 18px;
+  height: 16px;
   overflow: hidden;
   position: relative;
-  min-width: 300px;
+  min-width: 260px;
 }
 .top-rotator:last-child { text-align: center; }
 .top-rotator-item {
   display: block;
-  height: 18px;
-  line-height: 18px;
+  height: 16px;
+  line-height: 16px;
   color: #fff;
   letter-spacing: 0.12em;
   font-size: 12px;
