@@ -281,9 +281,9 @@ address { font-style: normal; }
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-block: 7px;
+  padding-block: 9px;
   padding-inline: clamp(12px, 2vw, 24px);
-  min-height: 30px;
+  min-height: 36px;
 }
 .top-nav-logo-left {
   height: 13px;
@@ -344,7 +344,7 @@ address { font-style: normal; }
 }
 .top-rotator {
   display: inline-block;
-  height: 16px;
+  height: 17px;
   overflow: hidden;
   position: relative;
   min-width: 260px;
@@ -352,8 +352,8 @@ address { font-style: normal; }
 .top-rotator:last-child { text-align: center; }
 .top-rotator-item {
   display: block;
-  height: 16px;
-  line-height: 16px;
+  height: 17px;
+  line-height: 17px;
   color: #fff;
   letter-spacing: 0.12em;
   font-size: 12px;
