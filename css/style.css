@@ -322,6 +322,30 @@ address { font-style: normal; }
   60%, 90% { transform: translateY(0); opacity: 1; }
   100% { transform: translateY(-120%); opacity: 0; }
 }
+/* CONTACT / EXHIBITIONS 按钮组 */
+.top-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.4vw, 16px);
+  flex: 0 0 auto;
+}
+.top-nav-btn {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  color: #fff;
+  padding: 4px 10px;
+  border: 1px solid rgba(255,255,255,0.55);
+  border-radius: 3px;
+  background: transparent;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.top-nav-btn:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: #fff;
+  color: #fff;
+}
 .top-nav-right-group {
   position: absolute;
   left: 50%;
