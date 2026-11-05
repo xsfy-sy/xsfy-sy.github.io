@@ -277,11 +277,11 @@ address { font-style: normal; }
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-block: 14px;
-  min-height: 48px;
+  padding-block: 10px;
+  min-height: 40px;
 }
 .top-nav-logo-left {
-  height: 14px;
+  height: 13px;
   width: auto;
   display: block;
   flex: 0 0 auto;
@@ -339,7 +339,7 @@ address { font-style: normal; }
 }
 .top-rotator {
   display: inline-block;
-  height: 20px;
+  height: 18px;
   overflow: hidden;
   position: relative;
   min-width: 300px;
@@ -347,8 +347,8 @@ address { font-style: normal; }
 .top-rotator:last-child { text-align: center; }
 .top-rotator-item {
   display: block;
-  height: 20px;
-  line-height: 20px;
+  height: 18px;
+  line-height: 18px;
   color: #fff;
   letter-spacing: 0.12em;
   font-size: 12px;
