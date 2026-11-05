@@ -3714,169 +3714,155 @@ address { font-style: normal; }
   padding-bottom: clamp(48px, 7vw, 96px);
 }
 
-/* ============ 首页导航：透明覆盖首屏 + 滚动后变白吸顶（对齐参考视频） ============ */
-/* 仅作用于 page-home，其他页面导航保持原样 */
+/* ============ 全站导航：两行结构 + 居中 logo + 促销条滚走 + 主导航贴顶 ============ */
+/* .site-nav：所有使用主导航的页面；.nav-overlay：首屏为深色 Banner、需要透明覆盖的页面 */
 
 /* 修复：body 的 overflow-x:hidden 会让 body 变成滚动容器，导致 position:sticky 失效 */
-body.page-home { overflow-x: clip; }
+body.site-nav { overflow-x: clip; }
 
-.page-home .site-header {
+/* 促销条随页面正常滚走 */
+.site-nav .top-nav { position: static; }
+
+/* 主导航：吸顶（促销条滚走后接替贴住视口顶端） */
+.site-nav .site-header {
   position: sticky;
-  top: 0; /* 促销条随页面滚走后，主导航直接接替贴在视口顶端 */
+  top: 0;
   z-index: 100;
+}
+
+/* 首屏深色 Banner 页面：导航透明覆盖在 Banner 上 */
+.nav-overlay .site-header {
   background: transparent;
-  border-bottom: 1px solid transparent;
-  margin-bottom: -98px; /* 让 hero 上移到导航之后，形成"导航压在图上"的覆盖效果 */
-  transition: background-color 0.45s var(--ease), box-shadow 0.45s var(--ease), border-color 0.45s var(--ease);
+  margin-bottom: -86px; /* 第一行 42 + 第二行 44，让 Banner 上移到导航之下 */
+  transition: background-color 0.45s var(--ease), box-shadow 0.45s var(--ease);
 }
-/* 首页促销条不再吸顶，随页面正常滚走（其他页面仍沿用全站 sticky 规则） */
-.page-home .top-nav {
-  position: static;
-}
-.page-home .site-header.scrolled {
+.nav-overlay .site-header.scrolled {
   background: #ffffff;
-  border-bottom-color: rgba(26, 22, 16, 0.08);
   box-shadow: 0 2px 16px rgba(26, 22, 16, 0.06);
 }
 
-/* 第一行：居中 logo + 右侧工具（隐藏汉堡，与视频左侧留白一致） */
-.page-home .header-inner {
+/* 第一行：居中 logo + 右侧工具 */
+.site-nav .header-inner {
   position: relative;
-  height: 54px;
+  height: 42px;
   padding-block: 0;
   justify-content: flex-start; /* 沿用全站约定：flex-start + header-tools 的 margin-left:auto */
 }
-.page-home .header-left { display: none; }
-.page-home .header-logo {
+.site-nav .header-left { display: none; }
+.site-nav .header-logo {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 3px;
   line-height: 1;
 }
-.page-home .header-logo-mark {
+.site-nav .header-logo-mark {
   height: 20px;
   width: auto;
   display: block;
   transition: filter 0.45s var(--ease);
 }
-.page-home .header-logo-tag {
-  font-family: "Jost", var(--sans);
-  font-size: 8px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: rgba(26, 22, 16, 0.55);
-  transition: color 0.45s var(--ease);
-}
 
 /* 第二行：居中的主导航 */
-.page-home .header-nav-row {
+.site-nav .header-nav-row {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 44px;
 }
-.page-home .header-nav-row .main-nav { justify-content: center; }
-.page-home .main-nav .nav-link { padding: 6px 18px; }
+.site-nav .header-nav-row .main-nav { justify-content: center; }
+.site-nav .main-nav .nav-link { padding: 6px 18px; }
 
-/* 未滚动（透明态）：白色文字 + 半透明搜索框 */
-.page-home .site-header:not(.scrolled) .main-nav .nav-link {
+/* 未滚动（透明态，仅 overlay 页面）：白色文字 + 半透明搜索框 */
+.nav-overlay .site-header:not(.scrolled) .main-nav .nav-link {
   color: #fff;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
 }
-.page-home .site-header:not(.scrolled) .main-nav .nav-link:hover,
-.page-home .site-header:not(.scrolled) .main-nav .nav-link.active { color: #F3D9A4; }
-.page-home .site-header:not(.scrolled) .main-nav .nav-link::after {
+.nav-overlay .site-header:not(.scrolled) .main-nav .nav-link:hover,
+.nav-overlay .site-header:not(.scrolled) .main-nav .nav-link.active { color: #F3D9A4; }
+.nav-overlay .site-header:not(.scrolled) .main-nav .nav-link::after {
   background: linear-gradient(90deg, transparent, #F3D9A4, transparent);
 }
-.page-home .site-header:not(.scrolled) .header-logo-mark {
+.nav-overlay .site-header:not(.scrolled) .header-logo-mark {
   filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
 }
-.page-home .site-header:not(.scrolled) .header-logo-tag { color: rgba(255, 255, 255, 0.85); }
-.page-home .site-header:not(.scrolled) .header-search {
+.nav-overlay .site-header:not(.scrolled) .header-search {
   border-color: rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.12);
 }
-.page-home .site-header:not(.scrolled) .search-icon-btn { color: rgba(255, 255, 255, 0.9); }
-.page-home .site-header:not(.scrolled) .search-input { color: #fff; }
-.page-home .site-header:not(.scrolled) .search-input::placeholder { color: rgba(255, 255, 255, 0.82); }
-.page-home .site-header:not(.scrolled) .header-search:focus-within { background: #fff; }
-.page-home .site-header:not(.scrolled) .header-search:focus-within .search-input { color: var(--ink); }
-.page-home .site-header:not(.scrolled) .header-search:focus-within .search-input::placeholder { color: var(--taupe); }
-.page-home .site-header:not(.scrolled) .wishlist-toggle svg { color: #fff; }
-.page-home .site-header:not(.scrolled) .wishlist-toggle .nav-toggle-label { color: rgba(255, 255, 255, 0.9); }
-.page-home .site-header:not(.scrolled) .wishlist-toggle { border-color: rgba(255, 255, 255, 0.45); }
+.nav-overlay .site-header:not(.scrolled) .search-icon-btn { color: rgba(255, 255, 255, 0.9); }
+.nav-overlay .site-header:not(.scrolled) .search-input { color: #fff; }
+.nav-overlay .site-header:not(.scrolled) .search-input::placeholder { color: rgba(255, 255, 255, 0.82); }
+.nav-overlay .site-header:not(.scrolled) .header-search:focus-within { background: #fff; }
+.nav-overlay .site-header:not(.scrolled) .header-search:focus-within .search-input { color: var(--ink); }
+.nav-overlay .site-header:not(.scrolled) .header-search:focus-within .search-input::placeholder { color: var(--taupe); }
+.nav-overlay .site-header:not(.scrolled) .wishlist-toggle svg { color: #fff; }
+.nav-overlay .site-header:not(.scrolled) .wishlist-toggle .nav-toggle-label { color: rgba(255, 255, 255, 0.9); }
+.nav-overlay .site-header:not(.scrolled) .wishlist-toggle { border-color: rgba(255, 255, 255, 0.45); }
 
 /* 平板及以下：恢复单行导航（抽屉菜单），不做覆盖 */
 @media (max-width: 1023px) {
-  .page-home .site-header {
+  .site-nav .site-header {
     background: var(--paper);
     margin-bottom: 0;
-    border-bottom-color: var(--line);
   }
-  .page-home .header-inner {
+  .site-nav .header-inner {
     height: auto;
     padding-block: 16px;
     gap: 16px;
   }
-  .page-home .header-left { display: flex; }
-  .page-home .header-logo {
+  .site-nav .header-left { display: flex; }
+  .site-nav .header-logo {
     position: static;
     transform: none;
     margin-inline: auto;
   }
-  .page-home .header-logo-mark { height: 32px; filter: none; }
-  .page-home .header-logo-tag { display: none; }
-  .page-home .header-nav-row { display: none; }
-  .page-home .site-header:not(.scrolled) .header-logo-mark { filter: none; }
-  .page-home .site-header:not(.scrolled) .header-search,
-  .page-home .site-header:not(.scrolled) .wishlist-toggle { border-color: var(--gold-soft); }
-  .page-home .site-header:not(.scrolled) .search-input { color: var(--ink); }
-  .page-home .site-header:not(.scrolled) .search-input::placeholder { color: var(--taupe); }
-  .page-home .site-header:not(.scrolled) .search-icon-btn { color: var(--taupe); }
-  .page-home .site-header:not(.scrolled) .wishlist-toggle svg { color: #E5273B; }
+  .site-nav .header-logo-mark { height: 32px; filter: none; }
+  .site-nav .header-nav-row { display: none; }
+  .nav-overlay .site-header:not(.scrolled) .header-logo-mark { filter: none; }
+  .nav-overlay .site-header:not(.scrolled) .header-search,
+  .nav-overlay .site-header:not(.scrolled) .wishlist-toggle { border-color: var(--gold-soft); }
+  .nav-overlay .site-header:not(.scrolled) .search-input { color: var(--ink); }
+  .nav-overlay .site-header:not(.scrolled) .search-input::placeholder { color: var(--taupe); }
+  .nav-overlay .site-header:not(.scrolled) .search-icon-btn { color: var(--taupe); }
+  .nav-overlay .site-header:not(.scrolled) .wishlist-toggle svg { color: #E5273B; }
 }
 
-/* ============ 首页导航：桌面端悬停即刻变白（与 .scrolled 状态完全一致） ============ */
+/* 桌面端悬停即刻变白（与滚动状态完全一致） */
 /* 仅在 ≥1024px 且支持 hover 的精确指针设备上生效；触摸屏不会因 :hover 卡在白色态 */
 @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
-  .page-home .site-header:not(.scrolled):hover {
+  .nav-overlay .site-header:not(.scrolled):hover {
     background: #ffffff;
-    border-bottom-color: rgba(26, 22, 16, 0.08);
     box-shadow: 0 2px 16px rgba(26, 22, 16, 0.06);
   }
-  .page-home .site-header:not(.scrolled):hover .main-nav .nav-link {
+  .nav-overlay .site-header:not(.scrolled):hover .main-nav .nav-link {
     color: var(--ink-soft);
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
   }
-  .page-home .site-header:not(.scrolled):hover .main-nav .nav-link:hover,
-  .page-home .site-header:not(.scrolled):hover .main-nav .nav-link.active {
+  .nav-overlay .site-header:not(.scrolled):hover .main-nav .nav-link:hover,
+  .nav-overlay .site-header:not(.scrolled):hover .main-nav .nav-link.active {
     color: var(--gold);
   }
-  .page-home .site-header:not(.scrolled):hover .main-nav .nav-link::after {
+  .nav-overlay .site-header:not(.scrolled):hover .main-nav .nav-link::after {
     background: linear-gradient(90deg, transparent, var(--gold), transparent);
   }
-  .page-home .site-header:not(.scrolled):hover .header-logo-mark { filter: none; }
-  .page-home .site-header:not(.scrolled):hover .header-logo-tag { color: rgba(26, 22, 16, 0.55); }
-  .page-home .site-header:not(.scrolled):hover .header-search {
+  .nav-overlay .site-header:not(.scrolled):hover .header-logo-mark { filter: none; }
+  .nav-overlay .site-header:not(.scrolled):hover .header-search {
     border-color: var(--gold-soft);
     background: transparent;
   }
-  .page-home .site-header:not(.scrolled):hover .header-search:focus-within {
+  .nav-overlay .site-header:not(.scrolled):hover .header-search:focus-within {
     border-color: var(--gold);
     background: #fff;
   }
-  .page-home .site-header:not(.scrolled):hover .search-icon-btn { color: var(--taupe); }
-  .page-home .site-header:not(.scrolled):hover .search-input { color: var(--ink); }
-  .page-home .site-header:not(.scrolled):hover .search-input::placeholder { color: var(--taupe); }
-  .page-home .site-header:not(.scrolled):hover .header-search:focus-within .search-input { color: var(--ink); }
-  .page-home .site-header:not(.scrolled):hover .header-search:focus-within .search-input::placeholder { color: var(--taupe); }
-  .page-home .site-header:not(.scrolled):hover .wishlist-toggle { border-color: var(--gold-soft); }
-  .page-home .site-header:not(.scrolled):hover .wishlist-toggle svg { color: #E5273B; }
-  .page-home .site-header:not(.scrolled):hover .wishlist-toggle .nav-toggle-label { color: var(--ink-soft); }
+  .nav-overlay .site-header:not(.scrolled):hover .search-icon-btn { color: var(--taupe); }
+  .nav-overlay .site-header:not(.scrolled):hover .search-input { color: var(--ink); }
+  .nav-overlay .site-header:not(.scrolled):hover .search-input::placeholder { color: var(--taupe); }
+  .nav-overlay .site-header:not(.scrolled):hover .header-search:focus-within .search-input { color: var(--ink); }
+  .nav-overlay .site-header:not(.scrolled):hover .header-search:focus-within .search-input::placeholder { color: var(--taupe); }
+  .nav-overlay .site-header:not(.scrolled):hover .wishlist-toggle { border-color: var(--gold-soft); }
+  .nav-overlay .site-header:not(.scrolled):hover .wishlist-toggle svg { color: #E5273B; }
+  .nav-overlay .site-header:not(.scrolled):hover .wishlist-toggle .nav-toggle-label { color: var(--ink-soft); }
 }
