@@ -3716,6 +3716,10 @@ address { font-style: normal; }
 
 /* ============ 首页导航：透明覆盖首屏 + 滚动后变白吸顶（对齐参考视频） ============ */
 /* 仅作用于 page-home，其他页面导航保持原样 */
+
+/* 修复：body 的 overflow-x:hidden 会让 body 变成滚动容器，导致 position:sticky 失效 */
+body.page-home { overflow-x: clip; }
+
 .page-home .site-header {
   position: sticky;
   top: 0; /* 促销条随页面滚走后，主导航直接接替贴在视口顶端 */
