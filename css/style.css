@@ -3815,9 +3815,11 @@ body.site-nav { overflow-x: clip; }
   }
   .site-nav .header-left { display: flex; }
   .site-nav .header-logo {
-    position: static;
-    transform: none;
-    margin-inline: auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin-inline: 0;
   }
   .site-nav .header-logo-mark { height: 32px; filter: none; }
   .site-nav .header-nav-row { display: none; }
