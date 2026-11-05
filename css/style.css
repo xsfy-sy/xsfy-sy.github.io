@@ -327,7 +327,7 @@ address { font-style: normal; }
   justify-content: center;
   flex: none;
   margin-left: 0;
-  width: max-content;
+  width: auto;
 }
 .top-nav-right-group .top-rotator {
   flex: 0 0 auto;
@@ -342,7 +342,7 @@ address { font-style: normal; }
   height: 20px;
   overflow: hidden;
   position: relative;
-  min-width: max-content;
+  min-width: 300px;
 }
 .top-rotator:last-child { text-align: center; }
 .top-rotator-item {
