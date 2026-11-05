@@ -273,14 +273,15 @@ address { font-style: normal; }
   z-index: 101;
 }
 .top-nav-inner {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding-block: 6px;
-  min-height: 28px;
+  justify-content: flex-start;
+  padding-block: 14px;
+  min-height: 48px;
 }
 .top-nav-logo-left {
-  height: 11.4px;
+  height: 14px;
   width: auto;
   display: block;
   flex: 0 0 auto;
@@ -317,11 +318,16 @@ address { font-style: normal; }
   100% { transform: translateY(-120%); opacity: 0; }
 }
 .top-nav-right-group {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  flex: 0 0 auto;
-  margin-left: auto;
+  justify-content: center;
+  flex: none;
+  margin-left: 0;
+  width: max-content;
 }
 .top-nav-right-group .top-rotator {
   flex: 0 0 auto;
@@ -333,16 +339,16 @@ address { font-style: normal; }
 }
 .top-rotator {
   display: inline-block;
-  height: 16px;
+  height: 20px;
   overflow: hidden;
   position: relative;
-  min-width: 300px;
+  min-width: max-content;
 }
-.top-rotator:last-child { text-align: right; }
+.top-rotator:last-child { text-align: center; }
 .top-rotator-item {
   display: block;
-  height: 16px;
-  line-height: 16px;
+  height: 20px;
+  line-height: 20px;
   color: #fff;
   letter-spacing: 0.12em;
   font-size: 12px;
@@ -354,7 +360,7 @@ address { font-style: normal; }
   left: 0;
   white-space: nowrap;
 }
-.top-rotator:last-child .top-rotator-item { left: auto; right: 0; }
+.top-rotator:last-child .top-rotator-item { left: 0; right: auto; }
 .top-rotator-item:nth-child(1) {
   opacity: 1;
   transform: translateY(0);
