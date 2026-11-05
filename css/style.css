@@ -3718,12 +3718,16 @@ address { font-style: normal; }
 /* 仅作用于 page-home，其他页面导航保持原样 */
 .page-home .site-header {
   position: sticky;
-  top: 36px; /* 紧贴顶部促销条下沿 */
+  top: 0; /* 促销条随页面滚走后，主导航直接接替贴在视口顶端 */
   z-index: 100;
   background: transparent;
   border-bottom: 1px solid transparent;
   margin-bottom: -98px; /* 让 hero 上移到导航之后，形成"导航压在图上"的覆盖效果 */
   transition: background-color 0.45s var(--ease), box-shadow 0.45s var(--ease), border-color 0.45s var(--ease);
+}
+/* 首页促销条不再吸顶，随页面正常滚走（其他页面仍沿用全站 sticky 规则） */
+.page-home .top-nav {
+  position: static;
 }
 .page-home .site-header.scrolled {
   background: #ffffff;
