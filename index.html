@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=20261201" />
+  <link rel="stylesheet" href="css/style.css?v=20261202" />
 </head>
 <body class="site-nav nav-overlay">
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -200,6 +200,18 @@
           <a href="contact.html" class="btn btn-solid">CONTACT US</a>
           <a href="exhibitions.html" class="btn btn-ghost">EXHIBITIONS</a>
         </div>
+      </div>
+
+      <button class="hero-arrow hero-prev" id="heroPrev" type="button" aria-label="Previous slide">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+      </button>
+      <button class="hero-arrow hero-next" id="heroNext" type="button" aria-label="Next slide">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+      </button>
+
+      <div class="hero-dots" id="heroDots" role="tablist" aria-label="Choose slide">
+        <button class="hero-dot active" type="button" role="tab" aria-selected="true" aria-label="Slide 1"></button>
+        <button class="hero-dot" type="button" role="tab" aria-selected="false" aria-label="Slide 2"></button>
       </div>
 
       <a href="#campaign" class="hero-scroll" aria-label="Scroll down">
