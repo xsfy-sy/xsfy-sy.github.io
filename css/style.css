@@ -1410,7 +1410,7 @@ address { font-style: normal; }
 .hero-dots {
   position: absolute;
   left: 50%;
-  bottom: 112px; /* 位于底部下滑提示（HEILIGS PIER + 竖线）之上，避免重叠 */
+  bottom: 16px; /* 贴到图片最底部，与下滑提示（bottom:34px）不重叠 */
   transform: translateX(-50%);
   z-index: 3;
   display: flex;
@@ -1438,7 +1438,7 @@ address { font-style: normal; }
 
 @media (max-width: 900px) {
   .hero-arrow { width: 38px; height: 38px; }
-  .hero-dots { bottom: 20px; gap: 8px; } /* 窄屏下滑提示已隐藏，圆点回到最底部 */
+  .hero-dots { gap: 8px; }
 }
 
 /* ---------- 主题活动卡片网格 ---------- */
