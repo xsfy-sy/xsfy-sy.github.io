@@ -1393,7 +1393,7 @@ address { font-style: normal; }
   display: grid; place-items: center;
   padding: 0;
   border: 1px solid rgba(255,255,255,0.55);
-  border-radius: 50%;
+  border-radius: 12px; /* 圆角方形框 */
   background: rgba(20,15,10,0.16);
   color: #fff;
   -webkit-backdrop-filter: blur(6px);
