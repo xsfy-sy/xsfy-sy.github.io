@@ -281,6 +281,7 @@ address { font-style: normal; }
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  gap: clamp(8px, 1.4vw, 16px);
   padding-block: 9px;
   padding-inline: clamp(12px, 2vw, 24px);
   min-height: 36px;
@@ -335,31 +336,30 @@ address { font-style: normal; }
   letter-spacing: 0.18em;
   line-height: 1;
   color: #fff;
-  padding: 4px 10px;
-  border: 1px solid rgba(255,255,255,0.55);
-  border-radius: 3px;
+  /* 去掉白色线框：无边框、透明底，仅保留文字；padding-block 各 +1px 抵消原边框高度，顶栏总高不变 */
+  padding: 5px 10px;
+  border: 0;
   background: transparent;
-  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  transition: color var(--dur) var(--ease), opacity var(--dur) var(--ease);
 }
 .top-nav-btn:hover {
-  background: rgba(255,255,255,0.15);
-  border-color: #fff;
-  color: #fff;
+  /* 悬停只变色：使用与深色导航一致的浅香槟金，不出现任何下划线/底线 */
+  background: transparent;
+  color: #F3D9A4;
 }
 .top-nav-right-group {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  /* 公司名轮换文本靠最右侧对齐；flex:1 占满按钮组之后的剩余空间 */
+  flex: 1 1 auto;
+  min-width: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex: none;
-  margin-left: 0;
-  width: auto;
+  justify-content: flex-end;
+  margin-left: auto;
 }
 .top-nav-right-group .top-rotator {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  width: 100%;
+  text-align: right;
 }
 .top-nav-slogan {
   color: #fff;
@@ -371,16 +371,20 @@ address { font-style: normal; }
   height: 17px;
   overflow: hidden;
   position: relative;
-  min-width: 260px;
+  min-width: 0;
 }
-.top-rotator:last-child { text-align: center; }
+.top-rotator:last-child { text-align: right; }
 .top-rotator-item {
   display: block;
+  width: 100%;
   height: 17px;
   line-height: 17px;
   color: #fff;
   letter-spacing: 0.12em;
   font-size: 12px;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
   opacity: 0;
   transform: translateY(100%);
   transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
@@ -471,7 +475,6 @@ address { font-style: normal; }
 }
 .site-header.scrolled {
   box-shadow: 0 2px 16px rgba(26, 22, 16, 0.06);
-  border-bottom-color: var(--gold-soft);
 }
 
 .header-inner {
@@ -526,36 +529,19 @@ address { font-style: normal; }
   color: var(--ink-soft);
   text-decoration: none;
   position: relative;
-  transition: color var(--dur) var(--ease), letter-spacing var(--dur) var(--ease);
+  /* 悬停仅做颜色过渡：不再改变字距，避免 hover 时元素位移 */
+  transition: color var(--dur) var(--ease);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 .main-nav .nav-link:hover {
   color: var(--gold);
-  letter-spacing: 0.22em;
 }
-.main-nav .nav-link::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  transition: all var(--dur) var(--ease);
-  transform: translateX(-50%);
-}
-.main-nav .nav-link:hover::after {
-  width: 100%;
-}
+/* 当前激活项：用颜色区分，不使用任何横线 */
 .main-nav .nav-link.active {
   color: var(--gold);
   font-weight: 500;
-  letter-spacing: 0.2em;
-}
-.main-nav .nav-link.active::after {
-  width: 100%;
 }
 
 /* 主导航下拉子菜单（BEDDING 等） */
@@ -1224,17 +1210,33 @@ address { font-style: normal; }
 .hero {
   position: relative;
   min-height: 0;
-  aspect-ratio: 21 / 8;
-  max-height: 80vh;
+  /* 单张竖构图场景图：沿用 2:1 宽幅比例，高度较原 21/8 加高 25%（21/8 × 1.25 = 21/10） */
+  aspect-ratio: 21 / 10;
+  max-height: 90vh;
   display: flex;
   align-items: center;
   color: #fff;
   overflow: hidden;
 }
-.hero-media { position: absolute; inset: 0; }
+/* 竖构图照片放进宽幅首屏：图片完整显示（contain），左右用同图模糊放大做柔和填充，避免白条/黑边 */
+.hero-media {
+  position: absolute; inset: 0;
+  overflow: hidden;
+  background: #E9DFD1; /* 与照片边缘米色接近的兜底底色 */
+}
+.hero-media::before {
+  content: "";
+  position: absolute; inset: -32px;
+  background: url("../assets/images/hero-ivory-long-pile-wide.jpg") center 42% / cover no-repeat;
+  filter: blur(64px) brightness(1.02) saturate(1.03);
+  transform: scale(1.06);
+}
+/* 宽幅照片（2560×1206）铺满首屏：主体在右侧，左侧为同图虚化延展，正好留给文字 */
 .hero-media img {
+  position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
+  object-position: 100% 50%;
   display: block;
 }
 .hero-slide {
@@ -1246,18 +1248,25 @@ address { font-style: normal; }
   transition: opacity 0.6s ease-in-out;
   will-change: opacity;
 }
+/* 单图展示：取消原轮播的缩放动画，避免放大瞬间把整图边缘裁掉 */
 .hero-slide.active {
   opacity: 1;
-  animation: heroZoom 14s var(--ease) forwards;
 }
-@keyframes heroZoom {
-  from { transform: scale(1.08); }
-  to   { transform: scale(1); }
-}
+/* 图像本身偏亮（象牙色毯+米色墙面），用「左侧 + 顶部」双层渐变保证白字与透明导航可读 */
 .hero-scrim {
   position: absolute; inset: 0;
   background:
-    linear-gradient(180deg, rgba(20,15,10,0.42) 0%, rgba(20,15,10,0.15) 45%, rgba(20,15,10,0.55) 100%);
+    linear-gradient(90deg, rgba(20,15,10,0.70) 0%, rgba(20,15,10,0.58) 18%, rgba(20,15,10,0.38) 36%, rgba(20,15,10,0.10) 56%, rgba(20,15,10,0) 70%),
+    linear-gradient(180deg, rgba(20,15,10,0.40) 0%, rgba(20,15,10,0) 20%, rgba(20,15,10,0) 70%, rgba(20,15,10,0.22) 100%);
+}
+@media (max-width: 900px) {
+  /* 窄屏：整图居中显示，文字几乎占满整行，中部压暗保证白字可读，上下保留照片原有亮度 */
+  .hero-media img { object-position: 50% 50%; }
+  .hero-scrim {
+    background:
+      linear-gradient(180deg, rgba(20,15,10,0.40) 0%, rgba(20,15,10,0.22) 18%, rgba(20,15,10,0.55) 42%, rgba(20,15,10,0.58) 66%, rgba(20,15,10,0.28) 100%),
+      linear-gradient(90deg, rgba(20,15,10,0.40) 0%, rgba(20,15,10,0.20) 55%, rgba(20,15,10,0.08) 100%);
+  }
 }
 
 .hero-content {
@@ -1276,10 +1285,10 @@ address { font-style: normal; }
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.36em;
-  color: #B0895A;
+  color: #FFFFFF;
   text-transform: uppercase;
   margin-bottom: 10px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.35), 0 2px 6px rgba(0,0,0,0.18);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.55), 0 2px 10px rgba(0,0,0,0.35);
 }
 .hero-title {
   font-family: "Li Jin Rui Tang", "STXinwei", "华文新魏", "STSong", "宋体", "Noto Serif SC", "Songti SC", "Source Han Serif SC", "SimSun", "Playfair Display", serif;
@@ -1372,66 +1381,6 @@ address { font-style: normal; }
 @keyframes scrollLine {
   0% { top: -100%; }
   100% { top: 100%; }
-}
-
-/* ---------- Hero 轮播控件 ---------- */
-.hero-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 6;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 50%;
-  color: #fff;
-  cursor: pointer;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
-}
-.hero-arrow:hover {
-  background: rgba(255, 255, 255, 0.32);
-  border-color: rgba(255, 255, 255, 0.6);
-}
-.hero-arrow:active { transform: translateY(-50%) scale(0.94); }
-.hero-prev { left: clamp(16px, 3vw, 32px); }
-.hero-next { right: clamp(16px, 3vw, 32px); }
-
-.hero-dots {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 6;
-  display: flex;
-  gap: 7px;
-}
-.hero-dot {
-  width: 7px;
-  height: 7px;
-  padding: 0;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.38);
-  background: transparent;
-  cursor: pointer;
-  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), opacity var(--dur) var(--ease);
-}
-.hero-dot:hover {
-  border-color: rgba(255, 255, 255, 0.75);
-}
-.hero-dot.active {
-  background: rgba(255, 255, 255, 0.72);
-  border-color: rgba(255, 255, 255, 0.72);
-}
-@media (max-width: 768px) {
-  .hero-arrow { width: 36px; height: 36px; }
-  .hero-dots { bottom: 18px; gap: 6px; }
-  .hero-dot { width: 6px; height: 6px; }
 }
 
 /* ---------- 主题活动卡片网格 ---------- */
@@ -2245,6 +2194,7 @@ address { font-style: normal; }
   .product-detail-media {
     position: static;
     aspect-ratio: 4 / 3;
+    height: auto;
   }
 }
 
@@ -2865,9 +2815,12 @@ address { font-style: normal; }
 
   /* 导航响应式 */
   .top-nav-slogan { display: none; }
-  .top-nav-inner { justify-content: center; }
-  .top-nav-right-group { display: none; }
+  .top-nav-inner { justify-content: flex-start; }
+  /* 公司名不再隐藏，改为右对齐并在空间不足时收缩截断 */
+  .top-nav-right-group { display: flex; }
   .top-nav-brand-left { display: flex; justify-content: center; }
+  .top-nav-btn { font-size: 10px; padding: 5px 8px; letter-spacing: 0.12em; }
+  .top-nav-right-group .top-rotator-item { font-size: 11px; letter-spacing: 0.08em; }
   .main-nav { display: none; }
   .header-search { display: none; }
   .nav-toggle { display: inline-flex; }
@@ -2896,7 +2849,8 @@ address { font-style: normal; }
   .hero-cta .btn { width: 100%; }
   .hero-scroll { display: none; }
   .block-head { flex-direction: column; align-items: flex-start; gap: 8px; }
-  .products-head { flex-direction: column; align-items: stretch; }
+  .products-head { flex-direction: column; align-items: stretch; flex-wrap: nowrap; }
+  .products-head > * { min-width: 0; max-width: 100%; }
   .product-tabs { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
   .product-tabs .tab-btn { white-space: nowrap; }
   .top-nav-links a { font-size: 11px; letter-spacing: 0.1em; padding: 4px 10px; }
@@ -2908,16 +2862,6 @@ address { font-style: normal; }
 .top-nav a.active {
   color: var(--gold);
   font-weight: 500;
-}
-.top-nav a.active::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 24px;
-  height: 2px;
-  background: var(--gold);
 }
 
 /* ---------- 页面 Banner ---------- */
@@ -3685,18 +3629,18 @@ address { font-style: normal; }
     letter-spacing: 0.02em;
   }
 }
-/* 5) Hero：桌面端 21/8 的宽高比放到手机上只剩一条窄带，
+/* 5) Hero：桌面端宽幅比例放到手机上只剩一条窄带，
       标题与按钮会被 overflow:hidden 裁掉，这里改用固定高度完整展示 */
 @media (max-width: 900px) {
   .hero {
     aspect-ratio: auto;
-    min-height: 460px;
-    max-height: 78vh;
+    min-height: 575px; /* 原 460px × 1.25 */
+    max-height: 82vh;
   }
   .hero-cta { margin-top: 28px; }
 }
 @media (max-width: 640px) {
-  .hero { min-height: 400px; }
+  .hero { min-height: 500px; } /* 原 400px × 1.25 */
 }
 
 /* ============ 联系我们页：上下板块间距收紧 ============ */
@@ -3741,22 +3685,26 @@ body.site-nav { overflow-x: clip; }
   box-shadow: 0 2px 16px rgba(26, 22, 16, 0.06);
 }
 
-/* 第一行：居中 logo + 右侧工具 */
+/* 第一行：logo + 搜索 + WISH 三者紧凑成组，整组水平居中 */
 .site-nav .header-inner {
   position: relative;
   height: 42px;
   padding-block: 0;
-  justify-content: flex-start; /* 沿用全站约定：flex-start + header-tools 的 margin-left:auto */
+  justify-content: center;
+  gap: clamp(12px, 1.4vw, 18px);
 }
 .site-nav .header-left { display: none; }
 .site-nav .header-logo {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  position: static;
+  transform: none;
   display: flex;
   align-items: center;
   line-height: 1;
+  flex: none;
+}
+.site-nav .header-tools {
+  margin-left: 0;
+  gap: clamp(12px, 1.4vw, 18px);
 }
 .site-nav .header-logo-mark {
   height: 20px;
@@ -3782,9 +3730,7 @@ body.site-nav { overflow-x: clip; }
 }
 .nav-overlay .site-header:not(.scrolled) .main-nav .nav-link:hover,
 .nav-overlay .site-header:not(.scrolled) .main-nav .nav-link.active { color: #F3D9A4; }
-.nav-overlay .site-header:not(.scrolled) .main-nav .nav-link::after {
-  background: linear-gradient(90deg, transparent, #F3D9A4, transparent);
-}
+
 .nav-overlay .site-header:not(.scrolled) .header-logo-mark {
   filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
 }
@@ -3812,14 +3758,17 @@ body.site-nav { overflow-x: clip; }
     height: auto;
     padding-block: 16px;
     gap: 16px;
+    justify-content: center;
   }
   .site-nav .header-left { display: flex; }
   .site-nav .header-logo {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    position: static;
+    transform: none;
     margin-inline: 0;
+  }
+  .site-nav .header-tools {
+    margin-left: 0;
+    gap: 16px;
   }
   .site-nav .header-logo-mark { height: 32px; filter: none; }
   .site-nav .header-nav-row { display: none; }
@@ -3830,6 +3779,19 @@ body.site-nav { overflow-x: clip; }
   .nav-overlay .site-header:not(.scrolled) .search-input::placeholder { color: var(--taupe); }
   .nav-overlay .site-header:not(.scrolled) .search-icon-btn { color: var(--taupe); }
   .nav-overlay .site-header:not(.scrolled) .wishlist-toggle svg { color: #E5273B; }
+}
+
+@media (max-width: 640px) {
+  /* 窄屏：隐藏按钮文字并限制 logo 宽度，保证 MENU + logo + WISH 整组不溢出 */
+  .site-nav .header-left .nav-toggle-label,
+  .site-nav .wishlist-toggle .nav-toggle-label { display: none; }
+  .site-nav .header-logo-mark { height: auto; width: min(200px, calc(100vw - 200px)); }
+}
+
+@media (max-width: 480px) {
+  /* 极窄屏：进一步缩小促销条元素，避免长公司名挤压左侧按钮或产生横向滚动 */
+  .top-nav-btn { font-size: 9px; padding: 4px 6px; letter-spacing: 0.08em; }
+  .top-nav-right-group .top-rotator-item { font-size: 10px; letter-spacing: 0.05em; }
 }
 
 /* 桌面端悬停即刻变白（与滚动状态完全一致） */
@@ -3846,9 +3808,6 @@ body.site-nav { overflow-x: clip; }
   .nav-overlay .site-header:not(.scrolled):hover .main-nav .nav-link:hover,
   .nav-overlay .site-header:not(.scrolled):hover .main-nav .nav-link.active {
     color: var(--gold);
-  }
-  .nav-overlay .site-header:not(.scrolled):hover .main-nav .nav-link::after {
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
   }
   .nav-overlay .site-header:not(.scrolled):hover .header-logo-mark { filter: none; }
   .nav-overlay .site-header:not(.scrolled):hover .header-search {
