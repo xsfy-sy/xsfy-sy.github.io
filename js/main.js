@@ -55,7 +55,7 @@
     if (heroSlides.length > 1) {
       heroTimer = setInterval(function () {
         showHeroSlide((heroIndex + 1) % heroSlides.length);
-      }, 2000);
+      }, 5000);
     }
   }
 

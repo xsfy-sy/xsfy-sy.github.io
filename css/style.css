@@ -1227,11 +1227,11 @@ address { font-style: normal; }
 .hero-media::before {
   content: "";
   position: absolute; inset: -32px;
-  background: url("../assets/images/hero-ivory-long-pile-wide.jpg") center 42% / cover no-repeat;
+  background: url("../assets/images/hero-lp-01.jpg") center 42% / cover no-repeat;
   filter: blur(64px) brightness(1.02) saturate(1.03);
   transform: scale(1.06);
 }
-/* 宽幅照片（2560×1206）铺满首屏：主体在右侧，左侧为同图虚化延展，正好留给文字 */
+/* 宽幅照片（3000×1429）铺满首屏：主体在右侧，左侧留白正好给文案 */
 .hero-media img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
