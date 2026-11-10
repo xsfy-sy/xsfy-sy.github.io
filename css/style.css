@@ -604,7 +604,7 @@ address { font-style: normal; }
   margin: 0;
   background: transparent;
   border: 1px solid var(--gold-soft);
-  border-radius: 999px;
+  border-radius: 10px;
   flex: none;
   cursor: pointer;
   box-sizing: border-box;
@@ -652,7 +652,7 @@ address { font-style: normal; }
   height: 36px;
   padding: 0 14px 0 12px;
   border: 1px solid var(--gold-soft);
-  border-radius: 999px;
+  border-radius: 10px;
   background: transparent;
   box-sizing: border-box;
   transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
