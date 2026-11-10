@@ -53,7 +53,7 @@
 
 html {
   width: 100%;
-  min-width: 100vw;
+  min-width: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: 120px;
   -webkit-text-size-adjust: 100%;
@@ -63,7 +63,7 @@ html {
 body {
   margin: 0;
   width: 100%;
-  min-width: 100vw;
+  min-width: 100%;
   font-family: var(--sans);
   font-weight: 400;
   font-size: 16px;
