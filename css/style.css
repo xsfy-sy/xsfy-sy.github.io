@@ -701,8 +701,9 @@ address { font-style: normal; }
 .search-input::-webkit-search-cancel-button { -webkit-appearance: none; }
 
 .header-search {
-  flex: 0 1 380px;
+  flex: 0 1 auto;
   min-width: 180px;
+  width: 380px;
   max-width: 380px;
 }
 
@@ -3742,10 +3743,8 @@ body.site-nav { overflow-x: clip; }
   box-shadow: 0 2px 16px rgba(26, 22, 16, 0.06);
 }
 
-/* 第一行：flex 三栏居中布局
-   header-left(不可见占位) + gap + logo + gap + header-tools = 整组
-   header-left 占位 = header-tools 宽(490px)，让 logo 前后对称 → logo 中心 = header-inner 中心 = ul 中心
-   计算：header-left(490)+gap(18)+logo(184)+gap(18)+header-tools(490)=1200px 居中在 1240px container 内 */
+/* 第一行：可见内容 [logo][搜索框][WISH] 整组居中（整行相对旧版左移，去掉右侧偏重）
+   header-left 桌面端不参与布局；第二行 nav ul 765px 独立居中 */
 .site-nav .header-inner {
   position: relative;
   width: min(var(--container), 100% - var(--gutter) * 2);
@@ -3757,16 +3756,8 @@ body.site-nav { overflow-x: clip; }
   justify-content: center;
   gap: clamp(12px, 1.4vw, 18px);
 }
-/* 桌面端隐藏 header-left（Menu 按钮），flex:1 1 490px
-   header-tools 也 flex:1 1 490px，两者 basis/shrink 相同 → 等宽 shrink
-   logo 居中在 header-left 和 header-tools 之间 */
-.site-nav .header-left {
-  display: flex;
-  visibility: hidden;
-  flex: 1 1 490px;
-  min-width: 0;
-  height: 1px;
-}
+/* 桌面端隐藏 header-left（Menu 按钮），≤1023px 媒体查询里恢复 display:flex */
+.site-nav .header-left { display: none; }
 /* logo：正常 flex 子元素，固定宽 184px */
 .site-nav .header-logo {
   display: flex;
@@ -3776,7 +3767,7 @@ body.site-nav { overflow-x: clip; }
 }
 .site-nav .header-tools {
   margin-left: 0;
-  flex: 1 1 490px;
+  flex: 0 1 auto;
   gap: clamp(12px, 1.4vw, 18px);
 }
 .site-nav .header-logo-mark {
