@@ -3743,21 +3743,33 @@ body.site-nav { overflow-x: clip; }
   box-shadow: 0 2px 16px rgba(26, 22, 16, 0.06);
 }
 
-/* 第一行：logo 绝对定位在页面正中，搜索 + WISH 作为工具区靠右
-   两行各自独立居中（第二行 nav ul 天然已经居中） */
+/* 第一行：与第二行 nav ul 同宽，整组居中在 container 内
+   logo 绝对钉在整组几何中心（= 第二行中心 = 视口中心） */
 .site-nav .header-inner {
   position: relative;
-  width: 100%;
-  max-width: none;
-  margin-inline: 0;
+  /* 恢复 container 宽度，让两行都在 1240px 内容区内对齐 */
+  width: min(var(--container), 100% - var(--gutter) * 2);
+  max-width: 1240px;
+  margin-inline: auto;
   height: 48px;
   padding-block: 0;
   align-items: center;
+  /* 整组宽度 = nav ul 宽度 ≈ 765px；justify-content:center 让整组在 container 内居中 */
+  justify-content: center;
   gap: clamp(12px, 1.4vw, 18px);
 }
-/* 桌面端隐藏左侧占位（logo 已绝对定位居中） */
-.site-nav .header-left { display: none; }
-/* logo 钉在 header-inner 正中心（两行都各自有独立的居中锚点） */
+/* 桌面端隐藏 header-left（Menu 按钮），用固定宽度占位让整组宽度 = nav ul 宽度 */
+.site-nav .header-left {
+  display: flex;
+  visibility: hidden;
+  flex: none;
+  /* flex 子元素：header-left → header-logo(绝对定位不占空间但仍触发 gap) → header-tools
+     nav ul 宽 765px；gap=18px 时有 logo 前后各一个 gap */
+  width: 257px;
+  min-width: 257px;
+  height: 1px;
+}
+/* logo 绝对钉在 header-inner 中心（= 整组中心 = 第二行 nav 中心） */
 .site-nav .header-logo {
   position: absolute;
   left: 50%;
@@ -3769,7 +3781,7 @@ body.site-nav { overflow-x: clip; }
   flex: none;
 }
 .site-nav .header-tools {
-  margin-left: auto;
+  margin-left: 0;
   gap: clamp(12px, 1.4vw, 18px);
 }
 .site-nav .header-logo-mark {
