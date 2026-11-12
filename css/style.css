@@ -3743,16 +3743,29 @@ body.site-nav { overflow-x: clip; }
   box-shadow: 0 2px 16px rgba(26, 22, 16, 0.06);
 }
 
-/* 第一行：logo + 搜索 + WISH 三者紧凑成组，整组水平居中 */
+/* 第一行：logo + 搜索 + WISH 三者 + 左侧占位，整组宽度 = 第二行导航 ul 宽度（约 765px）
+   让第一行左右边界与第二行导航菜单左右边界严格齐平 */
 .site-nav .header-inner {
   position: relative;
+  /* 覆盖 .container 的 max-width，让整行全宽，后续靠 header-left 占位 + justify-content:center 实现对齐 */
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
   height: 55px;
-  /* 顶部 13px 留白：让 logo/搜索行到促销条与下方导航行的视觉间距相等 */
   padding-block: 13px 0;
   justify-content: center;
   gap: clamp(12px, 1.4vw, 18px);
 }
-.site-nav .header-left { display: none; }
+/* 左侧占位：宽 56px，让整组宽 = 导航 ul 宽 ~766px
+   （占位56 + logo184 + 搜索380 + WISH92 + 三个gap 18×3 = 766） */
+.site-nav .header-left {
+  display: flex;
+  visibility: hidden;
+  flex: none;
+  width: 56px;
+  min-width: 56px;
+  height: 1px;
+}
 .site-nav .header-logo {
   position: static;
   transform: none;
@@ -3766,7 +3779,7 @@ body.site-nav { overflow-x: clip; }
   gap: clamp(12px, 1.4vw, 18px);
 }
 .site-nav .header-logo-mark {
-  height: 24px;
+  height: 22px;
   width: auto;
   display: block;
   transition: filter 0.45s var(--ease);
@@ -3819,7 +3832,7 @@ body.site-nav { overflow-x: clip; }
     gap: 16px;
     justify-content: center;
   }
-  .site-nav .header-left { display: flex; }
+  .site-nav .header-left { display: flex; visibility: visible; width: auto; min-width: 0; height: auto; }
   .site-nav .header-logo {
     position: static;
     transform: none;
