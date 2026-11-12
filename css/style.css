@@ -701,9 +701,8 @@ address { font-style: normal; }
 .search-input::-webkit-search-cancel-button { -webkit-appearance: none; }
 
 .header-search {
-  flex: 0 0 auto;
-  min-width: 0;
-  width: 380px;
+  flex: 0 1 380px;
+  min-width: 180px;
   max-width: 380px;
 }
 
@@ -3743,38 +3742,33 @@ body.site-nav { overflow-x: clip; }
   box-shadow: 0 2px 16px rgba(26, 22, 16, 0.06);
 }
 
-/* 第一行：与第二行 nav ul 同宽，整组居中在 container 内
-   logo 绝对钉在整组几何中心（= 第二行中心 = 视口中心） */
+/* 第一行：flex 三栏居中布局
+   header-left(不可见占位) + gap + logo + gap + header-tools = 整组
+   header-left 占位 = header-tools 宽(490px)，让 logo 前后对称 → logo 中心 = header-inner 中心 = ul 中心
+   计算：header-left(490)+gap(18)+logo(184)+gap(18)+header-tools(490)=1200px 居中在 1240px container 内 */
 .site-nav .header-inner {
   position: relative;
-  /* 恢复 container 宽度，让两行都在 1240px 内容区内对齐 */
   width: min(var(--container), 100% - var(--gutter) * 2);
   max-width: 1240px;
   margin-inline: auto;
   height: 48px;
   padding-block: 0;
   align-items: center;
-  /* 整组宽度 = nav ul 宽度 ≈ 765px；justify-content:center 让整组在 container 内居中 */
   justify-content: center;
   gap: clamp(12px, 1.4vw, 18px);
 }
-/* 桌面端隐藏 header-left（Menu 按钮），用固定宽度占位让整组宽度 = nav ul 宽度 */
+/* 桌面端隐藏 header-left（Menu 按钮），flex:1 1 490px
+   header-tools 也 flex:1 1 490px，两者 basis/shrink 相同 → 等宽 shrink
+   logo 居中在 header-left 和 header-tools 之间 */
 .site-nav .header-left {
   display: flex;
   visibility: hidden;
-  flex: none;
-  /* flex 子元素：header-left → header-logo(绝对定位不占空间但仍触发 gap) → header-tools
-     nav ul 宽 765px；gap=18px 时有 logo 前后各一个 gap */
-  width: 257px;
-  min-width: 257px;
+  flex: 1 1 490px;
+  min-width: 0;
   height: 1px;
 }
-/* logo 绝对钉在 header-inner 中心（= 整组中心 = 第二行 nav 中心） */
+/* logo：正常 flex 子元素，固定宽 184px */
 .site-nav .header-logo {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   line-height: 1;
@@ -3782,6 +3776,7 @@ body.site-nav { overflow-x: clip; }
 }
 .site-nav .header-tools {
   margin-left: 0;
+  flex: 1 1 490px;
   gap: clamp(12px, 1.4vw, 18px);
 }
 .site-nav .header-logo-mark {
