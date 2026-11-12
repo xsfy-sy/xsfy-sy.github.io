@@ -3735,7 +3735,7 @@ body.site-nav { overflow-x: clip; }
 /* 首屏深色 Banner 页面：导航透明覆盖在 Banner 上 */
 .nav-overlay .site-header {
   background: transparent;
-  margin-bottom: -86px; /* 第一行 42 + 第二行 44，让 Banner 上移到导航之下 */
+  margin-bottom: -99px; /* 第一行 55（含 13 顶部留白）+ 第二行 44，让 Banner 上移到导航之下 */
   transition: background-color 0.45s var(--ease), box-shadow 0.45s var(--ease);
 }
 .nav-overlay .site-header.scrolled {
@@ -3746,8 +3746,9 @@ body.site-nav { overflow-x: clip; }
 /* 第一行：logo + 搜索 + WISH 三者紧凑成组，整组水平居中 */
 .site-nav .header-inner {
   position: relative;
-  height: 42px;
-  padding-block: 0;
+  height: 55px;
+  /* 顶部 13px 留白：让 logo/搜索行到促销条与下方导航行的视觉间距相等 */
+  padding-block: 13px 0;
   justify-content: center;
   gap: clamp(12px, 1.4vw, 18px);
 }
