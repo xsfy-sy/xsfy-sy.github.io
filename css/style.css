@@ -3766,7 +3766,7 @@ body.site-nav { overflow-x: clip; }
   gap: clamp(12px, 1.4vw, 18px);
 }
 .site-nav .header-logo-mark {
-  height: 30px;
+  height: 24px;
   width: auto;
   display: block;
   transition: filter 0.45s var(--ease);
