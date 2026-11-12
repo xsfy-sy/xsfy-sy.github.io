@@ -701,10 +701,10 @@ address { font-style: normal; }
 .search-input::-webkit-search-cancel-button { -webkit-appearance: none; }
 
 .header-search {
-  flex: 1 1 0;
+  flex: 0 0 auto;
   min-width: 0;
-  width: auto;
-  max-width: 300px;
+  width: 380px;
+  max-width: 380px;
 }
 
 /* 工具栏 */
