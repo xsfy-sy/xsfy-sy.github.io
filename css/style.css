@@ -3735,7 +3735,7 @@ body.site-nav { overflow-x: clip; }
 /* 首屏深色 Banner 页面：导航透明覆盖在 Banner 上 */
 .nav-overlay .site-header {
   background: transparent;
-  margin-bottom: -99px; /* 第一行 55（含 13 顶部留白）+ 第二行 44，让 Banner 上移到导航之下 */
+  margin-bottom: -96px; /* 第一行 48 + 第二行 48，让 Banner 上移到导航之下 */
   transition: background-color 0.45s var(--ease), box-shadow 0.45s var(--ease);
 }
 .nav-overlay .site-header.scrolled {
@@ -3747,12 +3747,12 @@ body.site-nav { overflow-x: clip; }
    让第一行左右边界与第二行导航菜单左右边界严格齐平 */
 .site-nav .header-inner {
   position: relative;
-  /* 覆盖 .container 的 max-width，让整行全宽，后续靠 header-left 占位 + justify-content:center 实现对齐 */
   width: 100%;
   max-width: none;
   margin-inline: 0;
-  height: 55px;
-  padding-block: 13px 0;
+  height: 48px;
+  padding-block: 0;
+  align-items: center;
   justify-content: center;
   gap: clamp(12px, 1.4vw, 18px);
 }
@@ -3790,7 +3790,7 @@ body.site-nav { overflow-x: clip; }
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 44px;
+  height: 48px;
 }
 .site-nav .header-nav-row .main-nav { justify-content: center; }
 .site-nav .main-nav .nav-link { padding: 6px 18px; }
