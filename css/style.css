@@ -1218,6 +1218,17 @@ address { font-style: normal; }
   color: #fff;
   overflow: hidden;
 }
+/* Hero 底部绿色栏：高度 = 顶部导航(96px) × 2 = 192px */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 192px;
+  background: var(--moss); /* #475540 墨绿 */
+  z-index: 1;
+}
 /* 竖构图照片放进宽幅首屏：图片完整显示（contain），左右用同图模糊放大做柔和填充，避免白条/黑边 */
 .hero-media {
   position: absolute; inset: 0;
