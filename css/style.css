@@ -1216,18 +1216,20 @@ address { font-style: normal; }
   display: flex;
   align-items: center;
   color: #fff;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
+  margin-bottom: 96px;
 }
-/* Hero 底部绿色栏：高度 = 顶部导航(96px) × 2 = 192px */
+/* Hero 下方绿色栏：在 hero 图片外面，高度 96px（= 顶部导航一行） */
 .hero::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
-  height: 192px;
+  top: 100%;
+  height: 96px;
   background: var(--moss); /* #475540 墨绿 */
-  z-index: 1;
+  z-index: 0;
 }
 /* 竖构图照片放进宽幅首屏：图片完整显示（contain），左右用同图模糊放大做柔和填充，避免白条/黑边 */
 .hero-media {
