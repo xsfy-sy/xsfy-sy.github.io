@@ -705,6 +705,9 @@ address { font-style: normal; }
   min-width: 180px;
   width: 380px;
   max-width: 380px;
+  /* 关键：<form> 有浏览器默认 margin-bottom:1em(16px)，在 align-items:center 下
+     会把搜索框整体顶高 8px，导致与 WISH 按钮上下不齐平 */
+  margin: 0;
 }
 
 /* 工具栏 */
