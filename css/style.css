@@ -3748,17 +3748,18 @@ body.site-nav { overflow-x: clip; }
   box-shadow: 0 2px 16px rgba(26, 22, 16, 0.06);
 }
 
-/* 第一行：可见内容 [logo][搜索框][WISH] 整组居中（整行相对旧版左移，去掉右侧偏重）
-   header-left 桌面端不参与布局；第二行 nav ul 765px 独立居中 */
+/* 第一行：左右两端与第二行菜单文字两端对齐
+   第二行 nav ul 宽 765px（含两端 nav-link 的 18px 内边距），文字实际占 729px
+   第一行取 729px 居中 → logo 左缘 = HOME 文字左缘，WISH 右缘 = OUTDOOR 文字右缘 */
 .site-nav .header-inner {
   position: relative;
-  width: min(var(--container), 100% - var(--gutter) * 2);
-  max-width: 1240px;
+  width: min(729px, 100% - var(--gutter) * 2);
+  max-width: 729px;
   margin-inline: auto;
   height: 48px;
   padding-block: 0;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: clamp(12px, 1.4vw, 18px);
 }
 /* 桌面端隐藏 header-left（Menu 按钮），≤1023px 媒体查询里恢复 display:flex */
@@ -3825,9 +3826,12 @@ body.site-nav { overflow-x: clip; }
   }
   .site-nav .header-inner {
     height: auto;
+    /* 移动端不受桌面端 729px 定宽限制 */
+    width: min(var(--container), 100% - var(--gutter) * 2);
+    max-width: none;
     padding-block: 16px;
     gap: 16px;
-    justify-content: center;
+    justify-content: space-between;
   }
   .site-nav .header-left { display: flex; visibility: visible; width: auto; min-width: 0; height: auto; }
   .site-nav .header-logo {
