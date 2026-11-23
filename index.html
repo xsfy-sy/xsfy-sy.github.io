@@ -1,4 +1,4 @@
-﻿﻿﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=20270102" />
+  <link rel="stylesheet" href="css/style.css?v=20270103" />
   <link rel="preload" as="image" href="assets/images/hero-lp-01.jpg" />
   <link rel="preload" as="image" href="assets/images/hero-lp-14.jpg" />
 </head>
@@ -224,11 +224,16 @@
 
     <div class="hero-bar"></div>
 
-    <!-- ============ NEWLY LAUNCHED ============ -->
+    <!-- ============ NEWLY LAUNCHED / ALL CATEGORIES（同一板块，标签切换） ============ -->
     <section class="campaign-grid section" id="campaign">
       <div class="container">
-        <div class="block-head reveal">
-          <h2 class="block-title">NEWLY LAUNCHED</h2>
+        <div class="section-tabs reveal" role="tablist" aria-label="Homepage highlights">
+          <button type="button" class="section-tab is-active" id="tabNewly" role="tab" aria-selected="true" aria-controls="panelNewly">
+            NEWLY LAUNCHED
+          </button>
+          <button type="button" class="section-tab" id="tabCategories" role="tab" aria-selected="false" aria-controls="panelCategories" tabindex="-1">
+            ALL CATEGORIES
+          </button>
           <div class="grid-nav" id="newArrivalsNav">
             <button type="button" class="grid-nav-btn" id="newArrivalsPrev" aria-label="Previous page" title="Previous page">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
@@ -238,55 +243,52 @@
             </button>
           </div>
         </div>
-        <div class="product-grid" id="newArrivalsGrid">
-          <p class="empty-tip" id="newArrivalsEmpty" style="display:none;">No new arrivals yet</p>
-        </div>
-      </div>
-    </section>
 
-    <!-- ============ 品类总览 ============ -->
-    <section class="cat-spotlight section">
-      <div class="container">
-        <div class="block-head reveal">
-          <h2 class="block-title">All Categories</h2>
+        <div class="section-tab-panel" id="panelNewly" role="tabpanel" aria-labelledby="tabNewly">
+          <div class="product-grid" id="newArrivalsGrid">
+            <p class="empty-tip" id="newArrivalsEmpty" style="display:none;">No new arrivals yet</p>
+          </div>
         </div>
-        <div class="spotlight-grid">
-          <a class="spotlight-card reveal" href="bedding.html">
-            <div class="spotlight-img">
-              <img src="assets/images/page-hero-bedding.jpg" alt="BEDDING" loading="lazy" />
-              <h3>BEDDING</h3>
-            </div>
-          </a>
-          <a class="spotlight-card reveal" href="rugs.html">
-            <div class="spotlight-img">
-              <img src="assets/images/page-hero-mats.jpg" alt="MATS" loading="lazy" />
-              <h3>MATS</h3>
-            </div>
-          </a>
-          <a class="spotlight-card reveal" href="pet.html">
-            <div class="spotlight-img">
-              <img src="assets/images/cat-pet.jpg" alt="PET" loading="lazy" />
-              <h3>PET</h3>
-            </div>
-          </a>
-          <a class="spotlight-card reveal" href="wares.html">
-            <div class="spotlight-img">
-              <img src="assets/images/cat-sundries.jpg" alt="ACCESSORIES" loading="lazy" />
-              <h3>ACCESSORIES</h3>
-            </div>
-          </a>
-          <a class="spotlight-card reveal" href="curtains.html">
-            <div class="spotlight-img">
-              <img src="assets/images/page-hero-curtains.jpg" alt="CURTAINS" loading="lazy" />
-              <h3>CURTAINS</h3>
-            </div>
-          </a>
-          <a class="spotlight-card reveal" href="outdoor.html">
-            <div class="spotlight-img">
-              <img src="assets/images/cat-outdoor.jpg" alt="OUTDOOR" loading="lazy" />
-              <h3>OUTDOOR</h3>
-            </div>
-          </a>
+
+        <div class="section-tab-panel" id="panelCategories" role="tabpanel" aria-labelledby="tabCategories" hidden>
+          <div class="spotlight-grid">
+            <a class="spotlight-card reveal" href="bedding.html">
+              <div class="spotlight-img">
+                <img src="assets/images/page-hero-bedding.jpg" alt="BEDDING" loading="lazy" />
+                <h3>BEDDING</h3>
+              </div>
+            </a>
+            <a class="spotlight-card reveal" href="rugs.html">
+              <div class="spotlight-img">
+                <img src="assets/images/page-hero-mats.jpg" alt="MATS" loading="lazy" />
+                <h3>MATS</h3>
+              </div>
+            </a>
+            <a class="spotlight-card reveal" href="pet.html">
+              <div class="spotlight-img">
+                <img src="assets/images/cat-pet.jpg" alt="PET" loading="lazy" />
+                <h3>PET</h3>
+              </div>
+            </a>
+            <a class="spotlight-card reveal" href="wares.html">
+              <div class="spotlight-img">
+                <img src="assets/images/cat-sundries.jpg" alt="ACCESSORIES" loading="lazy" />
+                <h3>ACCESSORIES</h3>
+              </div>
+            </a>
+            <a class="spotlight-card reveal" href="curtains.html">
+              <div class="spotlight-img">
+                <img src="assets/images/page-hero-curtains.jpg" alt="CURTAINS" loading="lazy" />
+                <h3>CURTAINS</h3>
+              </div>
+            </a>
+            <a class="spotlight-card reveal" href="outdoor.html">
+              <div class="spotlight-img">
+                <img src="assets/images/cat-outdoor.jpg" alt="OUTDOOR" loading="lazy" />
+                <h3>OUTDOOR</h3>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -586,6 +588,32 @@
       <p class="footer-legal">© 2026 NINGBO HEILIGS I&E CO.,LTD. · All Rights Reserved.</p>
     </div>
   </footer>
+
+  <script>
+    /* 首页板块标签切换：NEWLY LAUNCHED ↔ ALL CATEGORIES */
+    (function () {
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('.section-tab'));
+      if (!tabs.length) return;
+      var nav = document.getElementById('newArrivalsNav');
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          tabs.forEach(function (t) {
+            var on = t === tab;
+            t.classList.toggle('is-active', on);
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+            t.tabIndex = on ? 0 : -1;
+            var panel = document.getElementById(t.getAttribute('aria-controls'));
+            if (!panel) return;
+            panel.hidden = !on;
+            if (on) {
+              panel.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visible'); });
+            }
+          });
+          if (nav) nav.hidden = tab.id !== 'tabNewly';
+        });
+      });
+    })();
+  </script>
 
   <script src="js/products-db.js?v=20261074"></script>
   <script>
