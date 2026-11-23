@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=20270103" />
+  <link rel="stylesheet" href="css/style.css?v=20270104" />
   <link rel="preload" as="image" href="assets/images/hero-lp-01.jpg" />
   <link rel="preload" as="image" href="assets/images/hero-lp-14.jpg" />
 </head>
@@ -224,16 +224,21 @@
 
     <div class="hero-bar"></div>
 
-    <!-- ============ NEWLY LAUNCHED / ALL CATEGORIES（同一板块，标签切换） ============ -->
+    <!-- ============ 首页产品与品类（标签切换：NEWLY LAUNCHED / POPULAR PICKS / ALL CATEGORIES） ============ -->
     <section class="campaign-grid section" id="campaign">
       <div class="container">
-        <div class="section-tabs reveal" role="tablist" aria-label="Homepage highlights">
-          <button type="button" class="section-tab is-active" id="tabNewly" role="tab" aria-selected="true" aria-controls="panelNewly">
-            NEWLY LAUNCHED
-          </button>
-          <button type="button" class="section-tab" id="tabCategories" role="tab" aria-selected="false" aria-controls="panelCategories" tabindex="-1">
-            ALL CATEGORIES
-          </button>
+        <div class="section-tabs reveal">
+          <div class="section-tabs-list" role="tablist" aria-label="Homepage highlights">
+            <button type="button" class="section-tab is-active" id="tabNewly" role="tab" aria-selected="true" aria-controls="panelNewly">
+              NEWLY LAUNCHED
+            </button>
+            <button type="button" class="section-tab" id="tabPopular" role="tab" aria-selected="false" aria-controls="panelPopular" tabindex="-1">
+              POPULAR PICKS
+            </button>
+            <button type="button" class="section-tab" id="tabCategories" role="tab" aria-selected="false" aria-controls="panelCategories" tabindex="-1">
+              ALL CATEGORIES
+            </button>
+          </div>
           <div class="grid-nav" id="newArrivalsNav">
             <button type="button" class="grid-nav-btn" id="newArrivalsPrev" aria-label="Previous page" title="Previous page">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
@@ -242,11 +247,25 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
             </button>
           </div>
+          <div class="grid-nav" id="bestsellerNav" hidden>
+            <button type="button" class="grid-nav-btn" id="bestsellerPrev" aria-label="Previous page" title="Previous page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+            </button>
+            <button type="button" class="grid-nav-btn" id="bestsellerNext" aria-label="Next page" title="Next page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
         </div>
 
         <div class="section-tab-panel" id="panelNewly" role="tabpanel" aria-labelledby="tabNewly">
           <div class="product-grid" id="newArrivalsGrid">
             <p class="empty-tip" id="newArrivalsEmpty" style="display:none;">No new arrivals yet</p>
+          </div>
+        </div>
+
+        <div class="section-tab-panel" id="panelPopular" role="tabpanel" aria-labelledby="tabPopular" hidden>
+          <div class="product-grid" id="bestsellerGrid">
+            <p class="empty-tip" id="bestsellerEmpty" style="display:none;">No bestsellers yet</p>
           </div>
         </div>
 
@@ -289,27 +308,6 @@
               </div>
             </a>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ Bestsellers臻品（标签切换 + 价格行 + 加载更多） ============ -->
-    <section class="products section section-tint" id="series">
-      <div class="container">
-        <div class="block-head reveal">
-          <h2 class="block-title">POPULAR PICKS</h2>
-          <div class="grid-nav" id="bestsellerNav">
-            <button type="button" class="grid-nav-btn" id="bestsellerPrev" aria-label="Previous page" title="Previous page">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
-            </button>
-            <button type="button" class="grid-nav-btn" id="bestsellerNext" aria-label="Next page" title="Next page">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
-            </button>
-          </div>
-        </div>
-
-        <div class="product-grid" id="bestsellerGrid">
-          <p class="empty-tip" id="bestsellerEmpty" style="display:none;">No bestsellers yet</p>
         </div>
       </div>
     </section>
@@ -590,11 +588,15 @@
   </footer>
 
   <script>
-    /* 首页板块标签切换：NEWLY LAUNCHED ↔ ALL CATEGORIES */
+    /* 首页板块标签切换：NEWLY LAUNCHED / POPULAR PICKS / ALL CATEGORIES */
     (function () {
       var tabs = Array.prototype.slice.call(document.querySelectorAll('.section-tab'));
       if (!tabs.length) return;
-      var nav = document.getElementById('newArrivalsNav');
+      /* 每个产品标签配一组翻页箭头，切到品类时全部隐藏 */
+      var navs = {
+        tabNewly: document.getElementById('newArrivalsNav'),
+        tabPopular: document.getElementById('bestsellerNav')
+      };
       tabs.forEach(function (tab) {
         tab.addEventListener('click', function () {
           tabs.forEach(function (t) {
@@ -609,7 +611,9 @@
               panel.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visible'); });
             }
           });
-          if (nav) nav.hidden = tab.id !== 'tabNewly';
+          Object.keys(navs).forEach(function (key) {
+            if (navs[key]) navs[key].hidden = key !== tab.id;
+          });
         });
       });
     })();

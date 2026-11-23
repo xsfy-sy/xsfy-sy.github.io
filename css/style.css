@@ -1462,7 +1462,7 @@ address { font-style: normal; }
 #campaign .block-title::after { width: 32px; height: 1px; }
 #campaign .block-head { margin-bottom: clamp(20px, 3vw, 32px); }
 
-/* ---------- 首页 NEWLY LAUNCHED / ALL CATEGORIES 标签切换 ---------- */
+/* ---------- 首页 NEWLY LAUNCHED / POPULAR PICKS / ALL CATEGORIES 标签切换 ---------- */
 .section-tabs {
   display: flex;
   align-items: flex-end;
@@ -1470,8 +1470,15 @@ address { font-style: normal; }
   margin-bottom: clamp(24px, 3vw, 34px);
   border-bottom: 1px solid var(--line);
 }
+.section-tabs-list {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(22px, 2.8vw, 36px);
+  min-width: 0;
+}
 .section-tab {
   position: relative;
+  flex: 0 0 auto;
   padding: 0 0 14px;
   border: 0;
   background: transparent;
@@ -1497,14 +1504,24 @@ address { font-style: normal; }
 .section-tab:hover { color: var(--ink); }
 .section-tab.is-active { color: var(--ink); }
 .section-tab.is-active::after { width: 100%; }
-/* 翻页箭头仅在「NEWLY LAUNCHED」标签下显示，靠右对齐 */
+/* 翻页箭头跟随当前产品标签显示，靠右对齐 */
 .section-tabs .grid-nav {
   margin-left: auto;
   padding-bottom: 8px;
+  flex: none;
 }
 .section-tabs .grid-nav[hidden] { display: none; }
 @media (max-width: 600px) {
-  .section-tabs { gap: 12px; }
+  .section-tabs { gap: 10px; }
+  .section-tabs-list {
+    gap: 18px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .section-tabs-list::-webkit-scrollbar { display: none; }
+  /* 横向滚动容器会裁掉底部 1px，下划线回到标签盒子内避免被裁切 */
+  .section-tab::after { bottom: 0; }
   .section-tab { font-size: 12px; letter-spacing: 0.06em; padding-bottom: 11px; }
   .section-tabs .grid-nav { gap: 0; padding-bottom: 4px; }
   .section-tabs .grid-nav-btn { width: 28px; height: 28px; }
