@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=20270104" />
+  <link rel="stylesheet" href="css/style.css?v=20270105" />
   <link rel="preload" as="image" href="assets/images/hero-lp-01.jpg" />
   <link rel="preload" as="image" href="assets/images/hero-lp-14.jpg" />
 </head>
@@ -224,7 +224,7 @@
 
     <div class="hero-bar"></div>
 
-    <!-- ============ 首页产品与品类（标签切换：NEWLY LAUNCHED / POPULAR PICKS / ALL CATEGORIES） ============ -->
+    <!-- ============ 首页产品（标签切换：NEWLY LAUNCHED / POPULAR PICKS） ============ -->
     <section class="campaign-grid section" id="campaign">
       <div class="container">
         <div class="section-tabs reveal">
@@ -234,9 +234,6 @@
             </button>
             <button type="button" class="section-tab" id="tabPopular" role="tab" aria-selected="false" aria-controls="panelPopular" tabindex="-1">
               POPULAR PICKS
-            </button>
-            <button type="button" class="section-tab" id="tabCategories" role="tab" aria-selected="false" aria-controls="panelCategories" tabindex="-1">
-              ALL CATEGORIES
             </button>
           </div>
           <div class="grid-nav" id="newArrivalsNav">
@@ -269,45 +266,52 @@
           </div>
         </div>
 
-        <div class="section-tab-panel" id="panelCategories" role="tabpanel" aria-labelledby="tabCategories" hidden>
-          <div class="spotlight-grid">
-            <a class="spotlight-card reveal" href="bedding.html">
-              <div class="spotlight-img">
-                <img src="assets/images/page-hero-bedding.jpg" alt="BEDDING" loading="lazy" />
-                <h3>BEDDING</h3>
-              </div>
-            </a>
-            <a class="spotlight-card reveal" href="rugs.html">
-              <div class="spotlight-img">
-                <img src="assets/images/page-hero-mats.jpg" alt="MATS" loading="lazy" />
-                <h3>MATS</h3>
-              </div>
-            </a>
-            <a class="spotlight-card reveal" href="pet.html">
-              <div class="spotlight-img">
-                <img src="assets/images/cat-pet.jpg" alt="PET" loading="lazy" />
-                <h3>PET</h3>
-              </div>
-            </a>
-            <a class="spotlight-card reveal" href="wares.html">
-              <div class="spotlight-img">
-                <img src="assets/images/cat-sundries.jpg" alt="ACCESSORIES" loading="lazy" />
-                <h3>ACCESSORIES</h3>
-              </div>
-            </a>
-            <a class="spotlight-card reveal" href="curtains.html">
-              <div class="spotlight-img">
-                <img src="assets/images/page-hero-curtains.jpg" alt="CURTAINS" loading="lazy" />
-                <h3>CURTAINS</h3>
-              </div>
-            </a>
-            <a class="spotlight-card reveal" href="outdoor.html">
-              <div class="spotlight-img">
-                <img src="assets/images/cat-outdoor.jpg" alt="OUTDOOR" loading="lazy" />
-                <h3>OUTDOOR</h3>
-              </div>
-            </a>
-          </div>
+      </div>
+    </section>
+
+    <!-- ============ 品类总览 ============ -->
+    <section class="cat-spotlight section">
+      <div class="container">
+        <div class="block-head reveal">
+          <h2 class="block-title">All Categories</h2>
+        </div>
+        <div class="spotlight-grid">
+          <a class="spotlight-card reveal" href="bedding.html">
+            <div class="spotlight-img">
+              <img src="assets/images/page-hero-bedding.jpg" alt="BEDDING" loading="lazy" />
+              <h3>BEDDING</h3>
+            </div>
+          </a>
+          <a class="spotlight-card reveal" href="rugs.html">
+            <div class="spotlight-img">
+              <img src="assets/images/page-hero-mats.jpg" alt="MATS" loading="lazy" />
+              <h3>MATS</h3>
+            </div>
+          </a>
+          <a class="spotlight-card reveal" href="pet.html">
+            <div class="spotlight-img">
+              <img src="assets/images/cat-pet.jpg" alt="PET" loading="lazy" />
+              <h3>PET</h3>
+            </div>
+          </a>
+          <a class="spotlight-card reveal" href="wares.html">
+            <div class="spotlight-img">
+              <img src="assets/images/cat-sundries.jpg" alt="ACCESSORIES" loading="lazy" />
+              <h3>ACCESSORIES</h3>
+            </div>
+          </a>
+          <a class="spotlight-card reveal" href="curtains.html">
+            <div class="spotlight-img">
+              <img src="assets/images/page-hero-curtains.jpg" alt="CURTAINS" loading="lazy" />
+              <h3>CURTAINS</h3>
+            </div>
+          </a>
+          <a class="spotlight-card reveal" href="outdoor.html">
+            <div class="spotlight-img">
+              <img src="assets/images/cat-outdoor.jpg" alt="OUTDOOR" loading="lazy" />
+              <h3>OUTDOOR</h3>
+            </div>
+          </a>
         </div>
       </div>
     </section>
@@ -588,7 +592,7 @@
   </footer>
 
   <script>
-    /* 首页板块标签切换：NEWLY LAUNCHED / POPULAR PICKS / ALL CATEGORIES */
+    /* 首页板块标签切换：NEWLY LAUNCHED / POPULAR PICKS */
     (function () {
       var tabs = Array.prototype.slice.call(document.querySelectorAll('.section-tab'));
       if (!tabs.length) return;
