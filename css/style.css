@@ -1210,9 +1210,9 @@ address { font-style: normal; }
 /* ---------- Hero（保留） ---------- */
 .hero {
   position: relative;
-  min-height: 560px;
-  /* 参考 bedsure hero 高度约 560px */
-  height: 560px;
+  min-height: 672px;
+  /* 原 560px，加高 1/5 到 672px */
+  height: 672px;
   aspect-ratio: auto;
   max-height: none;
   display: flex;
