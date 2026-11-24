@@ -1220,11 +1220,11 @@ address { font-style: normal; }
   color: #fff;
   overflow: hidden;
 }
-/* Hero 下方绿色栏（独立元素，不影响 hero 图片尺寸） */
+/* Hero 下方绿色栏（用户要求删除） */
 .hero-bar {
-  /* 原 96px，按用户要求缩到十分之一 */
-  height: 10px;
-  background: var(--moss); /* #475540 墨绿 */
+  display: none;
+  height: 0;
+  background: var(--moss);
 }
 /* 竖构图照片放进宽幅首屏：图片完整显示（contain），左右用同图模糊放大做柔和填充，避免白条/黑边 */
 .hero-media {
