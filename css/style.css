@@ -1210,9 +1210,9 @@ address { font-style: normal; }
 /* ---------- Hero（保留） ---------- */
 .hero {
   position: relative;
-  min-height: 800px;
-  /* 原 560px → 672px → 800px，持续加高 */
-  height: 800px;
+  min-height: 640px;
+  /* 800px 变短 1/5 → 640px */
+  height: 640px;
   aspect-ratio: auto;
   max-height: none;
   display: flex;
@@ -3791,13 +3791,13 @@ address { font-style: normal; }
 @media (max-width: 900px) {
   .hero {
     aspect-ratio: auto;
-    min-height: 690px; /* 原 460→575→690，持续加高 */
+    min-height: 552px; /* 690px 变短 1/5 → 552px */
     max-height: 82vh;
   }
   .hero-cta { margin-top: 28px; }
 }
 @media (max-width: 640px) {
-  .hero { min-height: 600px; } /* 原 400→500→600，持续加高 */
+  .hero { min-height: 480px; } /* 600px 变短 1/5 → 480px */
 }
 
 /* ============ 联系我们页：上下板块间距收紧 ============ */
