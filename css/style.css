@@ -1983,19 +1983,17 @@ address { font-style: normal; }
 #newArrivalsGrid .product-media {
   aspect-ratio: 4 / 3.4;   /* 原 4/4.6 偏高，调矮约 26% */
 }
-#newArrivalsGrid .product-media img {
-  padding: 4px 20px;        /* 原 8px 32px */
-}
 #newArrivalsGrid .product-info {
   padding: 12px 14px 14px;  /* 原 18px 18px 22px */
 }
 
-/* 首页产品图片与其它产品列表页保持一致：完整显示不裁剪 + 内边距，
-   与 bedding / rugs / curtains 等列表页的图片处理方式完全相同，
-   避免图片以 cover 填满整个相框造成「被放大、被裁掉」的观感 */
+/* 所有产品卡片统一用 cover 填满相框：
+   源图长宽比、自带留白各不相同，只有统一裁切到同一相框，
+   才能让每张卡片显示的图片大小完全一致 */
+.product-grid .product-media img,
 #newArrivalsGrid .product-media img,
 #bestsellerGrid .product-media img {
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .product-badge {
