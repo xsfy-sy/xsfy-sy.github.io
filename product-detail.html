@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css?v=20270109" />
+  <link rel="stylesheet" href="css/style.css?v=20270110" />
 </head>
 <body class="site-nav">
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -193,6 +193,7 @@
           <!-- 左侧：产品图片 -->
           <div class="product-detail-media reveal">
             <div class="detail-main-wrap">
+              <button class="detail-wish-btn" id="detailWishBtn" type="button" data-wish-id="detail" aria-label="Add to wishlist" title="Add to wishlist">♡</button>
               <button class="detail-arrow detail-prev" type="button" aria-label="Previous" onclick="detailPrev()">&#8249;</button>
               <img id="detailImg" src="assets/images/bedding-001.avif" alt="BEDDING" onclick="openLightbox()" />
               <button class="detail-arrow detail-next" type="button" aria-label="Next" onclick="detailNext()">&#8250;</button>
@@ -312,7 +313,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=20261201"></script>
+  <script src="js/main.js?v=20261202"></script>
   <!-- 灯箱 -->
   <div class="detail-lightbox" id="lightbox" onclick="closeLightbox(event)">
     <button class="lb-close" type="button" aria-label="Close" onclick="closeLightbox(event)">&#10005;</button>
@@ -326,11 +327,41 @@
       <span class="lb-zoom-info" id="lbZoomInfo">100%</span>
     </div>
   </div>
-  <script src="js/main.js?v=20261201"></script>
+  <script src="js/main.js?v=20261202"></script>
   <script src="js/products-db.js?v=20261074"></script>
   <script>
     var detailImages = [];
     var detailIndex = 0;
+
+    /* 主图左上角：心愿清单按钮（点击收藏 / 再点取消） */
+    (function () {
+      var btn = document.getElementById("detailWishBtn");
+      if (!btn) return;
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!window.HPWishlist) return;
+        var img = document.getElementById("detailImg");
+        var title = document.querySelector(".product-detail-info .product-detail-title");
+        var dbId = "";
+        try { dbId = new URLSearchParams(window.location.search).get("id") || ""; } catch (err) {}
+        var name = title ? title.textContent.trim() : "Product";
+        var wishId = "detail:" + (dbId || name);
+        btn.setAttribute("data-wish-id", wishId);
+        window.HPWishlist.toggle({
+          id: wishId,
+          dbId: dbId,
+          specsLoaded: false,
+          weight: "", size: "", color: "", packaging: "", sewing: "",
+          qty: 1000,
+          img: img ? img.getAttribute("src") : "",
+          alt: img ? img.getAttribute("alt") : "",
+          name: name,
+          price: ""
+        }, btn);
+        btn.setAttribute("title", btn.classList.contains("active") ? "Remove from wishlist" : "Add to wishlist");
+      });
+    })();
 
     (function() {
       var params = new URLSearchParams(window.location.search);

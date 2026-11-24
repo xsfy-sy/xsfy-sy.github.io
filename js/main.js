@@ -677,6 +677,9 @@
     updateWishlistUI();
   }
 
+  /* 暴露给其它页面脚本（如产品详情页主图左上角的心愿按钮） */
+  window.HPWishlist = { toggle: toggleWish };
+
   /* 异步从产品库补全报价表规格（克重/尺寸/颜色/包装辅料/缝制工艺/价格） */
   function hydrateWishSpec(item) {
     if (item.specsLoaded) return;
@@ -718,7 +721,8 @@
           wishlist = wishlist.filter(function (x) { return x.id !== w.id; });
           var card = doc.querySelector('[data-wish-id="' + w.id + '"]');
           if (card) {
-            var btn = card.querySelector(".wish-btn");
+            /* 详情页主图按钮本身就是 [data-wish-id]，产品卡则是卡内的 .wish-btn */
+            var btn = card.classList.contains("detail-wish-btn") ? card : card.querySelector(".wish-btn");
             if (btn) { btn.classList.remove("active"); btn.innerHTML = "♡"; }
           }
           updateWishlistUI();
