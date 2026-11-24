@@ -2790,10 +2790,8 @@ address { font-style: normal; }
 .site-footer > * { position: relative; z-index: 1; }
 .footer-grid {
   display: grid;
-  /* 自身兼任 container：由 .container 类的 width + margin-inline:auto 控制宽度和居中 */
-  /* 四列都按内容宽度排布，剩余空白由 space-between 平均分配到列与列之间，
-     这样每一列左右两侧的间距都相等（不再出现某列右边空一大块） */
-  grid-template-columns: repeat(4, max-content);
+  /* 三列：公司信息 + 产品 + 关于 */
+  grid-template-columns: repeat(3, max-content);
   justify-content: space-between;
   column-gap: 24px;
   row-gap: 40px;
